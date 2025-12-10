@@ -198,6 +198,29 @@
         "build": {
           "buildTransitive/net6.0/_._": {}
         }
+      },
+      "GrandLineAuto.Common/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "compile": {
+          "bin/placeholder/GrandLineAuto.Common.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/GrandLineAuto.Common.dll": {}
+        }
+      },
+      "GrandLineAuto.Data.Models/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "dependencies": {
+          "Microsoft.EntityFrameworkCore": "8.0.22"
+        },
+        "compile": {
+          "bin/placeholder/GrandLineAuto.Data.Models.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/GrandLineAuto.Data.Models.dll": {}
+        }
       }
     }
   },
@@ -553,10 +576,22 @@
         "microsoft.extensions.primitives.nuspec",
         "useSharedDesignerContext.txt"
       ]
+    },
+    "GrandLineAuto.Common/1.0.0": {
+      "type": "project",
+      "path": "../GrandLineAuto.Common/GrandLineAuto.Common.csproj",
+      "msbuildProject": "../GrandLineAuto.Common/GrandLineAuto.Common.csproj"
+    },
+    "GrandLineAuto.Data.Models/1.0.0": {
+      "type": "project",
+      "path": "../GrandLineAuto.Data.Models/GrandLineAuto.Data.Models.csproj",
+      "msbuildProject": "../GrandLineAuto.Data.Models/GrandLineAuto.Data.Models.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net8.0": [
+      "GrandLineAuto.Common >= 1.0.0",
+      "GrandLineAuto.Data.Models >= 1.0.0",
       "Microsoft.EntityFrameworkCore >= 8.0.22"
     ]
   },
@@ -591,7 +626,14 @@
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
-          "projectReferences": {}
+          "projectReferences": {
+            "C:\\Users\\Stelyan\\source\\repos\\GrandLineAuto\\GrandLineAuto.Common\\GrandLineAuto.Common.csproj": {
+              "projectPath": "C:\\Users\\Stelyan\\source\\repos\\GrandLineAuto\\GrandLineAuto.Common\\GrandLineAuto.Common.csproj"
+            },
+            "C:\\Users\\Stelyan\\source\\repos\\GrandLineAuto\\GrandLineAuto.Data.Models\\GrandLineAuto.Data.Models.csproj": {
+              "projectPath": "C:\\Users\\Stelyan\\source\\repos\\GrandLineAuto\\GrandLineAuto.Data.Models\\GrandLineAuto.Data.Models.csproj"
+            }
+          }
         }
       },
       "warningProperties": {

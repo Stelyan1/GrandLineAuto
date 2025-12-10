@@ -14,5 +14,8 @@ namespace GrandLineAuto.Data.Models
 
         [Comment("Name of the manufacturer")]
         public string Name { get; set; } = null!;
+
+        [Comment("Product manufacturer has many products")]
+        public ICollection<Product> Products { get; set; } = new HashSet<Product>();
     }
 }

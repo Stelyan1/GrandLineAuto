@@ -22,5 +22,7 @@ namespace GrandLineAuto.Data.Models
         public Guid BrandId { get; set; }
         [Comment("Belongs to a brand")]
         public Brand Brand { get; set; } = null!;
+
+        public ICollection<BrandModels> BrandModels { get; set; } = new HashSet<BrandModels>();
     }
 }

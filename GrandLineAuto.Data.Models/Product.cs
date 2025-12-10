@@ -39,7 +39,7 @@ namespace GrandLineAuto.Data.Models
 
         [Comment("It has sub categories")]
         public Guid SubCategoryId { get; set; }
-        public SubCategory subCategory { get; set; } = null!;
+        public SubCategory SubCategory { get; set; } = null!;
 
         [Comment("Each product have manufacturer")]
         public Guid ProductManufacturerId { get; set; }

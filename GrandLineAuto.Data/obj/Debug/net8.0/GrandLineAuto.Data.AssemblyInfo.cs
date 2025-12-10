@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("GrandLineAuto.Data")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+64d8fd53e3c8da7b7ca6cbfd6e4c940482215e72")]
 [assembly: System.Reflection.AssemblyProductAttribute("GrandLineAuto.Data")]
 [assembly: System.Reflection.AssemblyTitleAttribute("GrandLineAuto.Data")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
