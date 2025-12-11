@@ -12,12 +12,24 @@
         {
             public const byte BrandModelsSeriesNameMinLength = 3;
             public const byte BrandModelsSeriesNameMaxLength = 50;
+
+            public const byte productionYearsMinLength = 9;
+            public const byte productionYearsMaxLength = 9;
         }
 
         public static class BrandModels
         {
             public const byte BrandModelsNameMinLength = 3;
             public const byte BrandModelsNameMaxLength = 50;
+
+            public const byte typeCoupeMinLength = 5;
+            public const byte typeCoupeMaxLength = 6;
+
+            public const byte fuelUsageMinLength = 6;
+            public const byte fuelUsageMaxLength = 6;
+
+            public const byte engineMinLength = 3;
+            public const byte engineMaxLength = 40;
         }
 
         public static class Category

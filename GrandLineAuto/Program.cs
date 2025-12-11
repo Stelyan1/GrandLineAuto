@@ -1,3 +1,6 @@
+using GrandLineAuto.Data;
+using Microsoft.EntityFrameworkCore;
+
 namespace GrandLineAuto
 {
     public class Program
@@ -8,6 +11,9 @@ namespace GrandLineAuto
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+
+            builder.Services.AddDbContext<GrandLineAutoDbContext>(options =>
+             options.UseSqlServer(builder.Configuration.GetConnectionString("SQLServer")));
 
             var app = builder.Build();
 

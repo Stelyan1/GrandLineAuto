@@ -18,16 +18,25 @@ namespace GrandLineAuto.Data.Models
         [Comment("Image of the model")]
         public string ImageUrl { get; set; } = null!;
 
-        [Comment("Started producing")]
-        public int startProductionYear { get; set; }
+        [Comment("Year the car is produced")]
+        public int yearProduced{ get; set; }
 
-        [Comment("Ended producing")]
-        public int endProductionYear { get; set; }
+        [Comment("Type of coupe")]
+        public string typeCoupe { get; set; } = null!;
+
+        [Comment("Fuel type")]
+        public string fuelType { get; set; } = null!;
+
+        [Comment("Engine")]
+        public string Engine {  get; set; } = null!;
 
         [Comment("Belongs to a serie")]
         public Guid BrandModelsSeriesId { get; set; }
 
         [Comment("Belongs to a serie")]
         public BrandModelsSeries BrandModelsSeries { get; set; } = null!;
+
+        [Comment("Each model have products for him")]
+        public ICollection<Product> Products { get; set; } = new List<Product>();
     }
 }

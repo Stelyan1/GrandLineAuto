@@ -18,6 +18,9 @@ namespace GrandLineAuto.Data.Models
         [Comment("Image of Series")]
         public string ImageUrl { get; set; } = null!;
 
+        [Comment("Year of the Series")]
+        public string productionYears { get; set; } = null!;
+
         [Comment("Identifier to belonged brand")]
         public Guid BrandId { get; set; }
         [Comment("Belongs to a brand")]

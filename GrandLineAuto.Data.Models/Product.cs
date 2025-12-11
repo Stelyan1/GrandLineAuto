@@ -43,6 +43,10 @@ namespace GrandLineAuto.Data.Models
 
         [Comment("Each product have manufacturer")]
         public Guid ProductManufacturerId { get; set; }
-        public ProductManufacturer ProductManufacturer { get; set; } = null!; 
+        public ProductManufacturer ProductManufacturer { get; set; } = null!;
+
+        [Comment("Each product is for given model")]
+        public Guid BrandModelsId { get; set; }
+        public BrandModels BrandModels { get; set; } = null!;
     }
 }
