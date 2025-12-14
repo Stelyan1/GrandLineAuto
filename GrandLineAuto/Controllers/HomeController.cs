@@ -1,21 +1,35 @@
 using System.Diagnostics;
+using GrandLineAuto.Data;
+using GrandLineAuto.Data.Models;
 using GrandLineAuto.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace GrandLineAuto.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
+      
+        private readonly GrandLineAutoDbContext _dbContext;
+        public HomeController(GrandLineAutoDbContext dbContext)
         {
-            _logger = logger;
+            
+            _dbContext = dbContext;
         }
 
         public IActionResult Index()
         {
-            return View();
+            var brands = _dbContext.Brands.AsNoTracking();
+
+            var model = brands.OrderBy(b => b.Name).Select(b => new Brand
+            {
+                Id = b.Id,
+                Name = b.Name,
+                ImageUrl = b.ImageUrl
+            })
+                .ToList();
+
+            return View(model);
         }
 
         public IActionResult Privacy()

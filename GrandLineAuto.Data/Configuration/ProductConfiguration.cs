@@ -26,11 +26,6 @@ namespace GrandLineAuto.Data.Configuration
                    .HasForeignKey(p => p.SubCategoryId)
                    .OnDelete(DeleteBehavior.Cascade);
 
-            builder.HasOne(p => p.BrandModels)
-                   .WithMany(bm => bm.Products)
-                   .HasForeignKey(p => p.BrandModelsId)
-                   .OnDelete(DeleteBehavior.Cascade);
-
             builder.Property(p => p.Name)
                    .IsRequired()
                    .HasMaxLength(ProductNameMaxLength);
@@ -71,7 +66,6 @@ namespace GrandLineAuto.Data.Configuration
                     SpecificInfo4 = "height [mm]: 64mm",
                     Price = new Decimal(225.45),
                     SubCategoryId = new Guid("a3f79de2-58c4-49e8-9b6b-e24fdc81f927"),
-                    BrandModelsId = new Guid("31c4e0aa-9f12-4b0d-8f7e-55a1cb2d7c44"),
                     ProductManufacturerId = new Guid("2c9f4b17-63e1-4e8a-8f5c-91d2a7b6c014")
                 },
 
@@ -88,11 +82,8 @@ namespace GrandLineAuto.Data.Configuration
                     SpecificInfo5 = "processing:  high-carbon",
                     Price = new Decimal(240.50),
                     SubCategoryId = new Guid("0be4c29f-3f11-4a88-bd42-89e1cf72d4a3"),
-                    BrandModelsId = new Guid("4e8c1f22-9d4b-4f36-a7c1-2b9f53d1e8aa"),
                     ProductManufacturerId = new Guid("2c9f4b17-63e1-4e8a-8f5c-91d2a7b6c014")
                 },
-
-
             };
             return products;
         }

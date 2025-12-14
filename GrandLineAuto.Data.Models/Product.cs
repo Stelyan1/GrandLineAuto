@@ -45,8 +45,7 @@ namespace GrandLineAuto.Data.Models
         public Guid ProductManufacturerId { get; set; }
         public ProductManufacturer ProductManufacturer { get; set; } = null!;
 
-        [Comment("Each product is for given model")]
-        public Guid BrandModelsId { get; set; }
-        public BrandModels BrandModels { get; set; } = null!;
+        [Comment("Each product can be applied to many products")]
+        public ICollection<BrandModelProductJoinTable> BrandModelsProducts { get; set; } = new HashSet<BrandModelProductJoinTable>();
     }
 }

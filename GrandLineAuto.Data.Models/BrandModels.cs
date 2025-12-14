@@ -36,7 +36,7 @@ namespace GrandLineAuto.Data.Models
         [Comment("Belongs to a serie")]
         public BrandModelsSeries BrandModelsSeries { get; set; } = null!;
 
-        [Comment("Each model have products for him")]
-        public ICollection<Product> Products { get; set; } = new List<Product>();
+        [Comment("Each model can have many products")]
+        public ICollection<BrandModelProductJoinTable> BrandModelsProducts { get; set; } = new HashSet<BrandModelProductJoinTable>();
     }
 }

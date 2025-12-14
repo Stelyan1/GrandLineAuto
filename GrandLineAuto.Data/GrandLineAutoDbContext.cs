@@ -23,6 +23,7 @@ namespace GrandLineAuto.Data
         public virtual DbSet<SubCategory> SubCategories { get; set; } = null!;
         public virtual DbSet<ProductManufacturer> ProductManufacturers { get; set; } = null!;
         public virtual DbSet<Product> Products { get; set; } = null!;
+        public virtual DbSet<BrandModelProductJoinTable> BrandModelProductJoinTables { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

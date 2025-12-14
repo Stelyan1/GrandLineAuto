@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GrandLineAuto.Data.Migrations
 {
     [DbContext(typeof(GrandLineAutoDbContext))]
-    [Migration("20251211140256_Initial")]
+    [Migration("20251214153003_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -71,6 +71,45 @@ namespace GrandLineAuto.Data.Migrations
                             Id = new Guid("0a7cb569-2e0e-4c76-a28e-92e3d355fa28"),
                             ImageUrl = "https://images.seeklogo.com/logo-png/16/1/porsche-logo-png_seeklogo-168544.png",
                             Name = "Porsche"
+                        });
+                });
+
+            modelBuilder.Entity("GrandLineAuto.Data.Models.BrandModelProductJoinTable", b =>
+                {
+                    b.Property<Guid>("BrandModelId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasComment("Mapping to brand model");
+
+                    b.Property<Guid>("ProductId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasComment("Mapping to product");
+
+                    b.HasKey("BrandModelId", "ProductId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("BrandModelProductJoinTables");
+
+                    b.HasData(
+                        new
+                        {
+                            BrandModelId = new Guid("4e8c1f22-9d4b-4f36-a7c1-2b9f53d1e8aa"),
+                            ProductId = new Guid("f4a9d0c2-8b11-4e35-b6f2-9c7a1d54e820")
+                        },
+                        new
+                        {
+                            BrandModelId = new Guid("9cbf2146-7c33-4a51-9f2c-41e7a4d92bb8"),
+                            ProductId = new Guid("f4a9d0c2-8b11-4e35-b6f2-9c7a1d54e820")
+                        },
+                        new
+                        {
+                            BrandModelId = new Guid("31c4e0aa-9f12-4b0d-8f7e-55a1cb2d7c44"),
+                            ProductId = new Guid("7e24b1c9-3a5f-44d0-9e72-0c1fb78d4aa3")
+                        },
+                        new
+                        {
+                            BrandModelId = new Guid("7de41fa8-1c26-4f3e-9d72-04c9fd8a33b7"),
+                            ProductId = new Guid("7e24b1c9-3a5f-44d0-9e72-0c1fb78d4aa3")
                         });
                 });
 
@@ -415,10 +454,6 @@ namespace GrandLineAuto.Data.Migrations
                         .HasColumnType("uniqueidentifier")
                         .HasComment("Identifier of product");
 
-                    b.Property<Guid>("BrandModelsId")
-                        .HasColumnType("uniqueidentifier")
-                        .HasComment("Each product is for given model");
-
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasMaxLength(650)
@@ -480,8 +515,6 @@ namespace GrandLineAuto.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("BrandModelsId");
-
                     b.HasIndex("ProductManufacturerId");
 
                     b.HasIndex("SubCategoryId");
@@ -492,7 +525,6 @@ namespace GrandLineAuto.Data.Migrations
                         new
                         {
                             Id = new Guid("f4a9d0c2-8b11-4e35-b6f2-9c7a1d54e820"),
-                            BrandModelsId = new Guid("31c4e0aa-9f12-4b0d-8f7e-55a1cb2d7c44"),
                             Description = "Brembo Xtra: the perfect brake pad for Brembo Xtra and Brembo Max brake discs.",
                             ImageUrl = "https://www.autopower.bg/images/%D0%BD%D0%B0%D0%BA%D0%BB%D0%B0%D0%B4%D0%BA%D0%B8-BREMBO-XTRA-LINE-P06036X-BMW-3-Cabrio-E93-330-i-imagetabig-845520901733463-BREMBO.jpg",
                             Name = "Brembo XTRA LINE P 06 036X",
@@ -509,7 +541,6 @@ namespace GrandLineAuto.Data.Migrations
                         new
                         {
                             Id = new Guid("7e24b1c9-3a5f-44d0-9e72-0c1fb78d4aa3"),
-                            BrandModelsId = new Guid("4e8c1f22-9d4b-4f36-a7c1-2b9f53d1e8aa"),
                             Description = "The specific drilling of Brembo Xtra brake discs provides a brilliant and efficient performance in any braking condition, to emphasise the driving style of true enthusiasts.",
                             ImageUrl = "https://www.autopower.bg/images/%D1%81%D0%BF%D0%B8%D1%80%D0%B0%D1%87%D0%B5%D0%BD-%D0%B4%D0%B8%D1%81%D0%BA-BREMBO-XTRA-LINE-Xtra-0997931X-BMW-3-Sedan-E90-320-i-imagetabig-845520901699346-BREMBO.jpg",
                             Name = "Brembo XTRA Line - Xtra",
@@ -619,6 +650,25 @@ namespace GrandLineAuto.Data.Migrations
                         });
                 });
 
+            modelBuilder.Entity("GrandLineAuto.Data.Models.BrandModelProductJoinTable", b =>
+                {
+                    b.HasOne("GrandLineAuto.Data.Models.BrandModels", "BrandModels")
+                        .WithMany("BrandModelsProducts")
+                        .HasForeignKey("BrandModelId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("GrandLineAuto.Data.Models.Product", "Products")
+                        .WithMany("BrandModelsProducts")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("BrandModels");
+
+                    b.Navigation("Products");
+                });
+
             modelBuilder.Entity("GrandLineAuto.Data.Models.BrandModels", b =>
                 {
                     b.HasOne("GrandLineAuto.Data.Models.BrandModelsSeries", "BrandModelsSeries")
@@ -643,12 +693,6 @@ namespace GrandLineAuto.Data.Migrations
 
             modelBuilder.Entity("GrandLineAuto.Data.Models.Product", b =>
                 {
-                    b.HasOne("GrandLineAuto.Data.Models.BrandModels", "BrandModels")
-                        .WithMany("Products")
-                        .HasForeignKey("BrandModelsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("GrandLineAuto.Data.Models.ProductManufacturer", "ProductManufacturer")
                         .WithMany("Products")
                         .HasForeignKey("ProductManufacturerId")
@@ -660,8 +704,6 @@ namespace GrandLineAuto.Data.Migrations
                         .HasForeignKey("SubCategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("BrandModels");
 
                     b.Navigation("ProductManufacturer");
 
@@ -686,7 +728,7 @@ namespace GrandLineAuto.Data.Migrations
 
             modelBuilder.Entity("GrandLineAuto.Data.Models.BrandModels", b =>
                 {
-                    b.Navigation("Products");
+                    b.Navigation("BrandModelsProducts");
                 });
 
             modelBuilder.Entity("GrandLineAuto.Data.Models.BrandModelsSeries", b =>
@@ -697,6 +739,11 @@ namespace GrandLineAuto.Data.Migrations
             modelBuilder.Entity("GrandLineAuto.Data.Models.Category", b =>
                 {
                     b.Navigation("subCategories");
+                });
+
+            modelBuilder.Entity("GrandLineAuto.Data.Models.Product", b =>
+                {
+                    b.Navigation("BrandModelsProducts");
                 });
 
             modelBuilder.Entity("GrandLineAuto.Data.Models.ProductManufacturer", b =>

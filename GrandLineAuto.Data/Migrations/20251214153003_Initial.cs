@@ -132,18 +132,11 @@ namespace GrandLineAuto.Data.Migrations
                     SpecificInfo6 = table.Column<string>(type: "nvarchar(max)", nullable: false, comment: "Information about the product"),
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false, comment: "Price of the product"),
                     SubCategoryId = table.Column<Guid>(type: "uniqueidentifier", nullable: false, comment: "It has sub categories"),
-                    ProductManufacturerId = table.Column<Guid>(type: "uniqueidentifier", nullable: false, comment: "Each product have manufacturer"),
-                    BrandModelsId = table.Column<Guid>(type: "uniqueidentifier", nullable: false, comment: "Each product is for given model")
+                    ProductManufacturerId = table.Column<Guid>(type: "uniqueidentifier", nullable: false, comment: "Each product have manufacturer")
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Products", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Products_BrandModels_BrandModelsId",
-                        column: x => x.BrandModelsId,
-                        principalTable: "BrandModels",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Products_ProductManufacturers_ProductManufacturerId",
                         column: x => x.ProductManufacturerId,
@@ -154,6 +147,29 @@ namespace GrandLineAuto.Data.Migrations
                         name: "FK_Products_SubCategories_SubCategoryId",
                         column: x => x.SubCategoryId,
                         principalTable: "SubCategories",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "BrandModelProductJoinTables",
+                columns: table => new
+                {
+                    BrandModelId = table.Column<Guid>(type: "uniqueidentifier", nullable: false, comment: "Mapping to brand model"),
+                    ProductId = table.Column<Guid>(type: "uniqueidentifier", nullable: false, comment: "Mapping to product")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BrandModelProductJoinTables", x => new { x.BrandModelId, x.ProductId });
+                    table.ForeignKey(
+                        name: "FK_BrandModelProductJoinTables_BrandModels_BrandModelId",
+                        column: x => x.BrandModelId,
+                        principalTable: "BrandModels",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_BrandModelProductJoinTables_Products_ProductId",
+                        column: x => x.ProductId,
+                        principalTable: "Products",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -236,12 +252,28 @@ namespace GrandLineAuto.Data.Migrations
 
             migrationBuilder.InsertData(
                 table: "Products",
-                columns: new[] { "Id", "BrandModelsId", "Description", "ImageUrl", "Name", "Price", "ProductManufacturerId", "SpecificInfo1", "SpecificInfo2", "SpecificInfo3", "SpecificInfo4", "SpecificInfo5", "SpecificInfo6", "SubCategoryId" },
+                columns: new[] { "Id", "Description", "ImageUrl", "Name", "Price", "ProductManufacturerId", "SpecificInfo1", "SpecificInfo2", "SpecificInfo3", "SpecificInfo4", "SpecificInfo5", "SpecificInfo6", "SubCategoryId" },
                 values: new object[,]
                 {
-                    { new Guid("7e24b1c9-3a5f-44d0-9e72-0c1fb78d4aa3"), new Guid("4e8c1f22-9d4b-4f36-a7c1-2b9f53d1e8aa"), "The specific drilling of Brembo Xtra brake discs provides a brilliant and efficient performance in any braking condition, to emphasise the driving style of true enthusiasts.", "https://www.autopower.bg/images/%D1%81%D0%BF%D0%B8%D1%80%D0%B0%D1%87%D0%B5%D0%BD-%D0%B4%D0%B8%D1%81%D0%BA-BREMBO-XTRA-LINE-Xtra-0997931X-BMW-3-Sedan-E90-320-i-imagetabig-845520901699346-BREMBO.jpg", "Brembo XTRA Line - Xtra", 240.5m, new Guid("2c9f4b17-63e1-4e8a-8f5c-91d2a7b6c014"), "Brake disc thickness [mm]:   20mm", "height [mm]: 66mm", "centering diameter [mm]: 75mm", "outer diameter [mm]: 300mm", "processing:  high-carbon", "", new Guid("0be4c29f-3f11-4a88-bd42-89e1cf72d4a3") },
-                    { new Guid("f4a9d0c2-8b11-4e35-b6f2-9c7a1d54e820"), new Guid("31c4e0aa-9f12-4b0d-8f7e-55a1cb2d7c44"), "Brembo Xtra: the perfect brake pad for Brembo Xtra and Brembo Max brake discs.", "https://www.autopower.bg/images/%D0%BD%D0%B0%D0%BA%D0%BB%D0%B0%D0%B4%D0%BA%D0%B8-BREMBO-XTRA-LINE-P06036X-BMW-3-Cabrio-E93-330-i-imagetabig-845520901733463-BREMBO.jpg", "Brembo XTRA LINE P 06 036X", 225.45m, new Guid("2c9f4b17-63e1-4e8a-8f5c-91d2a7b6c014"), "Installation side: Front axle", "width [mm]: 155mm", "thickness [mm]: 20mm", "height [mm]: 64mm", "", "", new Guid("a3f79de2-58c4-49e8-9b6b-e24fdc81f927") }
+                    { new Guid("7e24b1c9-3a5f-44d0-9e72-0c1fb78d4aa3"), "The specific drilling of Brembo Xtra brake discs provides a brilliant and efficient performance in any braking condition, to emphasise the driving style of true enthusiasts.", "https://www.autopower.bg/images/%D1%81%D0%BF%D0%B8%D1%80%D0%B0%D1%87%D0%B5%D0%BD-%D0%B4%D0%B8%D1%81%D0%BA-BREMBO-XTRA-LINE-Xtra-0997931X-BMW-3-Sedan-E90-320-i-imagetabig-845520901699346-BREMBO.jpg", "Brembo XTRA Line - Xtra", 240.5m, new Guid("2c9f4b17-63e1-4e8a-8f5c-91d2a7b6c014"), "Brake disc thickness [mm]:   20mm", "height [mm]: 66mm", "centering diameter [mm]: 75mm", "outer diameter [mm]: 300mm", "processing:  high-carbon", "", new Guid("0be4c29f-3f11-4a88-bd42-89e1cf72d4a3") },
+                    { new Guid("f4a9d0c2-8b11-4e35-b6f2-9c7a1d54e820"), "Brembo Xtra: the perfect brake pad for Brembo Xtra and Brembo Max brake discs.", "https://www.autopower.bg/images/%D0%BD%D0%B0%D0%BA%D0%BB%D0%B0%D0%B4%D0%BA%D0%B8-BREMBO-XTRA-LINE-P06036X-BMW-3-Cabrio-E93-330-i-imagetabig-845520901733463-BREMBO.jpg", "Brembo XTRA LINE P 06 036X", 225.45m, new Guid("2c9f4b17-63e1-4e8a-8f5c-91d2a7b6c014"), "Installation side: Front axle", "width [mm]: 155mm", "thickness [mm]: 20mm", "height [mm]: 64mm", "", "", new Guid("a3f79de2-58c4-49e8-9b6b-e24fdc81f927") }
                 });
+
+            migrationBuilder.InsertData(
+                table: "BrandModelProductJoinTables",
+                columns: new[] { "BrandModelId", "ProductId" },
+                values: new object[,]
+                {
+                    { new Guid("31c4e0aa-9f12-4b0d-8f7e-55a1cb2d7c44"), new Guid("7e24b1c9-3a5f-44d0-9e72-0c1fb78d4aa3") },
+                    { new Guid("4e8c1f22-9d4b-4f36-a7c1-2b9f53d1e8aa"), new Guid("f4a9d0c2-8b11-4e35-b6f2-9c7a1d54e820") },
+                    { new Guid("7de41fa8-1c26-4f3e-9d72-04c9fd8a33b7"), new Guid("7e24b1c9-3a5f-44d0-9e72-0c1fb78d4aa3") },
+                    { new Guid("9cbf2146-7c33-4a51-9f2c-41e7a4d92bb8"), new Guid("f4a9d0c2-8b11-4e35-b6f2-9c7a1d54e820") }
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_BrandModelProductJoinTables_ProductId",
+                table: "BrandModelProductJoinTables",
+                column: "ProductId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_BrandModels_BrandModelsSeriesId",
@@ -252,11 +284,6 @@ namespace GrandLineAuto.Data.Migrations
                 name: "IX_BrandModelsSeries_BrandId",
                 table: "BrandModelsSeries",
                 column: "BrandId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Products_BrandModelsId",
-                table: "Products",
-                column: "BrandModelsId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Products_ProductManufacturerId",
@@ -278,10 +305,16 @@ namespace GrandLineAuto.Data.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Products");
+                name: "BrandModelProductJoinTables");
 
             migrationBuilder.DropTable(
                 name: "BrandModels");
+
+            migrationBuilder.DropTable(
+                name: "Products");
+
+            migrationBuilder.DropTable(
+                name: "BrandModelsSeries");
 
             migrationBuilder.DropTable(
                 name: "ProductManufacturers");
@@ -290,13 +323,10 @@ namespace GrandLineAuto.Data.Migrations
                 name: "SubCategories");
 
             migrationBuilder.DropTable(
-                name: "BrandModelsSeries");
+                name: "Brands");
 
             migrationBuilder.DropTable(
                 name: "Categories");
-
-            migrationBuilder.DropTable(
-                name: "Brands");
         }
     }
 }
