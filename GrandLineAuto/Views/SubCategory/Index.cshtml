@@ -1,14 +1,14 @@
-﻿@model IReadOnlyCollection<GrandLineAuto.Data.Models.BrandModels>
+﻿@model IReadOnlyCollection<GrandLineAuto.Data.Models.SubCategory>
 
 @{
-    ViewData["Title"] = "Brand Models";
+    ViewData["Title"] = "SubCategories";
     var q = Context.Request.Query["q"].ToString();
-    var seriesName = ViewBag.SeriesName as string;
+    var subcategoryName = ViewBag.SeriesName as string;
     var guidId = Context.Request.Query["guidId"].ToString();
 }
 
 <div class="brands-hero">
-    <h1>@(string.IsNullOrWhiteSpace(seriesName) ? "Browse models" : $"Browse {seriesName} models")</h1>
+    <h1>@(string.IsNullOrWhiteSpace(subcategoryName) ? "Browse sub categories" : $"Browse categories {subcategoryName}")</h1>
 
     <form method="get" asp-action="Index" class="brands-search">
         <input type="hidden" name="guidId" value="@guidId" />
@@ -29,15 +29,15 @@ else
         @foreach (var m in Model)
         {
             <a class="brand-card"
-               asp-controller="Category"
+               asp-controller="Product"
                asp-action="Index"
-               asp-route-modelId="@m.Id">
+               asp-route-productId="@m.Id">
 
                 <div class="brand-image">
                     @if (!string.IsNullOrWhiteSpace(m.ImageUrl))
                     {
-                        <img src="@m.ImageUrl" alt="@m.Name" loading="lazy" />
-                        <div>@m.yearProduced</div>
+                        <img src="@m.ImageUrl" alt="@m.Name" alt="@m.Name" loading="lazy" />
+                        <div>@m.Name</div>
                     }
                     else
                     {
@@ -153,3 +153,4 @@ else
         opacity: .8;
     }
 </style>
+
