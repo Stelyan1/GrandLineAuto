@@ -1,11 +1,16 @@
 using GrandLineAuto.Data;
+using GrandLineAuto.Infrastructure.Identity;
+using GrandLineAuto.Infrastructure.Services;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 
 namespace GrandLineAuto
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
@@ -15,22 +20,63 @@ namespace GrandLineAuto
             builder.Services.AddDbContext<GrandLineAutoDbContext>(options =>
              options.UseSqlServer(builder.Configuration.GetConnectionString("SQLServer")));
 
+            builder.Services.AddSingleton<IEmailSender, Infrastructure.Services.NoOpEmailSender>();
+
+            // Add Identity Services
+            builder.Services.AddIdentity<IdentityUser, IdentityRole>(cfg =>
+            {
+                cfg.Password.RequireDigit = true;
+
+                cfg.Password.RequireLowercase = true;
+
+                cfg.Password.RequireUppercase = true;
+
+                cfg.Password.RequireNonAlphanumeric = false;
+
+                cfg.Password.RequiredLength = 6;
+
+                cfg.Password.RequiredUniqueChars = 0;
+
+                cfg.SignIn.RequireConfirmedAccount = false;
+
+                cfg.SignIn.RequireConfirmedPhoneNumber = false;
+
+                cfg.User.RequireUniqueEmail = true;
+            })
+            .AddEntityFrameworkStores<GrandLineAutoDbContext>()
+            .AddDefaultTokenProviders();
+
+            builder.Services.AddRazorPages();
+            
             var app = builder.Build();
 
-            // Configure the HTTP request pipeline.
-            if (!app.Environment.IsDevelopment())
+            using (var scope = app.Services.CreateScope())
             {
-                app.UseExceptionHandler("/Home/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
+                var services = scope.ServiceProvider;
+                var config = services.GetRequiredService<IConfiguration>();
+
+                await AdminInitializer.EnsureAdminAsync(services, config);
             }
+
+                // Configure the HTTP request pipeline.
+                if (!app.Environment.IsDevelopment())
+                {
+                    app.UseExceptionHandler("/Home/Error");
+                    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+                    app.UseHsts();
+                }
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
             app.UseRouting();
 
+            // Add Authorization and Authentication middleware
+            app.UseAuthentication();
             app.UseAuthorization();
+
+            // Enable Identity's Razor Pages for login, register
+            app.MapRazorPages();
 
             app.MapControllerRoute(
                 name: "default",

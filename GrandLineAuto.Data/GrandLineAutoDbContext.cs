@@ -1,17 +1,14 @@
 ﻿using GrandLineAuto.Data.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 
 namespace GrandLineAuto.Data
 {
-    public class GrandLineAutoDbContext : DbContext
+    public class GrandLineAutoDbContext : IdentityDbContext<IdentityUser>
     {
-        public GrandLineAutoDbContext()
-        {
-            
-        }
-
-        public GrandLineAutoDbContext(DbContextOptions options) : base (options)
+        public GrandLineAutoDbContext(DbContextOptions<GrandLineAutoDbContext> options) : base (options)
         {
             
         }
