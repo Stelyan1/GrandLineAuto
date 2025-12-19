@@ -19,8 +19,8 @@
 
 @if (Model == null || !Model.Any())
 {
-    <div class="empty-state">
-        <p>No models found.</p>
+    <div class="no-parts">
+        <p>Currently we don't have any parts for it :(</p>
     </div>
 }
 else
@@ -31,7 +31,8 @@ else
             <a class="brand-card"
                asp-controller="SubCategory"
                asp-action="Index"
-               asp-route-modelId="@m.Id">
+               asp-route-categoryId="@m.Id"
+               asp-route-modelId="@ViewBag.ModelId">
 
                 <div class="brand-image">
                     @if (!string.IsNullOrWhiteSpace(m.ImageUrl))
@@ -151,5 +152,12 @@ else
     .empty-state {
         margin-top: 20px;
         opacity: .8;
+    }
+
+    .no-parts {
+        display: flex;
+        font-size: 34px;
+        align-items: center;
+        color: red;
     }
 </style>

@@ -14,12 +14,10 @@ namespace GrandLineAuto.Controllers
             _dbContext = dbContext;
         }
 
-        public IActionResult Index(Guid productId)
+        public IActionResult Index(Guid subCategoryId, Guid modelId)
         {
             var products = _dbContext.Products
-                .AsNoTracking()
-                .Where(p => p.SubCategoryId == productId)
-                .OrderBy(p => p.Name)
+                .Where(p => p.SubCategoryId == subCategoryId)
                 .ToList();
 
             return View(products);

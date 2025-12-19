@@ -13,15 +13,15 @@ namespace GrandLineAuto.Controllers
             _dbContext = dbContext;
         }
 
-        public IActionResult Index(Guid guidId)
+        public IActionResult Index(Guid brandModelSeriesId)
         {
-            var model = _dbContext.BrandModels
+            var brandModels = _dbContext.BrandModels
                 .AsNoTracking()
-                .Where(x => x.BrandModelsSeriesId == guidId)
-                .OrderBy(x => x.Name)
+                .Where(bm => bm.BrandModelsSeriesId == brandModelSeriesId)
+                .OrderBy(bm => bm.Name)
                 .ToList();
 
-            return View(model);
+            return View(brandModels);
         }
     }
 }

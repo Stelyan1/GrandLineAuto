@@ -28,16 +28,13 @@ else
     <div class="brands-grid">
         @foreach (var m in Model)
         {
-            <a class="brand-card"
-               asp-controller="Product"
-               asp-action="Index"
-               asp-route-productId="@m.Id">
+            <a class="brand-card">
+              
 
                 <div class="brand-image">
                     @if (!string.IsNullOrWhiteSpace(m.ImageUrl))
                     {
                         <img src="@m.ImageUrl" alt="@m.Name" alt="@m.Name" loading="lazy" />
-                        <div>@m.Name</div>
                     }
                     else
                     {
@@ -46,6 +43,8 @@ else
                 </div>
 
                 <div class="brand-name">@m.Name</div>
+                <p>@m.Price BGN</p> <button class="button-buy">BUY</button>
+
             </a>
         }
     </div>
@@ -151,5 +150,9 @@ else
     .empty-state {
         margin-top: 20px;
         opacity: .8;
+    }
+
+    .button-buy {
+        background: green;
     }
 </style>
