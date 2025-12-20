@@ -1,9 +1,13 @@
 using GrandLineAuto.Data;
 using GrandLineAuto.Infrastructure.Identity;
+using GrandLineAuto.Infrastructure.Repositories;
+using GrandLineAuto.Infrastructure.Repositories.Interfaces;
 using GrandLineAuto.Infrastructure.Services;
+using GrandLineAuto.Infrastructure.Services.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
+using NPOI.SS.Formula.Functions;
 using System.Threading.Tasks;
 
 namespace GrandLineAuto
@@ -45,6 +49,14 @@ namespace GrandLineAuto
             })
             .AddEntityFrameworkStores<GrandLineAutoDbContext>()
             .AddDefaultTokenProviders();
+
+            builder.Services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
+
+            builder.Services.AddScoped(typeof(IBaseService<>), typeof(BaseService<>));
+
+            builder.Services.AddScoped(typeof(IBrandModelsSeriesService), typeof(BrandModelsSeriesService));
+
+            builder.Services.AddScoped(typeof(IBrandModelsService), typeof(BrandModelsService));
 
             builder.Services.AddRazorPages();
             

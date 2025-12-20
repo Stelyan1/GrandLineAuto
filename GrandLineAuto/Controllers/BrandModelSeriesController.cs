@@ -1,26 +1,30 @@
 ﻿using GrandLineAuto.Data;
+using GrandLineAuto.Data.Models;
+using GrandLineAuto.Infrastructure.DTO_s;
+using GrandLineAuto.Infrastructure.Repositories.Interfaces;
+using GrandLineAuto.Infrastructure.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 
 namespace GrandLineAuto.Controllers
 {
     public class BrandModelSeriesController : Controller
     {
-        private readonly GrandLineAutoDbContext _dbContext;
+       
+        private readonly IBrandModelsSeriesService _brandModelsSeries;
 
-        public BrandModelSeriesController(GrandLineAutoDbContext dbContext)
+        public BrandModelSeriesController(IBrandModelsSeriesService brandModelsSeries)
         {
-            _dbContext = dbContext;
+           
+            _brandModelsSeries = brandModelsSeries;
         }
-        public IActionResult Index(Guid brandId)
+        
+        public async Task<IActionResult> Index(Guid brandId)
         {
-            var brandModelSeries = _dbContext.BrandModelsSeries
-                .AsNoTracking()
-                .Where(bms => bms.BrandId == brandId)
-                .OrderBy(bms => bms.Name)
-                .ToList();
 
-            return View(brandModelSeries);
+            var bms = await _brandModelsSeries.GetEntityByBrandId(brandId);
+            return View(bms);
         }
     }
 }

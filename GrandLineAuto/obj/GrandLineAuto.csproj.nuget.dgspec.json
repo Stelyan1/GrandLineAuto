@@ -281,7 +281,11 @@
         "frameworks": {
           "net8.0": {
             "targetAlias": "net8.0",
-            "projectReferences": {}
+            "projectReferences": {
+              "C:\\Users\\Stelyan\\source\\repos\\GrandLineAuto\\GrandLineAuto.Data\\GrandLineAuto.Data.csproj": {
+                "projectPath": "C:\\Users\\Stelyan\\source\\repos\\GrandLineAuto\\GrandLineAuto.Data\\GrandLineAuto.Data.csproj"
+              }
+            }
           }
         },
         "warningProperties": {
@@ -315,6 +319,10 @@
             "Microsoft.Extensions.Identity.Stores": {
               "target": "Package",
               "version": "[8.0.22, )"
+            },
+            "NPOI": {
+              "target": "Package",
+              "version": "[2.7.5, )"
             }
           },
           "imports": [

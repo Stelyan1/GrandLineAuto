@@ -1,6 +1,9 @@
 using System.Diagnostics;
+using System.Threading.Tasks;
 using GrandLineAuto.Data;
 using GrandLineAuto.Data.Models;
+using GrandLineAuto.Infrastructure.Services;
+using GrandLineAuto.Infrastructure.Services.Interfaces;
 using GrandLineAuto.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -9,27 +12,17 @@ namespace GrandLineAuto.Controllers
 {
     public class HomeController : Controller
     {
-      
-        private readonly GrandLineAutoDbContext _dbContext;
-        public HomeController(GrandLineAutoDbContext dbContext)
+        private readonly IBaseService<Brand> _baseService;
+        public HomeController(IBaseService<Brand> baseService)
         {
-            
-            _dbContext = dbContext;
+            _baseService = baseService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var brands = _dbContext.Brands.AsNoTracking();
+            var brand = await _baseService.GetAllEntitiesAsync();
 
-            var model = brands.OrderBy(b => b.Name).Select(b => new Brand
-            {
-                Id = b.Id,
-                Name = b.Name,
-                ImageUrl = b.ImageUrl
-            })
-                .ToList();
-
-            return View(model);
+            return View(brand);
         }
 
         public IActionResult Privacy()
