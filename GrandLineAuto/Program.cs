@@ -58,6 +58,12 @@ namespace GrandLineAuto
 
             builder.Services.AddScoped(typeof(IBrandModelsService), typeof(BrandModelsService));
 
+            builder.Services.AddScoped(typeof(ICategoryService), typeof(CategoryService));
+
+            builder.Services.AddScoped(typeof(ISubCategoryService), typeof(SubCategoryService));
+
+            builder.Services.AddScoped(typeof(IProductService), typeof(ProductService));
+
             builder.Services.AddRazorPages();
             
             var app = builder.Build();

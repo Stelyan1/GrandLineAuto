@@ -1,24 +1,24 @@
 ﻿using GrandLineAuto.Data;
+using GrandLineAuto.Infrastructure.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace GrandLineAuto.Controllers
 {
     public class ProductController : Controller
     {
-        private readonly GrandLineAutoDbContext _dbContext;
+        private readonly IProductService _productService;
 
-        public ProductController(GrandLineAutoDbContext dbContext)
+        public ProductController(IProductService productService)
         {
-            _dbContext = dbContext;
+            _productService = productService;
         }
 
-        public IActionResult Index(Guid subCategoryId, Guid modelId)
+        public async Task<IActionResult> Index(Guid subCategoryId)
         {
-            var products = _dbContext.Products
-                .Where(p => p.SubCategoryId == subCategoryId)
-                .ToList();
+            var products = await _productService.GetProductForModelBySubCategoryId(subCategoryId);
 
             return View(products);
         }

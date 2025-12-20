@@ -1,0 +1,52 @@
+﻿using GrandLineAuto.Data.Models;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace GrandLineAuto.Infrastructure.DTO_s
+{
+    public class ProductDTO
+    {
+        [Comment("Identifier of product")]
+        public Guid Id { get; set; }
+
+        [Comment("Name of product")]
+        public string Name { get; set; } = null!;
+
+        [Comment("Image of the product")]
+        public string ImageUrl { get; set; } = null!;
+
+        [Comment("Information about the product")]
+        public string Description { get; set; } = null!;
+
+        [Comment("Information about the product")]
+        public string SpecificInfo1 { get; set; } = string.Empty;
+        [Comment("Information about the product")]
+        public string SpecificInfo2 { get; set; } = string.Empty;
+        [Comment("Information about the product")]
+        public string SpecificInfo3 { get; set; } = string.Empty;
+        [Comment("Information about the product")]
+        public string SpecificInfo4 { get; set; } = string.Empty;
+        [Comment("Information about the product")]
+        public string SpecificInfo5 { get; set; } = string.Empty;
+        [Comment("Information about the product")]
+        public string SpecificInfo6 { get; set; } = string.Empty;
+
+        [Comment("Price of the product")]
+        public decimal Price { get; set; }
+
+        [Comment("It has sub categories")]
+        public Guid SubCategoryId { get; set; }
+        public SubCategory SubCategory { get; set; } = null!;
+
+        [Comment("Each product have manufacturer")]
+        public Guid ProductManufacturerId { get; set; }
+        public ProductManufacturer ProductManufacturer { get; set; } = null!;
+
+        [Comment("Each product can be applied to many products")]
+        public ICollection<BrandModelProductJoinTable> BrandModelsProducts { get; set; } = new HashSet<BrandModelProductJoinTable>();
+    }
+}

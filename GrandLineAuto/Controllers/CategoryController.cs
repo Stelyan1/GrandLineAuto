@@ -1,27 +1,27 @@
 ﻿using GrandLineAuto.Data;
+using GrandLineAuto.Infrastructure.Services;
+using GrandLineAuto.Infrastructure.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 
 namespace GrandLineAuto.Controllers
 {
     public class CategoryController : Controller
     {
         private readonly GrandLineAutoDbContext _dbContext;
+        private readonly ICategoryService _categoryService;
 
-        public CategoryController(GrandLineAutoDbContext dbContext)
+        public CategoryController(GrandLineAutoDbContext dbContext, ICategoryService categoryService)
         {
             _dbContext = dbContext;
+            _categoryService = categoryService;
         }
 
-        public IActionResult Index(Guid modelId)
+        public async Task<IActionResult> Index(Guid modelId)
         {
-            var categories = _dbContext.Categories
-                .Where(c => c.subCategories
-                             .Any(sc => sc.Products
-                                          .Any(p => p.BrandModelsProducts
-                                                     .Any(bmp => bmp.BrandModelId == modelId))))
-                .ToList();
-
+            
+            var categories = await _categoryService.GetCategoriesForGivenModel(modelId);
             ViewBag.ModelId = modelId;
 
             return View(categories);
