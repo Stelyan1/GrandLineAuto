@@ -25,11 +25,17 @@ namespace GrandLineAuto.Infrastructure.Repositories
         public async Task AddAsync(T Entity)
         {
             await _dbSet.AddAsync(Entity);
+            await _dbContext.SaveChangesAsync();
         }
 
         public IQueryable<T> All()
         {
             return _dbSet.AsQueryable();
+        }
+
+        public IQueryable<T> AllForGivenEntity<Т>()
+        {
+            return _dbSet.AsQueryable<T>();
         }
 
         public void DeleteAsync(T Entity)

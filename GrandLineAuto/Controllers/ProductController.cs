@@ -22,5 +22,12 @@ namespace GrandLineAuto.Controllers
 
             return View(products);
         }
+
+        public async Task<IActionResult> Details(Guid productId)
+        {
+            var product = await _productService.DetailsProduct(productId);
+
+            return View(product);
+        }
     }
 }

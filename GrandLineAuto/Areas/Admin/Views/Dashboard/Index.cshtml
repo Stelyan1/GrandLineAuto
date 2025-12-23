@@ -1,0 +1,74 @@
+﻿@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<h1 class="h3 mb-3">Dashboard</h1>
+
+<div class="row g-3">
+
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <div class="fw-semibold">Quick actions</div>
+                <div class="d-grid gap-2 mt-3">
+
+                    <a class="btn btn-primary"
+                       asp-area="Admin" asp-controller="Catalog" asp-action="CreateBrand">
+                        + Add Brand
+                    </a>
+
+                    <a class="btn btn-primary"
+                       asp-area="Admin" asp-controller="Catalog" asp-action="CreateBrandModelSeries">
+                        + Add BrandModelSeries
+                    </a>
+
+                    <a class="btn btn-primary"
+                       asp-area="Admin" asp-controller="Catalog" asp-action="CreateBrandModels">
+                        + Add BrandModels
+                    </a>
+
+                    <a class="btn btn-primary"
+                       asp-area="Admin" asp-controller="Catalog" asp-action="CreateCategory">
+                        + Add Category
+                    </a>
+
+                    <a class="btn btn-primary"
+                       asp-area="Admin" asp-controller="Catalog" asp-action="CreateSubCategory">
+                        + Add SubCategory
+                    </a>
+
+                    <a class="btn btn-primary"
+                       asp-area="Admin" asp-controller="Catalog" asp-action="CreateProduct">
+                        + Add Product
+                    </a>
+
+                   
+
+                   
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-body">
+                <div class="fw-semibold">Shortcuts</div>
+                <div class="mt-3 d-flex flex-wrap gap-2">
+                    <a class="btn btn-outline-secondary"
+                       asp-area="Admin" asp-controller="Catalog" asp-action="Products">Manage Products</a>
+
+                    <a class="btn btn-outline-secondary"
+                       asp-area="Admin" asp-controller="Catalog" asp-action="ManageBrands">Manage Brands</a>
+
+                    <a class="btn btn-outline-secondary"
+                       asp-area="Admin" asp-controller="Catalog" asp-action="Categories">Manage Categories</a>
+
+                    <a class="btn btn-outline-secondary"
+                       asp-area="Admin" asp-controller="Orders" asp-action="Index">Process Orders</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

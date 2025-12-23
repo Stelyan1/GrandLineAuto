@@ -93,12 +93,17 @@ namespace GrandLineAuto
             app.UseAuthentication();
             app.UseAuthorization();
 
-            // Enable Identity's Razor Pages for login, register
-            app.MapRazorPages();
+            //Adding Admin Panel
+            app.MapControllerRoute(
+                name: "areas",
+                pattern: "{area:exists}/{controller=Dashboard}/{action=Index}/{id?}");
 
             app.MapControllerRoute(
-                name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
+               name: "default",
+               pattern: "{controller=Home}/{action=Index}/{id?}");
+
+            // Enable Identity's Razor Pages for login, register
+            app.MapRazorPages();
 
             app.Run();
         }

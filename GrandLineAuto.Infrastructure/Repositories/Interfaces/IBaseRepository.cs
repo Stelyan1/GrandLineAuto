@@ -11,6 +11,7 @@ namespace GrandLineAuto.Infrastructure.Repositories.Interfaces
     public interface IBaseRepository<T> where T : class
     {
         IQueryable<T> All();
+        IQueryable<T> AllForGivenEntity<Т>();
         Task<IEnumerable<T>> GetAllAsync();
         Task<T> GetByIdAsync(Guid guidId);
         Task AddAsync(T Entity);

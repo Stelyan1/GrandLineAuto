@@ -1,17 +1,15 @@
-﻿@model IReadOnlyCollection<GrandLineAuto.Infrastructure.DTO_s.ProductDTO>
+﻿@using GrandLineAuto.Data.Models
+@model IReadOnlyCollection<Brand>
 
 @{
-    ViewData["Title"] = "Products";
-    var q = Context.Request.Query["q"].ToString();
-    var Products = ViewBag.SeriesName as string;
-    var guidId = Context.Request.Query["guidId"].ToString();
+    ViewData["Title"] = "Manage Brands";
+    var q = (string?)ViewBag.Query;
 }
 
 <div class="brands-hero">
-    <h1>@(string.IsNullOrWhiteSpace(Products) ? "Browse Products" : $"Browse Products {Products}")</h1>
+    <h1>Browse Brands for Edit/Delete</h1>
 
     <form method="get" asp-action="Index" class="brands-search">
-        <input type="hidden" name="guidId" value="@guidId" />
         <input name="q" value="@q" placeholder="Search.." />
         <button type="submit" aria-label="Search">🔎</button>
     </form>
@@ -20,24 +18,21 @@
 @if (Model == null || !Model.Any())
 {
     <div class="empty-state">
-        <p>No models found.</p>
+        <p>No brands found.</p>
     </div>
 }
 else
 {
     <div class="brands-grid">
-        @foreach (var m in Model)
+        @foreach (var b in Model)
         {
-            <a class="brand-card"
-                asp-controller="Product"
-                asp-action="Details"
-                asp-route-productId="@m.Id"
-                >
+            <a
+               class="brand-card">
 
                 <div class="brand-image">
-                    @if (!string.IsNullOrWhiteSpace(m.ImageUrl))
+                    @if (!string.IsNullOrWhiteSpace(b.ImageUrl))
                     {
-                        <img src="@m.ImageUrl" alt="@m.Name" alt="@m.Name" loading="lazy" />
+                        <img src="@b.ImageUrl" alt="@b.Name logo" loading="lazy" />
                     }
                     else
                     {
@@ -45,10 +40,11 @@ else
                     }
                 </div>
 
-                <div class="brand-name">@m.Name</div>
-                <p>@m.Price BGN</p> <button class="button-buy">BUY</button>
+                <div class="brand-name">@b.Name</div>
 
+                <button class="button-Edit">Edit</button> <button class="button-Delete">Delete</button>
             </a>
+            
         }
     </div>
 }
@@ -67,7 +63,7 @@ else
             margin: 0;
             font-size: 34px;
             line-height: 1.1;
-            color: #0a8a0a;
+            color: #0a8a0a; /* зеленото от твоя wireframe */
             flex: 1 1 520px;
         }
 
@@ -155,7 +151,13 @@ else
         opacity: .8;
     }
 
-    .button-buy {
-        background: green;
+    .button-Edit{
+        background: yellow;
+        padding: 5px;
+    }
+
+    .button-Delete{
+        background: red;
+        padding: 5px;
     }
 </style>
