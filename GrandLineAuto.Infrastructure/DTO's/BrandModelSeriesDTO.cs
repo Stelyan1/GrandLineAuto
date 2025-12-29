@@ -1,4 +1,5 @@
 ﻿using GrandLineAuto.Data.Models;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -26,6 +27,8 @@ namespace GrandLineAuto.Infrastructure.DTO_s
         public Guid BrandId { get; set; }
         [Comment("Belongs to a brand")]
         public Brand Brand { get; set; } = null!;
+
+        public IEnumerable<SelectListItem> Brands { get; set; } = Enumerable.Empty<SelectListItem>();
 
         public ICollection<BrandModels> BrandModels { get; set; } = new HashSet<BrandModels>();
     }

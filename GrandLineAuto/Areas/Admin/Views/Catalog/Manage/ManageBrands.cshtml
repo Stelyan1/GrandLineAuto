@@ -26,25 +26,40 @@ else
     <div class="brands-grid">
         @foreach (var b in Model)
         {
-            <a
-               class="brand-card">
+            <div class="brand-tile">
+                <!-- Картата (НЕ кликаема) -->
+                <div class="brand-card">
+                    <div class="brand-image">
+                        @if (!string.IsNullOrWhiteSpace(b.ImageUrl))
+                        {
+                            <img src="@b.ImageUrl" alt="@b.Name logo" loading="lazy" />
+                        }
+                        else
+                        {
+                            <div class="brand-fallback">No image</div>
+                        }
+                    </div>
 
-                <div class="brand-image">
-                    @if (!string.IsNullOrWhiteSpace(b.ImageUrl))
-                    {
-                        <img src="@b.ImageUrl" alt="@b.Name logo" loading="lazy" />
-                    }
-                    else
-                    {
-                        <div class="brand-fallback">No image</div>
-                    }
+                    <div class="brand-name">@b.Name</div>
                 </div>
 
-                <div class="brand-name">@b.Name</div>
+                <!-- Бутоните (извън картата) -->
+                <div class="brand-actions">
+                    <a class="btn-edit"
+                       asp-action="EditBrand"
+                       asp-route-brandId="@b.Id">
+                        Edit
+                    </a>
 
-                <button class="button-Edit">Edit</button> <button class="button-Delete">Delete</button>
-            </a>
-            
+
+                    <a class="btn-delete"
+                       asp-action="DeleteBrand"
+                       asp-route-brandId="@b.Id"
+                       onclick="return confirm('Open delete page for @b.Name ?');">
+                        Delete
+                    </a>
+                </div>
+            </div>
         }
     </div>
 }
@@ -63,7 +78,7 @@ else
             margin: 0;
             font-size: 34px;
             line-height: 1.1;
-            color: #0a8a0a; /* зеленото от твоя wireframe */
+            color: #0a8a0a;
             flex: 1 1 520px;
         }
 
@@ -99,16 +114,23 @@ else
         grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
         gap: 18px;
         margin-top: 10px;
+        align-items: start;
+    }
+
+    /* “Плочка” = карта + бутони */
+    .brand-tile {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
     }
 
     .brand-card {
-        text-decoration: none;
-        color: inherit;
         border: 2px solid #111;
         border-radius: 16px;
         padding: 12px;
         transition: transform .12s ease, box-shadow .12s ease;
         background: #fff;
+        user-select: none;
     }
 
         .brand-card:hover {
@@ -124,6 +146,7 @@ else
         align-items: center;
         justify-content: center;
         overflow: hidden;
+        background: #fff;
     }
 
         .brand-image img {
@@ -146,18 +169,43 @@ else
         font-weight: 600;
     }
 
+    .brand-actions {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        justify-content: flex-start;
+    }
+
+    .delete-form {
+        margin: 0;
+    }
+
+    .btn-edit, .btn-delete {
+        border: 2px solid #111;
+        border-radius: 6px;
+        padding: 6px 10px;
+        font-size: 14px;
+        font-weight: 700;
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        line-height: 1;
+    }
+
+    .btn-edit {
+        background: yellow;
+        color: #000;
+    }
+
+    .btn-delete {
+        background: red;
+        color: #000;
+    }
+
     .empty-state {
         margin-top: 20px;
         opacity: .8;
-    }
-
-    .button-Edit{
-        background: yellow;
-        padding: 5px;
-    }
-
-    .button-Delete{
-        background: red;
-        padding: 5px;
     }
 </style>
