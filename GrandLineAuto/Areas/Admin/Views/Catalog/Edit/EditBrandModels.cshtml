@@ -1,0 +1,84 @@
+﻿@using GrandLineAuto.Areas.Admin.Views.Models
+
+@model BrandModelsVM
+
+@{
+    ViewData["Title"] = "Edit BrandModels";
+}
+
+<div class="edit-container">
+    <h1 class="edit-title">Edit BrandModels</h1>
+
+    <div class="edit-card">
+
+        <!-- Preview -->
+        <div class="edit-image">
+            @if (!string.IsNullOrWhiteSpace(Model.ImageUrl))
+            {
+                <img src="@Model.ImageUrl" alt="@Model.Name logo" height="250" width="250" />
+            }
+            else
+            {
+                <div class="brand-fallback">No image</div>
+            }
+        </div>
+
+        <form asp-action="EditBrandModelsConfirmed" method="post" class="edit-form">
+            @Html.AntiForgeryToken()
+
+            <!-- IMPORTANT -->
+            <input type="hidden" name="id" value="@Model.Id" />
+
+            <div class="form-group">
+                <label asp-for="Name"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="ImageUrl"></label>
+                <input asp-for="ImageUrl" class="form-control" />
+                <span asp-validation-for="ImageUrl" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="yearProduced"></label>
+                <input asp-for="yearProduced" class="form-control" placeholder="e.g. 2015 - 2022" />
+                <span asp-validation-for="yearProduced" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="typeCoupe"></label>
+                <input asp-for="typeCoupe" class="form-control" placeholder="e.g. 2015 - 2022" />
+                <span asp-validation-for="typeCoupe" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="fuelType"></label>
+                <input asp-for="fuelType" class="form-control" placeholder="e.g. 2015 - 2022" />
+                <span asp-validation-for="fuelType" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Engine"></label>
+                <input asp-for="Engine" class="form-control" placeholder="e.g. 2015 - 2022" />
+                <span asp-validation-for="Engine" class="text-danger"></span>
+            </div>
+
+            <div class="edit-actions">
+                <button type="submit" class="btn-save">
+                    Save Changes
+                </button>
+
+                <a asp-action="Index" class="btn-cancel">
+                    Cancel
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+

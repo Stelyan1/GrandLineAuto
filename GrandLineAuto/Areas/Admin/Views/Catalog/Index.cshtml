@@ -4,12 +4,35 @@
 <h1 class="h4">Catalog</h1>
 <p>Coming soon…</p>
 
+<h2>CREATE</h2>
 <a class="btn btn-primary"
    asp-area="Admin" asp-controller="Catalog" asp-action="CreateBrand">
    +Create Brand
 </a>
 
 <a class="btn btn-primary"
+   asp-area="Admin" asp-controller="Catalog" asp-action="CreateBrandModelsSeries">
+    +Create BrandModelSeries
+</a>
+
+<a class="btn btn-primary"
+   asp-area="Admin" asp-controller="Catalog" asp-action="CreateBrandModels">
+    +Create BrandModels
+</a>
+
+
+<h2>MANAGE</h2>
+<a class="btn btn-primary"
    asp-area="Admin" asp-controller="Catalog" asp-action="ManageBrands">
     -Manage Brands
+</a>
+
+<a class="btn btn-primary"
+   asp-area="Admin" asp-controller="Catalog" asp-action="ManageBrandModelSeries">
+    -Manage BrandModelSeries
+</a>
+
+<a class="btn btn-primary"
+   asp-area="Admin" asp-controller="Catalog" asp-action="ManageBrandModels">
+    -Manage BrandModels
 </a>

@@ -1,0 +1,74 @@
+﻿@using GrandLineAuto.Areas.Admin.Views.Models
+@model BrandModelsVM
+
+@{
+    ViewData["Title"] = "Create Models";
+
+}
+
+<div class="brands-hero">
+    <h1>Create New Models</h1>
+</div>
+
+<div class="form-wrapper">
+    <form asp-action="CreateBrandModels" method="post">
+        @Html.AntiForgeryToken()
+
+        <!-- Name -->
+        <div class="form-group">
+            <label asp-for="Name"></label>
+            <input asp-for="Name" class="form-control" placeholder="e.g. A4, 3 Series" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+
+        <!-- Image -->
+        <div class="form-group">
+            <label asp-for="ImageUrl"></label>
+            <input asp-for="ImageUrl" class="form-control" placeholder="Image URL" />
+            <span asp-validation-for="ImageUrl" class="text-danger"></span>
+        </div>
+
+        <!-- Production Years -->
+        <div class="form-group">
+            <label asp-for="yearProduced"></label>
+            <input asp-for="yearProduced" class="form-control" placeholder="e.g. 2015 - 2022" />
+            <span asp-validation-for="yearProduced" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="typeCoupe"></label>
+            <input asp-for="typeCoupe" class="form-control" placeholder="e.g. 2015 - 2022" />
+            <span asp-validation-for="typeCoupe" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="fuelType"></label>
+            <input asp-for="fuelType" class="form-control" placeholder="e.g. 2015 - 2022" />
+            <span asp-validation-for="fuelType" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Engine"></label>
+            <input asp-for="Engine" class="form-control" placeholder="e.g. 2015 - 2022" />
+            <span asp-validation-for="Engine" class="text-danger"></span>
+        </div>
+
+        <!-- Brand -->
+        <div class="form-group">
+            <label asp-for="BrandModelsSeriesId"></label>
+            <select asp-for="BrandModelsSeriesId" asp-items="Model.BrandModelSeries" class="form-control">
+                <option value="">-- Select BrandModelsSeries --</option>
+            </select>
+            <span asp-validation-for="BrandModelsSeriesId" class="text-danger"></span>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Create</button>
+            <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

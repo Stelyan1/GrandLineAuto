@@ -1,0 +1,65 @@
+﻿@using GrandLineAuto.Infrastructure.ViewModels
+@model BrandModelSeriesVM
+
+@{
+    ViewData["Title"] = "Edit BrandModelSeries";
+}
+
+<div class="edit-container">
+    <h1 class="edit-title">Edit BrandModelSeries</h1>
+
+    <div class="edit-card">
+
+        <!-- Preview -->
+        <div class="edit-image">
+            @if (!string.IsNullOrWhiteSpace(Model.ImageUrl))
+            {
+                <img src="@Model.ImageUrl" alt="@Model.Name logo" height="250" width="250" />
+            }
+            else
+            {
+                <div class="brand-fallback">No image</div>
+            }
+        </div>
+
+        <form asp-action="EditBrandModelSeriesConfirmed" method="post" class="edit-form">
+            @Html.AntiForgeryToken()
+
+            <!-- IMPORTANT -->
+            <input type="hidden" name="id" value="@Model.Id" />
+
+            <div class="form-group">
+                <label asp-for="Name"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="ImageUrl"></label>
+                <input asp-for="ImageUrl" class="form-control" />
+                <span asp-validation-for="ImageUrl" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="productionYears"></label>
+                <input asp-for="productionYears" class="form-control" />
+                <span asp-validation-for="productionYears" class="text-danger"></span>
+            </div>
+
+            <div class="edit-actions">
+                <button type="submit" class="btn-save">
+                    Save Changes
+                </button>
+
+                <a asp-action="Index" class="btn-cancel">
+                    Cancel
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+

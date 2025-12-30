@@ -32,6 +32,10 @@ build_property.EnableCodeStyleSeverity =
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcQ2F0YWxvZ1xDcmVhdGVCcmFuZC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/Stelyan/source/repos/GrandLineAuto/GrandLineAuto/Areas/Admin/Views/Catalog/CreateBrandModels.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcQ2F0YWxvZ1xDcmVhdGVCcmFuZE1vZGVscy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/Stelyan/source/repos/GrandLineAuto/GrandLineAuto/Areas/Admin/Views/Catalog/CreateBrandModelsSeries.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcQ2F0YWxvZ1xDcmVhdGVCcmFuZE1vZGVsc1Nlcmllcy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
@@ -40,12 +44,36 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcQ2F0YWxvZ1xEZWxldGVcRGVsZXRlQnJhbmQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/Stelyan/source/repos/GrandLineAuto/GrandLineAuto/Areas/Admin/Views/Catalog/Delete/DeleteBrandModels.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcQ2F0YWxvZ1xEZWxldGVcRGVsZXRlQnJhbmRNb2RlbHMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Stelyan/source/repos/GrandLineAuto/GrandLineAuto/Areas/Admin/Views/Catalog/Delete/DeleteBrandModelSeries.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcQ2F0YWxvZ1xEZWxldGVcRGVsZXRlQnJhbmRNb2RlbFNlcmllcy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/Stelyan/source/repos/GrandLineAuto/GrandLineAuto/Areas/Admin/Views/Catalog/Edit/EditBrand.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcQ2F0YWxvZ1xFZGl0XEVkaXRCcmFuZC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/Stelyan/source/repos/GrandLineAuto/GrandLineAuto/Areas/Admin/Views/Catalog/Edit/EditBrandModels.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcQ2F0YWxvZ1xFZGl0XEVkaXRCcmFuZE1vZGVscy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Stelyan/source/repos/GrandLineAuto/GrandLineAuto/Areas/Admin/Views/Catalog/Edit/EditBrandModelSeries.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcQ2F0YWxvZ1xFZGl0XEVkaXRCcmFuZE1vZGVsU2VyaWVzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/Stelyan/source/repos/GrandLineAuto/GrandLineAuto/Areas/Admin/Views/Catalog/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcQ2F0YWxvZ1xJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Stelyan/source/repos/GrandLineAuto/GrandLineAuto/Areas/Admin/Views/Catalog/Manage/ManageBrandModels.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcQ2F0YWxvZ1xNYW5hZ2VcTWFuYWdlQnJhbmRNb2RlbHMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Stelyan/source/repos/GrandLineAuto/GrandLineAuto/Areas/Admin/Views/Catalog/Manage/ManageBrandModelSeries.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcQ2F0YWxvZ1xNYW5hZ2VcTWFuYWdlQnJhbmRNb2RlbFNlcmllcy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/Stelyan/source/repos/GrandLineAuto/GrandLineAuto/Areas/Admin/Views/Catalog/Manage/ManageBrands.cshtml]
