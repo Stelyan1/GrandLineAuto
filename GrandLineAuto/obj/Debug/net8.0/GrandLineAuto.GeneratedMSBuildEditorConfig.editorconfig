@@ -40,6 +40,14 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcQ2F0YWxvZ1xDcmVhdGVCcmFuZE1vZGVsc1Nlcmllcy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/Stelyan/source/repos/GrandLineAuto/GrandLineAuto/Areas/Admin/Views/Catalog/CreateCategory.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcQ2F0YWxvZ1xDcmVhdGVDYXRlZ29yeS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Stelyan/source/repos/GrandLineAuto/GrandLineAuto/Areas/Admin/Views/Catalog/CreateSubCategory.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcQ2F0YWxvZ1xDcmVhdGVTdWJDYXRlZ29yeS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/Stelyan/source/repos/GrandLineAuto/GrandLineAuto/Areas/Admin/Views/Catalog/Delete/DeleteBrand.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcQ2F0YWxvZ1xEZWxldGVcRGVsZXRlQnJhbmQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
@@ -52,6 +60,14 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcQ2F0YWxvZ1xEZWxldGVcRGVsZXRlQnJhbmRNb2RlbFNlcmllcy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/Stelyan/source/repos/GrandLineAuto/GrandLineAuto/Areas/Admin/Views/Catalog/Delete/DeleteCategories.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcQ2F0YWxvZ1xEZWxldGVcRGVsZXRlQ2F0ZWdvcmllcy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Stelyan/source/repos/GrandLineAuto/GrandLineAuto/Areas/Admin/Views/Catalog/Delete/DeleteSubCategory.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcQ2F0YWxvZ1xEZWxldGVcRGVsZXRlU3ViQ2F0ZWdvcnkuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/Stelyan/source/repos/GrandLineAuto/GrandLineAuto/Areas/Admin/Views/Catalog/Edit/EditBrand.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcQ2F0YWxvZ1xFZGl0XEVkaXRCcmFuZC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
@@ -62,6 +78,14 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/Stelyan/source/repos/GrandLineAuto/GrandLineAuto/Areas/Admin/Views/Catalog/Edit/EditBrandModelSeries.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcQ2F0YWxvZ1xFZGl0XEVkaXRCcmFuZE1vZGVsU2VyaWVzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Stelyan/source/repos/GrandLineAuto/GrandLineAuto/Areas/Admin/Views/Catalog/Edit/EditCategory.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcQ2F0YWxvZ1xFZGl0XEVkaXRDYXRlZ29yeS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Stelyan/source/repos/GrandLineAuto/GrandLineAuto/Areas/Admin/Views/Catalog/Edit/EditSubCategory.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcQ2F0YWxvZ1xFZGl0XEVkaXRTdWJDYXRlZ29yeS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/Stelyan/source/repos/GrandLineAuto/GrandLineAuto/Areas/Admin/Views/Catalog/Index.cshtml]
@@ -78,6 +102,14 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/Stelyan/source/repos/GrandLineAuto/GrandLineAuto/Areas/Admin/Views/Catalog/Manage/ManageBrands.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcQ2F0YWxvZ1xNYW5hZ2VcTWFuYWdlQnJhbmRzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Stelyan/source/repos/GrandLineAuto/GrandLineAuto/Areas/Admin/Views/Catalog/Manage/ManageCategories.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcQ2F0YWxvZ1xNYW5hZ2VcTWFuYWdlQ2F0ZWdvcmllcy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Stelyan/source/repos/GrandLineAuto/GrandLineAuto/Areas/Admin/Views/Catalog/Manage/ManageSubCategories.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcQ2F0YWxvZ1xNYW5hZ2VcTWFuYWdlU3ViQ2F0ZWdvcmllcy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/Stelyan/source/repos/GrandLineAuto/GrandLineAuto/Areas/Admin/Views/Dashboard/Index.cshtml]

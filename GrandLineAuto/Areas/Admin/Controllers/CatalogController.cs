@@ -16,6 +16,8 @@ using static GrandLineAuto.Common.EntityValidation;
 using Brand = GrandLineAuto.Data.Models.Brand;
 using BrandModels = GrandLineAuto.Data.Models.BrandModels;
 using BrandModelsSeries = GrandLineAuto.Data.Models.BrandModelsSeries;
+using Category = GrandLineAuto.Data.Models.Category;
+using SubCategory = GrandLineAuto.Data.Models.SubCategory;
 
 namespace GrandLineAuto.Areas.Admin.Controllers
 {
@@ -24,12 +26,16 @@ namespace GrandLineAuto.Areas.Admin.Controllers
         private readonly IBaseRepository<Brand> _brandService;
         private readonly IBaseRepository<BrandModelsSeries> _brandModelsSeriesService;
         private readonly IBaseRepository<BrandModels> _brandModelsService;
+        private readonly IBaseRepository<Category> _categoryService;
+        private readonly IBaseRepository<SubCategory> _subCategoryService;
 
-        public CatalogController(IBaseRepository<Brand> brandService, IBaseRepository<BrandModelsSeries> brandModelsSeriesService, IBaseRepository<BrandModels> brandModelsService)
+        public CatalogController(IBaseRepository<Brand> brandService, IBaseRepository<BrandModelsSeries> brandModelsSeriesService, IBaseRepository<BrandModels> brandModelsService, IBaseRepository<Category> categoryService, IBaseRepository<SubCategory> subCategoryService)
         {
             _brandService = brandService;
             _brandModelsSeriesService = brandModelsSeriesService;
             _brandModelsService = brandModelsService;
+            _categoryService = categoryService;
+            _subCategoryService = subCategoryService;
         }
 
         public IActionResult Index() => View();
@@ -60,7 +66,22 @@ namespace GrandLineAuto.Areas.Admin.Controllers
 
             return View("Areas/Admin/Views/Catalog/Manage/ManageBrandModels.cshtml", brandModels);
         }
-        public IActionResult Categories() => View();
+
+        [HttpGet]
+        public async Task<IActionResult> ManageCategories()
+        {
+            var categories = await _categoryService.GetAllAsync();
+
+            return View("Areas/Admin/Views/Catalog/Manage/ManageCategories.cshtml", categories);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ManageSubCategories()
+        {
+            var subCategories = await _subCategoryService.GetAllAsync();
+
+            return View("Areas/Admin/Views/Catalog/Manage/ManageSubCategories.cshtml", subCategories);
+        }
 
         [HttpGet]
         public IActionResult CreateBrand()
@@ -100,8 +121,28 @@ namespace GrandLineAuto.Areas.Admin.Controllers
             return View(model);
         }
 
+        [HttpGet]
+        public IActionResult CreateCategory()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> CreateSubCategory()
+        {
+            var categories = new SubCategoryVM
+            {
+                Categories = _categoryService.All().OrderBy(c => c.Name).Select(c => new SelectListItem
+                {
+                    Value = c.Id.ToString(),
+                    Text = c.Name
+                })
+            };
+         
+            return View(categories);
+        }
+
         public IActionResult CreateProduct() => View();
-        public IActionResult CreateCategory() => View();
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -185,6 +226,53 @@ namespace GrandLineAuto.Areas.Admin.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateCategory(Category model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            model.Id = Guid.NewGuid();
+
+            await _categoryService.AddAsync(model);
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateSubCategory(SubCategoryVM model)
+        {
+            if (!ModelState.IsValid)
+            {
+                model = new SubCategoryVM
+                {
+                    Categories = _categoryService.All().OrderBy(c => c.Name).Select(c => new SelectListItem
+                    {
+                        Value = c.Id.ToString(),
+                        Text = c.Name
+                    })
+                };
+
+                return View(model);
+            }
+
+            var entity = new SubCategory
+            {
+                Id = Guid.NewGuid(),
+                Name = model.Name,
+                ImageUrl = model.ImageUrl,
+                CategoryId = model.CategoryId
+            };
+
+            await _subCategoryService.AddAsync(entity); 
+            
+            return RedirectToAction(nameof(Index));
+        }
+
         [HttpGet]
         public async Task<IActionResult> EditBrand(Guid brandId) 
         {
@@ -239,6 +327,35 @@ namespace GrandLineAuto.Areas.Admin.Controllers
             return View("Areas/Admin/Views/Catalog/Edit/EditBrandModels.cshtml", brandModels);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> EditCategories(Guid categoriesId)
+        {
+            var category = await _categoryService.All().Where(c => c.Id == categoriesId).Select(c => new CategoryVM
+            {
+                Id = c.Id,
+                Name = c.Name,
+                ImageUrl = c.ImageUrl
+            }).FirstOrDefaultAsync();
+
+            if (category == null) { return NotFound(); }
+            
+            return View("Areas/Admin/Views/Catalog/Edit/EditCategory.cshtml", category);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> EditSubCategory(Guid subCategoryId)
+        {
+            var subCategory = await _subCategoryService.All().Where(sc => sc.Id == subCategoryId).Select(sc => new SubCategoryVM
+            {
+                Id = sc.Id,
+                Name = sc.Name,
+                ImageUrl = sc.ImageUrl
+            }).FirstOrDefaultAsync();
+
+            if (subCategory == null) { return NotFound(); }
+
+            return View("Areas/Admin/Views/Catalog/Edit/EditSubCategory.cshtml", subCategory);
+        }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -296,6 +413,37 @@ namespace GrandLineAuto.Areas.Admin.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditCategoriesConfirmed(CategoryVM model)
+        {
+            var edited = await _categoryService.All().FirstOrDefaultAsync(c => c.Id == model.Id);
+
+            edited.Name = model.Name;
+
+            edited.ImageUrl = model.ImageUrl;
+           
+
+            await _categoryService.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditSubCategoryConfirmed(SubCategoryVM model)
+        {
+            var edited = await _subCategoryService.All().FirstOrDefaultAsync(sc => sc.Id == model.Id);
+
+            edited.Name = model.Name;
+
+            edited.ImageUrl = model.ImageUrl;
+
+            await _subCategoryService.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
+        }
+
         [HttpGet]
         public async Task<IActionResult> DeleteBrand(Guid brandId)
         {
@@ -325,6 +473,26 @@ namespace GrandLineAuto.Areas.Admin.Controllers
             return View("Areas/Admin/Views/Catalog/Delete/DeleteBrandModels.cshtml", brandModels);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> DeleteCategories(Guid categoriesId)
+        {
+          var category = await _categoryService.All().Where(c => c.Id == categoriesId).FirstOrDefaultAsync();
+
+            if (category == null) { return NotFound(); }
+
+            return View("Areas/Admin/Views/Catalog/Delete/DeleteCategories.cshtml", category);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> DeleteSubCategory(Guid subCategoryId)
+        {
+            var subCategory = await _subCategoryService.All().FirstOrDefaultAsync(sc => sc.Id == subCategoryId);
+
+            if (subCategory == null) { return NotFound(); }
+
+            return View("Areas/Admin/Views/Catalog/Delete/DeleteSubCategory.cshtml", subCategory);
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         [ActionName("DeleteBrand")]
@@ -350,6 +518,26 @@ namespace GrandLineAuto.Areas.Admin.Controllers
         public async Task<IActionResult> DeleteBrandModelsConfirmed(Guid brandModelsId)
         {
             await _brandModelsService.All().Where(bm => bm.Id == brandModelsId).ExecuteDeleteAsync();
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [ActionName("DeleteCategories")]
+        public async Task<IActionResult> DeleteCategoriesConfirmed(Guid categoriesId)
+        {
+            await _categoryService.All().Where(c => c.Id == categoriesId).ExecuteDeleteAsync();
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [ActionName("DeleteSubCategory")]
+        public async Task<IActionResult> DeleteSubCategoryConfirmed(Guid subCategoryId)
+        {
+            await _subCategoryService.All().Where(sc => sc.Id == subCategoryId).ExecuteDeleteAsync();
 
             return RedirectToAction(nameof(Index));
         }

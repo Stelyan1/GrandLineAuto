@@ -1,0 +1,49 @@
+﻿@using GrandLineAuto.Areas.Admin.Views.Models
+@model SubCategoryVM
+
+@{
+    ViewData["Title"] = "Create SubCategories";
+
+}
+
+<div class="brands-hero">
+    <h1>Create New SubCategory</h1>
+</div>
+
+<div class="form-wrapper">
+    <form asp-action="CreateSubCategory" method="post">
+        @Html.AntiForgeryToken()
+
+        <!-- Name -->
+        <div class="form-group">
+            <label asp-for="Name"></label>
+            <input asp-for="Name" class="form-control" placeholder="Brake Pads etc.." />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+
+        <!-- Image -->
+        <div class="form-group">
+            <label asp-for="ImageUrl"></label>
+            <input asp-for="ImageUrl" class="form-control" placeholder="Image URL" />
+            <span asp-validation-for="ImageUrl" class="text-danger"></span>
+        </div>
+
+        <!-- Brand -->
+        <div class="form-group">
+            <label asp-for="CategoryId"></label>
+            <select asp-for="CategoryId" asp-items="Model.Categories" class="form-control">
+                <option value="">-- Select Category --</option>
+            </select>
+            <span asp-validation-for="CategoryId" class="text-danger"></span>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Create</button>
+            <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
