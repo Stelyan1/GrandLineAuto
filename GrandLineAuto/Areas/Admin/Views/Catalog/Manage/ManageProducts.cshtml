@@ -1,0 +1,212 @@
+﻿@using GrandLineAuto.Data.Models
+@model IReadOnlyCollection<Product>
+
+@{
+    ViewData["Title"] = "Manage Products";
+    var q = (string?)ViewBag.Query;
+}
+
+<div class="brands-hero">
+    <h1>Browse Products for Edit/Delete</h1>
+
+    <form method="get" asp-action="Index" class="brands-search">
+        <input name="q" value="@q" placeholder="Search.." />
+        <button type="submit" aria-label="Search">🔎</button>
+    </form>
+</div>
+
+@if (Model == null || !Model.Any())
+{
+    <div class="empty-state">
+        <p>No brands found.</p>
+    </div>
+}
+else
+{
+    <div class="brands-grid">
+        @foreach (var b in Model)
+        {
+            <div class="brand-tile">
+                <!-- Картата (НЕ кликаема) -->
+                <div class="brand-card">
+                    <div class="brand-image">
+                        @if (!string.IsNullOrWhiteSpace(b.ImageUrl))
+                        {
+                            <img src="@b.ImageUrl" alt="@b.Name logo" loading="lazy" />
+                        }
+                        else
+                        {
+                            <div class="brand-fallback">No image</div>
+                        }
+                    </div>
+
+                    <div class="brand-name">@b.Name</div>
+                </div>
+
+                <!-- Бутоните (извън картата) -->
+                <div class="brand-actions">
+                    <a class="btn-edit"
+                       asp-action="EditProduct"
+                       asp-route-productId="@b.Id">
+                        Edit
+                    </a>
+
+
+                    <a class="btn-delete"
+                       asp-action="DeleteProduct"
+                       asp-route-productId="@b.Id"
+                       onclick="return confirm('Open delete page for @b.Name ?');">
+                        Delete
+                    </a>
+                </div>
+            </div>
+        }
+    </div>
+}
+
+<style>
+    .brands-hero {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        margin: 18px 0 22px 0;
+        flex-wrap: wrap;
+    }
+
+        .brands-hero h1 {
+            margin: 0;
+            font-size: 34px;
+            line-height: 1.1;
+            color: #0a8a0a;
+            flex: 1 1 520px;
+        }
+
+    .brands-search {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        flex: 0 1 360px;
+        border: 2px solid #111;
+        border-radius: 12px;
+        padding: 6px 10px;
+        background: #fff;
+    }
+
+        .brands-search input {
+            border: none;
+            outline: none;
+            width: 100%;
+            font-size: 20px;
+            color: #0a8a0a;
+        }
+
+        .brands-search button {
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            font-size: 20px;
+            padding: 4px 6px;
+        }
+
+    .brands-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+        gap: 18px;
+        margin-top: 10px;
+        align-items: start;
+    }
+
+    /* “Плочка” = карта + бутони */
+    .brand-tile {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .brand-card {
+        border: 2px solid #111;
+        border-radius: 16px;
+        padding: 12px;
+        transition: transform .12s ease, box-shadow .12s ease;
+        background: #fff;
+        user-select: none;
+    }
+
+        .brand-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 18px rgba(0,0,0,.10);
+        }
+
+    .brand-image {
+        height: 120px;
+        border-radius: 12px;
+        border: 2px solid #111;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        background: #fff;
+    }
+
+        .brand-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            background: #fff;
+        }
+
+    .brand-fallback {
+        font-size: 14px;
+        opacity: .7;
+    }
+
+    .brand-name {
+        margin-top: 10px;
+        font-size: 20px;
+        color: #0a8a0a;
+        text-align: left;
+        font-weight: 600;
+    }
+
+    .brand-actions {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        justify-content: flex-start;
+    }
+
+    .delete-form {
+        margin: 0;
+    }
+
+    .btn-edit, .btn-delete {
+        border: 2px solid #111;
+        border-radius: 6px;
+        padding: 6px 10px;
+        font-size: 14px;
+        font-weight: 700;
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        line-height: 1;
+    }
+
+    .btn-edit {
+        background: yellow;
+        color: #000;
+    }
+
+    .btn-delete {
+        background: red;
+        color: #000;
+    }
+
+    .empty-state {
+        margin-top: 20px;
+        opacity: .8;
+    }
+</style>
+

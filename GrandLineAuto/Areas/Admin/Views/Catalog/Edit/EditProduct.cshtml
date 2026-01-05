@@ -1,0 +1,108 @@
+﻿@using GrandLineAuto.Areas.Admin.Views.Models
+
+@model ProductVM
+
+@{
+    ViewData["Title"] = "Edit Product";
+}
+
+<div class="edit-container">
+    <h1 class="edit-title">Edit Product</h1>
+
+    <div class="edit-card">
+
+        <!-- Preview -->
+        <div class="edit-image">
+            @if (!string.IsNullOrWhiteSpace(Model.ImageUrl))
+            {
+                <img src="@Model.ImageUrl" alt="@Model.Name logo" height="250" width="250" />
+            }
+            else
+            {
+                <div class="brand-fallback">No image</div>
+            }
+        </div>
+
+        <form asp-action="EditProductConfirmed" method="post" class="edit-form">
+            @Html.AntiForgeryToken()
+
+            <!-- IMPORTANT -->
+            <input type="hidden" name="id" value="@Model.Id" />
+
+            <div class="form-group">
+                <label asp-for="Name"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="ImageUrl"></label>
+                <input asp-for="ImageUrl" class="form-control" />
+                <span asp-validation-for="ImageUrl" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Description"></label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="SpecificInfo1"></label>
+                <input asp-for="SpecificInfo1" class="form-control" placeholder="Specific info.." />
+                <span asp-validation-for="SpecificInfo1" class="text-danger"></span>
+            </div>
+
+             <div class="form-group">
+                <label asp-for="SpecificInfo2"></label>
+                <input asp-for="SpecificInfo2" class="form-control" placeholder="Specific info.." />
+                <span asp-validation-for="SpecificInfo2" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="SpecificInfo3"></label>
+                <input asp-for="SpecificInfo3" class="form-control" placeholder="Specific info.." />
+                <span asp-validation-for="SpecificInfo3" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="SpecificInfo4"></label>
+                <input asp-for="SpecificInfo4" class="form-control" placeholder="Specific info.." />
+                <span asp-validation-for="SpecificInfo4" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="SpecificInfo5"></label>
+                <input asp-for="SpecificInfo5" class="form-control" placeholder="Specific info.." />
+                <span asp-validation-for="SpecificInfo5" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="SpecificInfo6"></label>
+                <input asp-for="SpecificInfo6" class="form-control" placeholder="Specific info.." />
+                <span asp-validation-for="SpecificInfo6" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Price"></label>
+                <input asp-for="Price" class="form-control" placeholder="Price..." />
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+
+
+            <div class="edit-actions">
+                <button type="submit" class="btn-save">
+                    Save Changes
+                </button>
+
+                <a asp-action="Index" class="btn-cancel">
+                    Cancel
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

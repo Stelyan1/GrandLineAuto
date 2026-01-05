@@ -1,0 +1,126 @@
+﻿@using GrandLineAuto.Areas.Admin.Views.Models
+@model ProductVM
+
+@{
+    ViewData["Title"] = "Create Product";
+
+}
+
+<div class="brands-hero">
+    <h1>Create New Product</h1>
+</div>
+
+<div class="form-wrapper">
+    <form asp-action="CreateProduct" method="post">
+        @Html.AntiForgeryToken()
+
+        <!-- Name -->
+        <div class="form-group">
+            <label asp-for="Name"></label>
+            <input asp-for="Name" class="form-control" placeholder="e.g. A4, 3 Series" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+
+        <!-- Image -->
+        <div class="form-group">
+            <label asp-for="ImageUrl"></label>
+            <input asp-for="ImageUrl" class="form-control" placeholder="Image URL" />
+            <span asp-validation-for="ImageUrl" class="text-danger"></span>
+        </div>
+
+        <!-- Production Years -->
+        <div class="form-group">
+            <label asp-for="Description"></label>
+            <input asp-for="Description" class="form-control" placeholder="This product was made for..." />
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="SpecificInfo1"></label>
+            <input asp-for="SpecificInfo1" class="form-control" placeholder="Specific info..." />
+            <span asp-validation-for="SpecificInfo1" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="SpecificInfo2"></label>
+            <input asp-for="SpecificInfo2" class="form-control" placeholder="Specific info..." />
+            <span asp-validation-for="SpecificInfo2" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="SpecificInfo3"></label>
+            <input asp-for="SpecificInfo3" class="form-control" placeholder="Specific info..." />
+            <span asp-validation-for="SpecificInfo3" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="SpecificInfo4"></label>
+            <input asp-for="SpecificInfo4" class="form-control" placeholder="Specific info..." />
+            <span asp-validation-for="SpecificInfo4" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="SpecificInfo5"></label>
+            <input asp-for="SpecificInfo5" class="form-control" placeholder="Specific info..." />
+            <span asp-validation-for="SpecificInfo5" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="SpecificInfo6"></label>
+            <input asp-for="SpecificInfo6" class="form-control" placeholder="Specific info..." />
+            <span asp-validation-for="SpecificInfo6" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Price"></label>
+            <input asp-for="Price" class="form-control" placeholder="2506.54" />
+            <span asp-validation-for="Price" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="SubCategoryId"></label>
+            <select asp-for="SubCategoryId" asp-items="Model.SubCategories" class="form-control">
+                <option value="">-- Select SubCategory --</option>
+            </select>
+            <span asp-validation-for="SubCategoryId" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="ProductManufacturerId"></label>
+            <select asp-for="ProductManufacturerId" asp-items="Model.ProductManufacturers" class="form-control">
+                <option value="">-- Select ProductManufacturer --</option>
+            </select>
+            <span asp-validation-for="ProductManufacturerId" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Compatible Brand Models</label>
+
+            <div class="border rounded p-2" style="max-height:260px; overflow:auto;">
+                @foreach (var bm in Model.BrandModels)
+                {
+                    <div class="form-check">
+                        <input class="form-check-input"
+                               type="checkbox"
+                               name="SelectedBrandModelIds"
+                               value="@bm.Value"
+                               id="bm_@bm.Value" />
+
+                        <label class="form-check-label" for="bm_@bm.Value">
+                            @bm.Text
+                        </label>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Create</button>
+            <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

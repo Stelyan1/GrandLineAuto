@@ -17,6 +17,8 @@ using Brand = GrandLineAuto.Data.Models.Brand;
 using BrandModels = GrandLineAuto.Data.Models.BrandModels;
 using BrandModelsSeries = GrandLineAuto.Data.Models.BrandModelsSeries;
 using Category = GrandLineAuto.Data.Models.Category;
+using Product = GrandLineAuto.Data.Models.Product;
+using ProductManufacturer = GrandLineAuto.Data.Models.ProductManufacturer;
 using SubCategory = GrandLineAuto.Data.Models.SubCategory;
 
 namespace GrandLineAuto.Areas.Admin.Controllers
@@ -28,14 +30,22 @@ namespace GrandLineAuto.Areas.Admin.Controllers
         private readonly IBaseRepository<BrandModels> _brandModelsService;
         private readonly IBaseRepository<Category> _categoryService;
         private readonly IBaseRepository<SubCategory> _subCategoryService;
+        private readonly IBaseRepository<ProductManufacturer> _productManufacturerService;
+        private readonly IBaseRepository<Product> _productService;
+        private readonly IBaseRepository<BrandModelProductJoinTable> _brandModelProductJoinTableService;
 
-        public CatalogController(IBaseRepository<Brand> brandService, IBaseRepository<BrandModelsSeries> brandModelsSeriesService, IBaseRepository<BrandModels> brandModelsService, IBaseRepository<Category> categoryService, IBaseRepository<SubCategory> subCategoryService)
+        public CatalogController(IBaseRepository<Brand> brandService, IBaseRepository<BrandModelsSeries> brandModelsSeriesService, IBaseRepository<BrandModels> brandModelsService, 
+            IBaseRepository<Category> categoryService, IBaseRepository<SubCategory> subCategoryService,
+            IBaseRepository<ProductManufacturer> productManufacturerService, IBaseRepository<Product> productService, IBaseRepository<BrandModelProductJoinTable> brandModelProductJoinTableService)
         {
             _brandService = brandService;
             _brandModelsSeriesService = brandModelsSeriesService;
             _brandModelsService = brandModelsService;
             _categoryService = categoryService;
             _subCategoryService = subCategoryService;
+            _productManufacturerService = productManufacturerService;
+            _productService = productService;
+            _brandModelProductJoinTableService = brandModelProductJoinTableService;
         }
 
         public IActionResult Index() => View();
@@ -84,6 +94,14 @@ namespace GrandLineAuto.Areas.Admin.Controllers
         }
 
         [HttpGet]
+        public async Task<IActionResult> ManageProducts()
+        {
+            var products = await _productService.GetAllAsync();
+
+            return View("Areas/Admin/Views/Catalog/Manage/ManageProducts.cshtml", products);
+        }
+
+        [HttpGet]
         public IActionResult CreateBrand()
         {
             return View();
@@ -128,7 +146,7 @@ namespace GrandLineAuto.Areas.Admin.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> CreateSubCategory()
+        public IActionResult CreateSubCategory()
         {
             var categories = new SubCategoryVM
             {
@@ -142,7 +160,33 @@ namespace GrandLineAuto.Areas.Admin.Controllers
             return View(categories);
         }
 
-        public IActionResult CreateProduct() => View();
+        [HttpGet]
+        public IActionResult CreateProduct()
+        {
+            var model = new ProductVM
+            {
+               
+                SubCategories = _subCategoryService.All().OrderBy(sc => sc.Name).Select(sc => new SelectListItem
+                {
+                    Value = sc.Id.ToString(),
+                    Text = sc.Name
+                }),
+
+                ProductManufacturers = _productManufacturerService.All().OrderBy(pm => pm.Name).Select(pm => new SelectListItem
+                {
+                    Value = pm.Id.ToString(),
+                    Text = pm.Name
+                }),
+
+                BrandModels = _brandModelsService.All().OrderBy(bm => bm.Name).Select(bm => new SelectListItem
+                {
+                    Value = bm.Id.ToString(),
+                    Text = bm.Name
+                })
+            };
+
+            return View(model);
+        }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -226,6 +270,7 @@ namespace GrandLineAuto.Areas.Admin.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateCategory(Category model)
@@ -270,6 +315,73 @@ namespace GrandLineAuto.Areas.Admin.Controllers
 
             await _subCategoryService.AddAsync(entity); 
             
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateProduct(ProductVM model)
+        {
+            if (!ModelState.IsValid)
+            {
+                model = new ProductVM
+                {
+
+                    SubCategories = _subCategoryService.All().OrderBy(sc => sc.Name).Select(sc => new SelectListItem
+                    {
+                        Value = sc.Id.ToString(),
+                        Text = sc.Name
+                    }),
+
+                    ProductManufacturers = _productManufacturerService.All().OrderBy(pm => pm.Name).Select(pm => new SelectListItem
+                    {
+                        Value = pm.Id.ToString(),
+                        Text = pm.Name
+                    }),
+
+                    BrandModels = _brandModelsService.All().OrderBy(bm => bm.Name).Select(bm => new SelectListItem
+                    {
+                        Value = bm.Id.ToString(),
+                        Text = bm.Name
+                    })
+                };
+
+                return View(model);
+            }
+
+            var entity = new Product
+            {
+                Id = Guid.NewGuid(),
+                Name = model.Name,
+                ImageUrl = model.ImageUrl,
+                Description = model.Description,
+                SpecificInfo1 = model.SpecificInfo1,
+                SpecificInfo2 = model.SpecificInfo2,
+                SpecificInfo3 = model.SpecificInfo3,
+                SpecificInfo4 = model.SpecificInfo4,
+                SpecificInfo5 = model.SpecificInfo5,
+                SpecificInfo6 = model.SpecificInfo6,
+                Price = model.Price,
+                SubCategoryId = model.SubCategoryId,
+                ProductManufacturerId = model.ProductManufacturerId
+            };
+
+            await _productService.AddAsync(entity);
+
+            if (model.SelectedBrandModelIds != null && model.SelectedBrandModelIds.Count > 0)
+            {
+                foreach (var brandModelId in model.SelectedBrandModelIds.Distinct())
+                {
+                    await _brandModelProductJoinTableService.AddAsync(new BrandModelProductJoinTable
+                    {
+                        BrandModelId = brandModelId,
+                        ProductId = entity.Id
+                    });
+                }
+            }
+
+            await _productService.SaveChangesAsync();
+
             return RedirectToAction(nameof(Index));
         }
 
@@ -355,6 +467,29 @@ namespace GrandLineAuto.Areas.Admin.Controllers
             if (subCategory == null) { return NotFound(); }
 
             return View("Areas/Admin/Views/Catalog/Edit/EditSubCategory.cshtml", subCategory);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> EditProduct(Guid productId)
+        {
+            var product = await _productService.All().Where(p => p.Id == productId).Select(p => new ProductVM
+            {
+                Id = p.Id,
+                Name = p.Name,
+                ImageUrl = p.ImageUrl,
+                Description = p.Description,
+                SpecificInfo1 = p.SpecificInfo1,
+                SpecificInfo2 = p.SpecificInfo2,
+                SpecificInfo3 = p.SpecificInfo3,
+                SpecificInfo4 = p.SpecificInfo4,
+                SpecificInfo5 = p.SpecificInfo5,
+                SpecificInfo6 = p.SpecificInfo6,
+                Price = p.Price
+            }).FirstOrDefaultAsync();
+
+            if (product == null) { return NotFound(); }
+
+            return View("Areas/Admin/Views/Catalog/Edit/EditProduct.cshtml", product);
         }
 
         [HttpPost]
@@ -444,6 +579,37 @@ namespace GrandLineAuto.Areas.Admin.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditProductConfirmed(ProductVM model)
+        {
+            var edited = await _productService.All().FirstOrDefaultAsync(p => p.Id == model.Id);
+
+            edited.Name = model.Name;
+
+            edited.ImageUrl = model.ImageUrl;
+
+            edited.Description = model.Description;
+
+            edited.SpecificInfo1 = model.SpecificInfo1;
+
+            edited.SpecificInfo2 = model.SpecificInfo2;
+
+            edited.SpecificInfo3 = model.SpecificInfo3;
+
+            edited.SpecificInfo4 = model.SpecificInfo4;
+
+            edited.SpecificInfo5 = model.SpecificInfo5;
+
+            edited.SpecificInfo6 = model.SpecificInfo6;
+
+            edited.Price = model.Price;
+
+            await _productService.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
+        }
+
         [HttpGet]
         public async Task<IActionResult> DeleteBrand(Guid brandId)
         {
@@ -491,6 +657,16 @@ namespace GrandLineAuto.Areas.Admin.Controllers
             if (subCategory == null) { return NotFound(); }
 
             return View("Areas/Admin/Views/Catalog/Delete/DeleteSubCategory.cshtml", subCategory);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> DeleteProduct(Guid productId)
+        {
+            var product = await _productService.All().FirstOrDefaultAsync(p => p.Id == productId);
+
+            if (product == null) { return NotFound(); }
+
+            return View("Areas/Admin/Views/Catalog/Delete/DeleteProduct.cshtml", product);
         }
 
         [HttpPost]
@@ -541,5 +717,15 @@ namespace GrandLineAuto.Areas.Admin.Controllers
 
             return RedirectToAction(nameof(Index));
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [ActionName("DeleteProduct")]
+        public async Task<IActionResult> DeleteProductConfirmed(Guid productId)
+        {
+            await _productService.All().Where(p => p.Id == productId).ExecuteDeleteAsync();
+
+            return RedirectToAction(nameof(Index));
+        } 
     }
 }
