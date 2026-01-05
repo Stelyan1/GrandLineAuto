@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Identity.Client;
 using Microsoft.VisualStudio.TextTemplating;
 using Org.BouncyCastle.Crypto;
 using System.Threading.Tasks;
@@ -94,6 +95,14 @@ namespace GrandLineAuto.Areas.Admin.Controllers
         }
 
         [HttpGet]
+        public async Task<IActionResult> ManageProductManufacturer()
+        {
+            var productManufacturer = await _productManufacturerService.GetAllAsync();
+
+            return View("Areas/Admin/Views/Catalog/Manage/ManageProductManufacturer.cshtml", productManufacturer);
+        }
+
+        [HttpGet]
         public async Task<IActionResult> ManageProducts()
         {
             var products = await _productService.GetAllAsync();
@@ -161,6 +170,12 @@ namespace GrandLineAuto.Areas.Admin.Controllers
         }
 
         [HttpGet]
+        public IActionResult CreateProductManufacturer()
+        {
+            return View();
+        }
+
+        [HttpGet]
         public IActionResult CreateProduct()
         {
             var model = new ProductVM
@@ -187,6 +202,7 @@ namespace GrandLineAuto.Areas.Admin.Controllers
 
             return View(model);
         }
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -315,6 +331,26 @@ namespace GrandLineAuto.Areas.Admin.Controllers
 
             await _subCategoryService.AddAsync(entity); 
             
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateProductManufacturer(ProductManufacturer model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            var entity = new ProductManufacturer
+            {
+                Id = Guid.NewGuid(),
+                Name = model.Name
+            };
+
+            await _productManufacturerService.AddAsync(entity);
+
             return RedirectToAction(nameof(Index));
         }
 
@@ -470,6 +506,20 @@ namespace GrandLineAuto.Areas.Admin.Controllers
         }
 
         [HttpGet]
+        public async Task<IActionResult> EditProductManufacturer(Guid productManufacturerId)
+        {
+            var productManufacturer = await _productManufacturerService.All().Where(pm => pm.Id == productManufacturerId).Select(pm => new ProductManufacturerVM
+            {
+                Id = pm.Id,
+                Name = pm.Name
+            }).FirstOrDefaultAsync();
+
+            if (productManufacturer == null) { return NotFound(); }
+
+            return View("Areas/Admin/Views/Catalog/Edit/EditProductManufacturer.cshtml", productManufacturer);
+        }
+
+        [HttpGet]
         public async Task<IActionResult> EditProduct(Guid productId)
         {
             var product = await _productService.All().Where(p => p.Id == productId).Select(p => new ProductVM
@@ -581,6 +631,19 @@ namespace GrandLineAuto.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditProductManufacturerConfirmed(ProductManufacturerVM model)
+        {
+            var edited = await _productManufacturerService.All().FirstOrDefaultAsync(pm => pm.Id == model.Id);
+
+            edited.Name = model.Name;
+
+            await _productManufacturerService.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditProductConfirmed(ProductVM model)
         {
             var edited = await _productService.All().FirstOrDefaultAsync(p => p.Id == model.Id);
@@ -660,6 +723,16 @@ namespace GrandLineAuto.Areas.Admin.Controllers
         }
 
         [HttpGet]
+        public async Task<IActionResult> DeleteProductManufacturer(Guid productManufacturerId)
+        {
+            var productManufacturer = await _productManufacturerService.All().FirstOrDefaultAsync(pm => pm.Id == productManufacturerId);
+
+            if (productManufacturer == null) { return NotFound(); }
+
+            return View("Areas/Admin/Views/Catalog/Delete/DeleteProductManufacturer.cshtml", productManufacturer);
+        }
+
+        [HttpGet]
         public async Task<IActionResult> DeleteProduct(Guid productId)
         {
             var product = await _productService.All().FirstOrDefaultAsync(p => p.Id == productId);
@@ -714,6 +787,16 @@ namespace GrandLineAuto.Areas.Admin.Controllers
         public async Task<IActionResult> DeleteSubCategoryConfirmed(Guid subCategoryId)
         {
             await _subCategoryService.All().Where(sc => sc.Id == subCategoryId).ExecuteDeleteAsync();
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [ActionName("DeleteProductManufacturer")]
+        public async Task<IActionResult> DeleteProductManufacturerConfirmed(Guid productManufacturerId)
+        {
+            await _productManufacturerService.All().Where(pm => pm.Id == productManufacturerId).ExecuteDeleteAsync();
 
             return RedirectToAction(nameof(Index));
         }

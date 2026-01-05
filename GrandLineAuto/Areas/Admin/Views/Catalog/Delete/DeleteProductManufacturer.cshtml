@@ -1,0 +1,123 @@
+﻿@using GrandLineAuto.Data.Models
+@model ProductManufacturer
+
+@{
+    ViewData["Title"] = "Delete ProductManufacturer";
+}
+
+<div class="delete-container">
+
+    <h1 class="delete-title">Delete ProductManufacturer</h1>
+
+    <div class="delete-card">
+        <div class="delete-image">
+           
+                <div class="brand-fallback">No image</div>
+            
+        </div>
+
+        <div class="delete-info">
+            <h2>@Model.Name</h2>
+            <p class="warning">
+                ⚠️ This action <strong>cannot be undone</strong>.<br />
+                All related data may be affected.
+            </p>
+        </div>
+
+        <div class="delete-actions">
+            <form asp-action="DeleteProductManufacturer" method="post">
+                @Html.AntiForgeryToken()
+                <input type="hidden" name="productManufacturerId" value="@Model.Id" />
+
+                <button type="submit" class="btn-delete">
+                    Yes, Delete
+                </button>
+            </form>
+
+            <a asp-action="Index" class="btn-cancel">
+                Cancel
+            </a>
+        </div>
+    </div>
+</div>
+
+<style>
+    .delete-container {
+        max-width: 600px;
+        margin: 40px auto;
+    }
+
+    .delete-title {
+        font-size: 32px;
+        color: #b30000;
+        margin-bottom: 20px;
+    }
+
+    .delete-card {
+        border: 2px solid #111;
+        border-radius: 16px;
+        padding: 20px;
+        background: #fff;
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+    }
+
+    .delete-image {
+        height: 160px;
+        border: 2px solid #111;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+    }
+
+        .delete-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+    .brand-fallback {
+        opacity: .6;
+    }
+
+    .delete-info h2 {
+        margin: 0;
+        font-size: 24px;
+        color: #0a8a0a;
+    }
+
+    .warning {
+        margin-top: 10px;
+        color: #b30000;
+        font-size: 15px;
+        line-height: 1.4;
+    }
+
+    .delete-actions {
+        display: flex;
+        gap: 14px;
+        margin-top: 10px;
+    }
+
+    .btn-delete {
+        background: red;
+        border: 2px solid #111;
+        padding: 10px 16px;
+        font-weight: 700;
+        cursor: pointer;
+    }
+
+    .btn-cancel {
+        background: #eee;
+        border: 2px solid #111;
+        padding: 10px 16px;
+        font-weight: 700;
+        text-decoration: none;
+        color: #000;
+        display: inline-flex;
+        align-items: center;
+    }
+</style>
