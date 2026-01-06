@@ -5,10 +5,11 @@
     var q = Context.Request.Query["q"].ToString();
     var subcategoryName = ViewBag.SeriesName as string;
     var guidId = Context.Request.Query["guidId"].ToString();
+    var modelId = ViewBag.ModelId;
 }
 
 <div class="brands-hero">
-    <h1>@(string.IsNullOrWhiteSpace(subcategoryName) ? "Browse sub categories" : $"Browse categories {subcategoryName}")</h1>
+    <h1>@(string.IsNullOrWhiteSpace(subcategoryName) ? "Browse sub categories" : $"Browse {subcategoryName}")</h1>
 
     <form method="get" asp-action="Index" class="brands-search">
         <input type="hidden" name="guidId" value="@guidId" />
@@ -20,7 +21,7 @@
 @if (Model == null || !Model.Any())
 {
     <div class="empty-state">
-        <p>No models found.</p>
+        <p>No sub categories found.</p>
     </div>
 }
 else
@@ -32,13 +33,12 @@ else
                asp-controller="Product"
                asp-action="Index"
                asp-route-subCategoryId="@m.Id"
-               asp-route-modelId="@ViewBag.ModelId">
+               asp-route-modelId="@modelId">
 
                 <div class="brand-image">
                     @if (!string.IsNullOrWhiteSpace(m.ImageUrl))
                     {
-                        <img src="@m.ImageUrl" alt="@m.Name" alt="@m.Name" loading="lazy" />
-                        <div>@m.Name</div>
+                        <img src="@m.ImageUrl" alt="@m.Name" loading="lazy" />
                     }
                     else
                     {
@@ -85,17 +85,22 @@ else
             border: none;
             outline: none;
             width: 100%;
-            font-size: 20px;
-            color: #0a8a0a;
+            font-size: 18px;
+            color: #111;
         }
 
         .brands-search button {
             border: none;
             background: transparent;
             cursor: pointer;
-            font-size: 20px;
+            font-size: 18px;
             padding: 4px 6px;
         }
+
+    .empty-state {
+        margin-top: 20px;
+        opacity: .8;
+    }
 
     .brands-grid {
         display: grid;
@@ -127,13 +132,13 @@ else
         align-items: center;
         justify-content: center;
         overflow: hidden;
+        background: #fff;
     }
 
         .brand-image img {
             width: 100%;
             height: 100%;
             object-fit: contain;
-            background: #fff;
         }
 
     .brand-fallback {
@@ -149,9 +154,18 @@ else
         font-weight: 600;
     }
 
-    .empty-state {
-        margin-top: 20px;
-        opacity: .8;
+    
+
+    .brands-search {
+        flex: 1 1 100%;
+    }
+
     }
 </style>
+
+
+
+
+
+
 

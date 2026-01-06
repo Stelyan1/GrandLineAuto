@@ -1,0 +1,65 @@
+﻿@model Order
+@using System.Globalization
+@using GrandLineAuto.Data.Models.OrderEntities
+
+@{
+    ViewData["Title"] = "Order Success";
+}
+
+<div class="container" style="max-width: 900px; margin: 30px auto;">
+    <h1>✅ Order placed successfully</h1>
+    <p style="opacity:.8;">Order ID: <strong>@Model.Id</strong></p>
+
+    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:16px; margin-top:16px;">
+        <div style="border:1px solid #eee; border-radius:12px; padding:16px;">
+            <h5>Shipping</h5>
+            <div><strong>@Model.ShippingAddress.FullName</strong></div>
+            <div>@Model.ShippingAddress.Phone</div>
+            <div>@Model.ShippingAddress.AddressLine1</div>
+            @if (!string.IsNullOrWhiteSpace(Model.ShippingAddress.AddressLine2))
+            {
+                <div>@Model.ShippingAddress.AddressLine2</div>
+            }
+            <div>@Model.ShippingAddress.City @Model.ShippingAddress.PostalCode</div>
+            <div>@Model.ShippingAddress.Country</div>
+        </div>
+
+        <div style="border:1px solid #eee; border-radius:12px; padding:16px;">
+            <h5>Summary</h5>
+            <div>Status: <strong>@Model.Status</strong></div>
+            <div>Created: @Model.CreatedOnUtc.ToString("yyyy-MM-dd HH:mm")</div>
+            <div style="margin-top:10px; font-size:18px;">
+                Total: <strong>@Model.TotalAmount.ToString("0.00", CultureInfo.InvariantCulture)</strong>
+            </div>
+        </div>
+    </div>
+
+    <div style="border:1px solid #eee; border-radius:12px; overflow:hidden; margin-top:16px;">
+        <table class="table" style="margin:0;">
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th style="width:120px;">Unit Price</th>
+                    <th style="width:100px;">Qty</th>
+                    <th style="width:140px;">Line Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var i in Model.Items)
+                {
+                    <tr>
+                        <td>@i.ProductName</td>
+                        <td>@i.UnitPrice.ToString("0.00", CultureInfo.InvariantCulture)</td>
+                        <td>@i.Quantity</td>
+                        <td>@( (i.UnitPrice * i.Quantity).ToString("0.00", CultureInfo.InvariantCulture) )</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <div style="margin-top:16px; display:flex; gap:10px;">
+        <a class="btn btn-primary" asp-action="MyOrders">My Orders</a>
+        <a class="btn btn-outline-secondary" asp-controller="Catalog" asp-action="Index">Continue shopping</a>
+    </div>
+</div>

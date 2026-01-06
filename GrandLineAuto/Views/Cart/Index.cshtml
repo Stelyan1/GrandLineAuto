@@ -1,0 +1,96 @@
+﻿@using System.Globalization
+@using GrandLineAuto.Data.Models.CartEntities
+@model IReadOnlyCollection<CartItem>
+
+@{
+    ViewData["Title"] = "Cart";
+    var total = Model?.Sum(i => (i.Product?.Price ?? 0m) * i.Quantity) ?? 0m;
+}
+
+<div class="container" style="max-width: 1100px; margin: 30px auto;">
+    <h1 style="margin-bottom:16px;">🛒 Your Cart</h1>
+
+    @if (Model == null || !Model.Any())
+    {
+        <div style="padding:16px; border:1px solid #eee; border-radius:12px;">
+            <p style="margin:0;">Cart is empty.</p>
+        </div>
+    }
+    else
+    {
+        <form asp-action="Clear" method="post" style="margin-bottom:12px;">
+            @Html.AntiForgeryToken()
+            <button class="btn btn-outline-danger" type="submit">Clear Cart</button>
+        </form>
+
+        <div style="border:1px solid #eee; border-radius:12px; overflow:hidden;">
+            <table class="table" style="margin:0;">
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th style="width:120px;">Price</th>
+                        <th style="width:170px;">Quantity</th>
+                        <th style="width:140px;">Line Total</th>
+                        <th style="width:120px;"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        var price = item.Product.Price;
+                        var lineTotal = price * item.Quantity;
+
+                        <tr>
+                            <td>
+                                <div style="display:flex; gap:12px; align-items:center;">
+                                    
+                                    <div>
+                                        <img src= "@item.Product.ImageUrl" height="250px" width="250px"/>
+                                        <div style="font-weight:600;">@item.Product.Name</div>
+                                        <div style="opacity:.7; font-size:13px;">@item.ProductId</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>@price.ToString("0.00", CultureInfo.InvariantCulture)</td>
+                            <td>
+                                <div style="display:flex; gap:8px; align-items:center;">
+                                    <form asp-action="Decrease" method="post">
+                                        @Html.AntiForgeryToken()
+                                        <input type="hidden" name="id" value="@item.Id" />
+                                        <button class="btn btn-outline-secondary" type="submit">-</button>
+                                    </form>
+
+                                    <span style="min-width:30px; text-align:center;">@item.Quantity</span>
+
+                                    <form asp-action="Increase" method="post">
+                                        @Html.AntiForgeryToken()
+                                        <input type="hidden" name="id" value="@item.Id" />
+                                        <button class="btn btn-outline-secondary" type="submit">+</button>
+                                    </form>
+                                </div>
+                            </td>
+                            <td>@lineTotal.ToString("0.00", CultureInfo.InvariantCulture)</td>
+                            <td>
+                                <form asp-action="Remove" method="post">
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" name="id" value="@item.Id" />
+                                    <button class="btn btn-outline-danger" type="submit">Remove</button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-top:16px;">
+            <div style="font-size:18px; font-weight:700;">
+                Total: @total.ToString("0.00", CultureInfo.InvariantCulture)
+            </div>
+
+            <a class="btn btn-primary" asp-controller="Orders" asp-action="Checkout">
+                Checkout →
+            </a>
+        </div>
+    }
+</div>

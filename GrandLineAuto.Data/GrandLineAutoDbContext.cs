@@ -13,7 +13,8 @@ using System.Reflection;
 
 namespace GrandLineAuto.Data
 {
-    public class GrandLineAutoDbContext : IdentityDbContext<IdentityUser>
+    //IdentityDbContext<IdentityUser>
+    public class GrandLineAutoDbContext : IdentityDbContext<ApplicationUser, IdentityRole<Guid>, Guid>
     {
         public GrandLineAutoDbContext(DbContextOptions<GrandLineAutoDbContext> options) : base (options)
         {

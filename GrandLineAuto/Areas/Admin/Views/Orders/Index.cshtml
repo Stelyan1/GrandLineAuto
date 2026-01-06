@@ -1,0 +1,44 @@
+﻿@using GrandLineAuto.Data.Models.OrderEntities
+@model IReadOnlyCollection<Order>
+
+@{
+    ViewData["Title"] = "Orders";
+}
+
+<div class="container" style="max-width: 1200px; margin: 30px auto;">
+    <h1 style="margin-bottom: 16px;">🛠️ Orders (Admin)</h1>
+
+    <div style="border:1px solid #eee; border-radius:12px; overflow:hidden;">
+        <table class="table" style="margin:0;">
+            <thead>
+                <tr>
+                    <th>Created</th>
+                    <th>Order Id</th>
+                    <th>Status</th>
+                    <th>Customer</th>
+                    <th style="width:160px;">Total</th>
+                    <th style="width:120px;"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var o in Model)
+                {
+                    <tr>
+                        <td>@o.CreatedOnUtc.ToString("yyyy-MM-dd HH:mm")</td>
+                        <td>@o.Id</td>
+                        <td>@o.Status</td>
+                        <td>@o.ShippingAddress.FullName</td>
+                        <td>@o.TotalAmount.ToString("0.00")</td>
+                        <td>
+                            <a class="btn btn-outline-primary btn-sm"
+                               asp-area="Admin"
+                               asp-controller="Orders"
+                               asp-action="Details"
+                               asp-route-id="@o.Id">Details</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

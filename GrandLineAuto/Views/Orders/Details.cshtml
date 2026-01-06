@@ -1,0 +1,46 @@
+﻿@model Order
+@using System.Globalization
+@using GrandLineAuto.Data.Models.OrderEntities
+
+@{
+    ViewData["Title"] = "Order Details";
+}
+
+<div class="container" style="max-width: 900px; margin: 30px auto;">
+    <h1>Order Details</h1>
+    <p style="opacity:.8;">Order ID: <strong>@Model.Id</strong></p>
+
+    <div style="border:1px solid #eee; border-radius:12px; padding:16px; margin-top:16px;">
+        <div>Status: <strong>@Model.Status</strong></div>
+        <div>Created: @Model.CreatedOnUtc.ToString("yyyy-MM-dd HH:mm")</div>
+        <div style="margin-top:10px;">Total: <strong>@Model.TotalAmount.ToString("0.00", CultureInfo.InvariantCulture)</strong></div>
+    </div>
+
+    <div style="border:1px solid #eee; border-radius:12px; overflow:hidden; margin-top:16px;">
+        <table class="table" style="margin:0;">
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th style="width:120px;">Unit Price</th>
+                    <th style="width:100px;">Qty</th>
+                    <th style="width:140px;">Line Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var i in Model.Items)
+                {
+                    <tr>
+                        <td>@i.ProductName</td>
+                        <td>@i.UnitPrice.ToString("0.00", CultureInfo.InvariantCulture)</td>
+                        <td>@i.Quantity</td>
+                        <td>@( (i.UnitPrice * i.Quantity).ToString("0.00", CultureInfo.InvariantCulture) )</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <div style="margin-top:16px;">
+        <a class="btn btn-outline-secondary" asp-action="MyOrders">← Back</a>
+    </div>
+</div>

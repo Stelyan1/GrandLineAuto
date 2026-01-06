@@ -1,12 +1,18 @@
 using GrandLineAuto.Data;
+using GrandLineAuto.Data.Models.UserEntities;
 using GrandLineAuto.Infrastructure.Identity;
 using GrandLineAuto.Infrastructure.Repositories;
 using GrandLineAuto.Infrastructure.Repositories.Interfaces;
+using GrandLineAuto.Infrastructure.Repositories.Purchasing;
+using GrandLineAuto.Infrastructure.Repositories.Purchasing.Interfaces;
 using GrandLineAuto.Infrastructure.Services;
 using GrandLineAuto.Infrastructure.Services.Interfaces;
+using GrandLineAuto.Infrastructure.Services.Purchasing;
+using GrandLineAuto.Infrastructure.Services.Purchasing.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using NPOI.SS.Formula.Functions;
 using System.Threading.Tasks;
 
@@ -27,7 +33,8 @@ namespace GrandLineAuto
             builder.Services.AddSingleton<IEmailSender, Infrastructure.Services.NoOpEmailSender>();
 
             // Add Identity Services
-            builder.Services.AddIdentity<IdentityUser, IdentityRole>(cfg =>
+
+            builder.Services.AddIdentity<ApplicationUser, IdentityRole<Guid>>(cfg =>
             {
                 cfg.Password.RequireDigit = true;
 
@@ -63,6 +70,18 @@ namespace GrandLineAuto
             builder.Services.AddScoped(typeof(ISubCategoryService), typeof(SubCategoryService));
 
             builder.Services.AddScoped(typeof(IProductService), typeof(ProductService));
+
+            builder.Services.AddScoped(typeof(ICartRepository), typeof(CartRepository));
+
+            builder.Services.AddScoped(typeof(IOrderRepository), typeof(OrderRepository));
+
+            builder.Services.AddScoped(typeof(IUnitOfWork), typeof(UnitOfWork));
+
+            builder.Services.AddScoped(typeof(ICartService), typeof(CartService));
+
+            builder.Services.AddScoped(typeof(IOrderService), typeof(OrderService));
+
+           
 
             builder.Services.AddRazorPages();
             

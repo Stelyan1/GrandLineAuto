@@ -45,7 +45,8 @@ namespace GrandLineAuto.Data.Configuration
             builder.Property(p => p.SpecificInfo6);
 
             builder.Property(p => p.Price)
-                   .IsRequired();
+                   .IsRequired()
+                   .HasPrecision(18, 2);
 
             builder.HasData(SeedProducts());
         }

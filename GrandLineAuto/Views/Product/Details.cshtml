@@ -3,8 +3,6 @@
 @{
     ViewData["Title"] = Model.Name;
 
-    // 1) Ако пълниш SpecificInfo като "Ключ: Стойност" (пример: "Производител: ATE")
-    // ще ги разбием на key/value. Ако няма ":", ще го покажем като един текст в value.
     (string Key, string Value)? ParseSpec(string s)
     {
         if (string.IsNullOrWhiteSpace(s)) return null;
@@ -18,7 +16,6 @@
                 return (k, v);
         }
 
-        // fallback
         return ("Информация", s.Trim());
     }
 
@@ -35,15 +32,155 @@
         .Select(x => x!.Value)
         .ToList();
 
-    // 2) Демо за “стара цена” и “% отстъпка” – ако нямаш такива в модела, ги симулираме.
-    // Махни ги или ги замени с твои полета, когато ги добавиш.
     var oldPrice = Model.Price > 0 ? Math.Round(Model.Price * 1.25m, 2) : 0;
     var discountPercent = Model.Price > 0 ? (int)Math.Round((1 - (Model.Price / oldPrice)) * 100) : 0;
 
-    // 3) Примерно EUR (ако искаш да го показваш). Махни ако не ти трябва.
-    // Не е реален курс – само визуално.
     var eur = Model.Price > 0 ? Math.Round(Model.Price / 1.95583m, 2) : 0;
 }
+
+<style>
+    .product-hero-card {
+        border: 1px solid rgba(0,0,0,.06);
+        border-radius: 18px;
+        box-shadow: 0 10px 24px rgba(0,0,0,.06);
+    }
+
+    .product-image-wrap {
+        background: #f6f7f9;
+        border-radius: 16px;
+        border: 1px solid rgba(0,0,0,.06);
+        overflow: hidden;
+        display: grid;
+        place-items: center;
+        min-height: 360px;
+    }
+
+        .product-image-wrap img {
+            max-height: 340px;
+            width: 100%;
+            object-fit: contain;
+            padding: 18px;
+            transition: transform .25s ease;
+        }
+
+        .product-image-wrap:hover img {
+            transform: scale(1.02);
+        }
+
+    .price-big {
+        font-size: clamp(28px, 3.2vw, 44px);
+        line-height: 1.05;
+        letter-spacing: -0.6px;
+    }
+
+    .badge-discount {
+        background: rgba(220,53,69,.10);
+        color: #dc3545;
+        border: 1px solid rgba(220,53,69,.22);
+        border-radius: 999px;
+        padding: 8px 12px;
+        font-weight: 700;
+        font-size: 12px;
+    }
+
+    .qty-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px;
+        border-radius: 999px;
+        border: 1px solid rgba(0,0,0,.10);
+        background: #fff;
+        box-shadow: 0 8px 18px rgba(0,0,0,.05);
+    }
+
+        .qty-pill button {
+            width: 38px;
+            height: 38px;
+            border-radius: 999px;
+            border: 1px solid rgba(0,0,0,.12);
+            background: #fff;
+            font-weight: 700;
+        }
+
+            .qty-pill button:hover {
+                background: #f6f7f9;
+            }
+
+        .qty-pill input {
+            width: 54px;
+            text-align: center;
+            border: 0;
+            outline: none;
+            font-weight: 700;
+            background: transparent;
+        }
+
+    .btn-add-modern {
+        border: 0;
+        border-radius: 14px;
+        padding: 14px 16px;
+        font-weight: 800;
+        letter-spacing: .3px;
+        color: #fff;
+        background: linear-gradient(135deg, #ff3b30, #d91e36);
+        box-shadow: 0 14px 28px rgba(217,30,54,.25);
+        transition: transform .15s ease, box-shadow .15s ease, filter .15s ease;
+    }
+
+        .btn-add-modern:hover {
+            transform: translateY(-1px);
+            filter: brightness(1.02);
+            box-shadow: 0 18px 34px rgba(217,30,54,.30);
+        }
+
+        .btn-add-modern:active {
+            transform: translateY(0);
+        }
+
+    .meta-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 12px;
+        border-radius: 999px;
+        border: 1px solid rgba(0,0,0,.08);
+        background: #fff;
+        color: #6c757d;
+        font-size: 13px;
+    }
+
+    .tabs-card {
+        border: 1px solid rgba(0,0,0,.06);
+        border-radius: 18px;
+        overflow: hidden;
+        box-shadow: 0 10px 24px rgba(0,0,0,.05);
+        background: #fff;
+    }
+
+        .tabs-card .nav-tabs {
+            padding: 10px 12px;
+            background: #fbfbfc;
+            border-bottom: 1px solid rgba(0,0,0,.06);
+        }
+
+            .tabs-card .nav-tabs .nav-link {
+                border: 0;
+                border-radius: 999px;
+                padding: 10px 14px;
+                color: #495057;
+                font-weight: 700;
+            }
+
+                .tabs-card .nav-tabs .nav-link.active {
+                    background: #111827;
+                    color: #fff;
+                }
+
+    .spec-table td, .spec-table th {
+        padding: 12px 10px;
+    }
+</style>
 
 <div class="container py-4">
 
@@ -57,131 +194,125 @@
         </ol>
     </nav>
 
-    <div class="row g-4">
-        <!-- LEFT: Image -->
-        <div class="col-12 col-lg-6">
-            <div class="card border-0 shadow-sm">
-                <div class="card-body p-3 p-md-4">
-                    <div class="ratio ratio-4x3 bg-light rounded">
-                        <img src="@Model.ImageUrl"
-                             alt="@Model.Name"
-                             class="img-fluid rounded object-fit-contain"
-                             style="padding:12px;" />
-                    </div>
+  
+    <div class="row g-4 align-items-start">
 
-                    <div class="mt-3 small text-muted">
-                        @* Тук можеш да покажеш доп. инфо/галерия по-късно *@
-                        <span class="me-2">#@Model.Id.ToString().Substring(0, 8)</span>
-                        <span class="text-secondary">•</span>
-                        <span class="ms-2">Снимката е примерна</span>
-                    </div>
+     
+        <div class="col-12 col-lg-6">
+            <div class="product-hero-card p-3 p-md-4">
+                <div class="product-image-wrap">
+                    <img src="@Model.ImageUrl" alt="@Model.Name" />
+                </div>
+
+                <div class="mt-3 d-flex flex-wrap gap-2 align-items-center">
+                    <span class="meta-pill">#@Model.Id.ToString().Substring(0, 8)</span>
+                    <span class="meta-pill">Снимката е примерна</span>
                 </div>
             </div>
         </div>
 
-        <!-- RIGHT: Info -->
+
         <div class="col-12 col-lg-6">
-            <div class="d-flex align-items-start justify-content-between gap-3">
-                <div>
-                    <h2 class="h4 mb-1">@Model.Name</h2>
+            <div class="product-hero-card p-3 p-md-4">
 
-                    <div class="text-muted mb-2">
-                        парт номер:
-                        <span class="fw-semibold">
-                            @* Ако SpecificInfo1 ти е парт номера — използвай него.
-                               Иначе си остави ID/или добави ProductNumber поле в DTO. *@
-                            @(specsRaw.FirstOrDefault(x => !string.IsNullOrWhiteSpace(x)) ?? Model.Id.ToString())
-                        </span>
+                <div class="d-flex justify-content-between gap-3">
+                    <div>
+                        <h1 class="h4 mb-1">@Model.Name</h1>
+
+                        <div class="text-muted mb-2">
+                            парт номер:
+                            <span class="fw-semibold">
+                                @(specsRaw.FirstOrDefault(x => !string.IsNullOrWhiteSpace(x)) ?? Model.Id.ToString())
+                            </span>
+                        </div>
+
+                        <div class="d-flex align-items-center gap-2">
+                            <div class="text-warning" style="letter-spacing:1px;">★★★★☆</div>
+                            <a href="#reviews" class="small text-decoration-none text-muted">оценете</a>
+                        </div>
                     </div>
 
-                    <!-- Rating визуално -->
-                    <div class="d-flex align-items-center gap-2 mb-3">
-                        <div class="text-warning" style="letter-spacing:1px;">
-                            ★★★★☆
-                        </div>
-                        <a href="#reviews" class="small text-decoration-none text-muted">оценете</a>
+                    <div class="text-end">
+                        @if (discountPercent > 0)
+                        {
+                            <span class="badge-discount">-@discountPercent%</span>
+                        }
                     </div>
                 </div>
 
-                <div class="text-end">
-                    @if (discountPercent > 0)
-                    {
-                        <span class="badge bg-danger-subtle text-danger border border-danger-subtle rounded-pill px-3 py-2">
-                            -@discountPercent%
-                        </span>
-                    }
-                </div>
-            </div>
+                <hr class="my-3" />
 
-            <hr class="my-3" />
+                <div class="d-flex align-items-end justify-content-between flex-wrap gap-3">
+                    <div>
+                        @if (oldPrice > Model.Price && Model.Price > 0)
+                        {
+                            <div class="text-muted text-decoration-line-through">
+                                @oldPrice.ToString("0.00") лв.
+                            </div>
+                        }
 
-            <!-- Price block -->
-            <div class="d-flex align-items-end justify-content-between flex-wrap gap-3">
-                <div>
-                    @if (oldPrice > Model.Price && Model.Price > 0)
-                    {
-                        <div class="text-muted text-decoration-line-through">
-                            @oldPrice.ToString("0.00") лв.
+                        <div class="price-big fw-bold">
+                            @Model.Price.ToString("0.00") лв.
                         </div>
-                    }
 
-                    <div class="display-6 fw-bold lh-1">
-                        @Model.Price.ToString("0.00") лв.
+                        @if (eur > 0)
+                        {
+                            <div class="text-muted small mt-1">
+                                @eur.ToString("0.00") € <span class="ms-2">цена с ДДС</span>
+                            </div>
+                        }
+
+                        @if (oldPrice > Model.Price && Model.Price > 0)
+                        {
+                            var save = Math.Round(oldPrice - Model.Price, 2);
+                            <div class="small text-success mt-2">
+                                спестявате: @save.ToString("0.00") лв.
+                            </div>
+                        }
                     </div>
 
-                    @if (eur > 0)
-                    {
-                        <div class="text-muted small mt-1">
-                            @eur.ToString("0.00") €
-                            <span class="ms-2">цена с ДДС</span>
-                        </div>
-                    }
-
-                    @if (oldPrice > Model.Price && Model.Price > 0)
-                    {
-                        var save = Math.Round(oldPrice - Model.Price, 2);
-                        <div class="small text-success mt-2">
-                            спестявате: @save.ToString("0.00") лв.
-                        </div>
-                    }
+                    <div class="text-end small text-muted">
+                        <div>Наличност: <span class="text-success fw-semibold">в наличност</span></div>
+                        <div>Доставка: 1–2 работни дни</div>
+                    </div>
                 </div>
 
-                <div class="text-end small text-muted">
-                    <div>Наличност: <span class="text-success fw-semibold">в наличност</span></div>
-                    <div>Доставка: 1–2 работни дни</div>
+                <hr class="my-3" />
+
+              
+                <div class="d-flex flex-column flex-sm-row align-items-stretch gap-3">
+                    <div class="qty-pill">
+                        <button type="button" id="btnMinus" aria-label="Decrease">−</button>
+                        <input type="text" id="qtyInput" value="1" inputmode="numeric" />
+                        <button type="button" id="btnPlus" aria-label="Increase">+</button>
+                    </div>
+
+                    <form asp-controller="Cart" asp-action="Add" method="post" class="flex-grow-1">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="productId" value="@Model.Id" />
+                        <input type="hidden" name="quantity" id="qtyHidden" value="1" />
+
+                        <button type="submit" class="btn-add-modern w-100">
+                            <span class="me-2">🛒</span> ДОБАВИ В КОЛИЧКАТА
+                        </button>
+                    </form>
                 </div>
-            </div>
 
-            <hr class="my-3" />
-
-            <!-- Qty + Add to cart -->
-            <div class="d-flex flex-column flex-sm-row align-items-stretch gap-3">
-                <div class="input-group" style="max-width: 170px;">
-                    <button class="btn btn-outline-secondary" type="button" id="btnMinus">−</button>
-                    <input type="text" class="form-control text-center" value="1" id="qtyInput" inputmode="numeric" />
-                    <button class="btn btn-outline-secondary" type="button" id="btnPlus">+</button>
+                <div class="d-flex flex-wrap align-items-center gap-3 mt-3">
+                    <a href="#" class="meta-pill text-decoration-none">
+                        <span style="font-size:16px;">♡</span> Любими
+                    </a>
+                    <span class="meta-pill">Купи на кредит: tbi / UniCredit (визуално)</span>
                 </div>
 
-                <form asp-controller="Cart" asp-action="Add" method="post" class="flex-grow-1">
-                    @Html.AntiForgeryToken()
-                    <input type="hidden" name="productId" value="@Model.Id" />
-                    <input type="hidden" name="quantity" id="qtyHidden" value="1" />
-
-                    <button type="submit" class="btn btn-danger w-100 py-2 fw-semibold">
-                        <span class="me-2">🛒</span> ДОБАВИ В КОЛИЧКАТА
-                    </button>
-                </form>
             </div>
+        </div>
+    </div>
 
-            <div class="d-flex align-items-center gap-4 mt-3 text-muted small">
-                <a href="#" class="text-decoration-none text-muted">
-                    ♡ Любими
-                </a>
-                <span>Купи на кредит: tbi / UniCredit (визуално)</span>
-            </div>
-
-            <!-- Tabs / Description / Specs -->
-            <div class="mt-4">
+    
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="tabs-card">
                 <ul class="nav nav-tabs" id="productTabs" role="tablist">
                     <li class="nav-item" role="presentation">
                         <button class="nav-link active" id="desc-tab" data-bs-toggle="tab" data-bs-target="#desc"
@@ -197,9 +328,9 @@
                     </li>
                 </ul>
 
-                <div class="tab-content border border-top-0 rounded-bottom p-3 p-md-4 bg-white" id="productTabsContent">
+                <div class="tab-content p-3 p-md-4" id="productTabsContent">
                     <div class="tab-pane fade show active" id="desc" role="tabpanel" aria-labelledby="desc-tab">
-                        <div class="text-muted">
+                        <div class="text-muted" style="white-space:pre-line;">
                             @Model.Description
                         </div>
                     </div>
@@ -208,12 +339,12 @@
                         @if (specs.Any())
                         {
                             <div class="table-responsive">
-                                <table class="table table-sm align-middle">
+                                <table class="table align-middle spec-table mb-0">
                                     <tbody>
                                         @foreach (var (key, value) in specs)
                                         {
                                             <tr>
-                                                <th class="text-muted fw-semibold" style="width:45%;">@key</th>
+                                                <th class="text-muted fw-semibold" style="width:42%;">@key</th>
                                                 <td class="fw-semibold">@value</td>
                                             </tr>
                                         }
@@ -228,9 +359,9 @@
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
+
 </div>
 
 @section Scripts {
@@ -252,6 +383,7 @@
                 const v = clampQty(qtyInput.value);
                 qtyInput.value = v;
                 qtyHidden.value = v;
+                minus.disabled = v <= 1;
             }
 
             minus.addEventListener('click', () => { qtyInput.value = clampQty(qtyInput.value) - 1; sync(); });
@@ -261,3 +393,4 @@
         })();
     </script>
 }
+

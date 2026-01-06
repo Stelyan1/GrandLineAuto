@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using GrandLineAuto.Data.Models.UserEntities;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -13,8 +14,8 @@ namespace GrandLineAuto.Infrastructure.Identity
     {
         public static async Task EnsureAdminAsync(IServiceProvider services, IConfiguration config)
         {
-            var userManager = services.GetRequiredService<UserManager<IdentityUser>>();
-            var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+            var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
+            var roleManager = services.GetRequiredService<RoleManager<IdentityRole<Guid>>>();
 
             var email = config["Admin:Email"];
             var password = config["Admin:Password"];
@@ -27,7 +28,7 @@ namespace GrandLineAuto.Infrastructure.Identity
             // Ensure role exists
             if (!await roleManager.RoleExistsAsync(roleName))
             {
-                var roleResult = await roleManager.CreateAsync(new IdentityRole(roleName));
+                var roleResult = await roleManager.CreateAsync(new IdentityRole<Guid>(roleName));
                 if (!roleResult.Succeeded)
                     throw new Exception(string.Join(" | ", roleResult.Errors.Select(e => e.Description)));
             }
@@ -37,9 +38,11 @@ namespace GrandLineAuto.Infrastructure.Identity
 
             if (user == null)
             {
-                user = new IdentityUser
+                var username = email.Contains('@') ? email[..email.IndexOf('@')] : email;
+
+                user = new ApplicationUser
                 {
-                    UserName = email,          // username = email
+                    UserName = username,          // username = email without @ and the text after it.
                     Email = email,
                     EmailConfirmed = true
                 };
@@ -60,7 +63,7 @@ namespace GrandLineAuto.Infrastructure.Identity
                 }
             }
 
-            // Add to role (THIS is what you wanted)
+            // Add to role
             if (!await userManager.IsInRoleAsync(user, roleName))
             {
                 var addRoleResult = await userManager.AddToRoleAsync(user, roleName);
