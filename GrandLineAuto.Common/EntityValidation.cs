@@ -58,6 +58,12 @@
             public const byte ProductManufacturerNameMinLength = 3;
             public const byte ProductManufacturerNameMaxLength = 50;
         }
+
+        public static class OrderItem
+        {
+            public const byte ProductNameMinLength = 3;
+            public const byte ProductNameMaxLength = 200;
+        }
     }
     
 }

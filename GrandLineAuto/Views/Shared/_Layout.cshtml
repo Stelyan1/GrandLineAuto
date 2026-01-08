@@ -10,69 +10,56 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
     @await RenderSectionAsync("Styles", required: false)
 </head>
-<body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">GrandLineAuto</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
+<body class="gla">
+    <header class="site-header">
+        <div class="top-banner">
+            <div class="slideshow" aria-label="Homepage slideshow">
+                <img src="https://wallpapers.com/images/hd/1920x1080-bmw-olutqd2j9v4jugb3.jpg" alt="Car Banner 1">
+                <img src="https://www.westcoastexoticcars.com/imagetag/698/main/l/Used-2012-Mercedes-Benz-C63-Black-Series-1617045868.jpg" alt="Car Banner 2">
+                <img src="https://autobild.bg/wp-content/uploads/2020/04/Abt-RS-6-R-1200x800-d38918bd421d7bbc.jpg" alt="Car Banner 3">
+                <img src="https://cdn.bmwblog.com/wp-content/uploads/2017/08/2018-bmw-5-series-ac-schnitzer.jpg" alt="Car Banner 4">
+                <img src="https://www.dodge.com/content/dam/fca-brands/na/dodge/en_us/2023/challenger/srt/desktop/MY23_SRThub_Challenger_Hellcat_Widebody_Desktop_01.jpg" alt="Car Banner 5">
+                <img src="https://cka-dash.s3.amazonaws.com/050-0723-CDJ751/mainimage.jpg" alt="Car Banner 6">
+            </div>
+        </div>
+
+        <nav class="main-nav" role="navigation">
+            <div class="nav-inner">
+                <a class="brand" asp-area="" asp-controller="Home" asp-action="Index">
+                    <span class="brand-mark">GL</span>
+                    <span class="brand-text">GrandLineAuto</span>
+                </a>
+
+                <button class="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="navLinks">
+                    <span></span><span></span><span></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
 
-                        @if (User.IsInRole("Admin"))
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark"
-                                   asp-area="Admin"
-                                   asp-controller="Dashboard"
-                                   asp-action="Index">
-                                    Admin Panel
-                                </a>
-                            </li>
-                        }
+                <div class="nav-links" id="navLinks">
+                    <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                    <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
 
-                        
-                    </ul>
+                    <a class="nav-link nav-cart" asp-controller="Cart" asp-action="Index">
+                        <i class="bi bi-cart3" aria-hidden="true"></i>
+                        <span>Cart</span>
+                    </a>
 
-                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark d-flex align-items-center gap-1"
-                               asp-controller="Cart"
-                               asp-action="Index">
-                                <i class="bi bi-cart3"></i>
-                                <span>Cart</span>
-                            </a>
-                        </li>
+                    <a class="nav-link" asp-area="" asp-controller="Orders" asp-action="MyOrders">MyOrders</a>
 
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Orders" asp-action="MyOrders">MyOrders</a>
-                        </li>
-                    </ul>
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <a class="nav-link nav-admin" asp-area="Admin" asp-controller="Dashboard" asp-action="Index">
+                            Admin Panel
+                        </a>
+                    }
+                </div>
 
-                    <ul class="navbar-nav ms-auto">
-                        <li class="nav-item">
-                            <partial name="_LoginPartial" />
-                        </li>
-                    </ul>
-
-                   @*  <ul class="navbar-nav ms-auto">
-                        <li class="nav-item">
-                            <partial name="_AdminLayout" />
-                        </li>
-                    </ul> *@
+                <div class="auth-links">
+                    <partial name="_LoginPartial" />
                 </div>
             </div>
         </nav>
     </header>
+
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
@@ -84,15 +71,11 @@
             &copy; 2025 - GrandLineAuto - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    @* <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script> *@
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
 
-<style>
-    .nav-right{
-       
-    }
-</style>
+

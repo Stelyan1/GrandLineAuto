@@ -2,12 +2,14 @@
 using GrandLineAuto.Data.Models.UserEntities;
 using GrandLineAuto.Infrastructure.DTO_s.OrderDTO_s;
 using GrandLineAuto.Infrastructure.Services.Purchasing.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace GrandLineAuto.Controllers
 {
+    [Authorize]
     public class OrdersController : Controller
     {
         private readonly IOrderService _orderService;

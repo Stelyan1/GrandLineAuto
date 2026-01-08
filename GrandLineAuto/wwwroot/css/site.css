@@ -1,22 +1,388 @@
-html {
-  font-size: 14px;
-}
-
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
-}
-
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
-}
-
-html {
-  position: relative;
-  min-height: 100%;
+﻿html, body {
+    height: 100%;
 }
 
 body {
-  margin-bottom: 60px;
+    display: flex;
+    flex-direction: column;
 }
+
+/* контейнерът с RenderBody да расте и да бута footer-а надолу */
+main {
+    flex: 1 0 auto;
+}
+
+footer {
+    flex: 0 0 auto;
+    margin-top: 30px;
+}
+
+
+
+
+.gla {
+    
+}
+
+    
+    .gla .site-header {
+        --bg: #0b0a14;
+        --nav: #231744;
+        --nav2: #1a1234;
+        --text: #ffffff;
+        --muted: rgba(255,255,255,.78);
+        --accent: #ff9f1c;
+        --shadow-soft: 0 10px 22px rgba(0,0,0,.22);
+        --radius: 16px;
+    }
+
+    
+    .gla .top-banner {
+        width: 100%;
+        height: 320px;
+        position: relative;
+        overflow: hidden;
+        background: #000;
+    }
+
+    .gla .slideshow {
+        width: 100%;
+        height: 100%;
+        position: relative;
+    }
+
+        .gla .slideshow::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(1200px 500px at 25% 70%, rgba(0,0,0,.35), transparent 60%), linear-gradient(to top, rgba(0,0,0,.75), rgba(0,0,0,.10));
+            pointer-events: none;
+        }
+
+        .gla .slideshow img {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            transform: scale(1.07);
+            filter: saturate(1.05) contrast(1.05);
+            object-fit: cover; 
+            object-position: center;
+            animation: glaSlideShow 30s infinite;
+        }
+
+            .gla .slideshow img:nth-child(1) {
+                animation-delay: 0s;
+            }
+
+            .gla .slideshow img:nth-child(2) {
+                animation-delay: 5s;
+            }
+
+            .gla .slideshow img:nth-child(3) {
+                animation-delay: 10s;
+            }
+
+            .gla .slideshow img:nth-child(4) {
+                animation-delay: 15s;
+            }
+
+            .gla .slideshow img:nth-child(5) {
+                animation-delay: 20s;
+            }
+
+            .gla .slideshow img:nth-child(6) {
+                animation-delay: 25s;
+            }
+
+@keyframes glaSlideShow {
+    0% {
+        opacity: 0;
+    }
+
+    8% {
+        opacity: 1;
+    }
+
+    24% {
+        opacity: 1;
+    }
+
+    32% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+
+/*Navbar*/
+.gla .main-nav {
+    background: radial-gradient(900px 500px at 10% -20%, rgba(6,182,212,.18), transparent 60%), radial-gradient(700px 400px at 90% 0%, rgba(79,70,229,.14), transparent 55%), linear-gradient(180deg, rgba(255,255,255,.75), rgba(255,255,255,.55));
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid rgba(15,23,42,.10);
+    box-shadow: 0 12px 30px rgba(2,6,23,.10);
+    position: sticky;
+    top: 0;
+    z-index: 50;
+}
+
+
+.gla .nav-inner {
+    width: min(1200px, 100%);
+    margin: 0 auto;
+    padding: 8px 16px;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 12px;
+    min-height: 58px;
+}
+
+
+.gla .brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    font-weight: 800;
+    color: #0f172a;
+}
+
+.gla .brand-mark {
+    width: 36px;
+    height: 36px;
+    border-radius: 12px;
+    display: grid;
+    place-items: center;
+    background: linear-gradient(135deg, #4f46e5, #06b6d4);
+    color: #fff;
+    box-shadow: 0 8px 20px rgba(79,70,229,.35);
+}
+
+
+.gla .nav-links {
+    justify-self: center;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px;
+    border-radius: 14px;
+    background: rgba(255,255,255,.65);
+    border: 1px solid rgba(15,23,42,.10);
+    box-shadow: 0 10px 24px rgba(2,6,23,.08);
+}
+
+.gla .nav-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 10px;
+    font-size: 14px;
+    line-height: 1;
+    border-radius: 12px;
+    color: #0f172a;
+    text-decoration: none;
+    font-weight: 700;
+    white-space: nowrap;
+    transition: background .12s ease, box-shadow .12s ease, transform .12s ease;
+}
+
+    .gla .nav-link:hover {
+        background: rgba(79,70,229,.10);
+        transform: translateY(-1px);
+        box-shadow: 0 8px 18px rgba(79,70,229,.15);
+    }
+
+.gla .cart-badge {
+    background: linear-gradient(135deg, #22c55e, #06b6d4);
+    color: #04130a;
+    box-shadow: 0 6px 14px rgba(34,197,94,.35);
+}
+
+
+
+/* Responsive Web Design */
+.gla .nav-toggle {
+    display: none;
+    margin-left: auto;
+    width: 44px;
+    height: 44px;
+    border-radius: 14px;
+    border: 1px solid rgba(255,255,255,.12);
+    background: rgba(255,255,255,.08);
+    cursor: pointer;
+}
+
+    .gla .nav-toggle span {
+        display: block;
+        width: 18px;
+        height: 2px;
+        margin: 4px auto;
+        background: rgba(255,255,255,.92);
+        border-radius: 999px;
+    }
+
+@media (max-width: 860px) {
+
+    
+    .gla .nav-inner {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 12px;
+        min-height: 56px;
+    }
+
+    .gla .brand-text {
+        display: none;
+    }
+
+   
+    .gla .nav-toggle {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        margin-left: auto;
+    }
+
+   
+    .gla .auth-links {
+        margin-left: 8px;
+    }
+
+   
+    .gla .nav-links {
+        display: none; 
+        position: absolute; 
+        left: 12px;
+        right: 12px;
+        top: calc(100% + 10px);
+        z-index: 60;
+        flex-direction: column;
+        align-items: stretch;
+        padding: 10px;
+        gap: 6px;
+        background: rgba(26,18,52,.98);
+        border: 1px solid rgba(255,255,255,.10);
+        border-radius: 16px;
+        box-shadow: 0 18px 40px rgba(0,0,0,.45);
+        backdrop-filter: blur(12px);
+    }
+
+        
+        .gla .nav-links.open {
+            display: flex;
+        }
+
+    
+    .gla .nav-link {
+        width: 100%;
+        justify-content: flex-start;
+        padding: 12px 12px;
+        border-radius: 12px;
+        font-size: 15px;
+    }
+
+    
+    .gla .main-nav {
+        position: sticky;
+    }
+
+    .gla .nav-inner {
+        position: relative;
+    }
+
+   
+    .gla .nav-cart {
+        padding-right: 42px;
+    }
+}
+
+@media (max-width: 520px) {
+    .gla .top-banner {
+        height: 260px;
+    }
+}
+
+
+/*Footer*/
+
+footer.footer {
+    position: static !important;
+    width: auto !important;
+    line-height: 50px !important;
+}
+
+footer.border-top{
+    border-top: none !important;
+}
+
+
+/*Login Register*/
+
+.gla .auth-links {
+    display: flex;
+    align-items: center;
+    justify-self: end;
+    gap: 10px;
+    white-space: nowrap;
+}
+
+    
+    .gla .auth-links .navbar-nav {
+        display: flex !important;
+        flex-direction: row !important; 
+        align-items: center !important;
+        gap: 10px !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    .gla .auth-links .nav-item {
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    .gla .auth-links .nav-link,
+    .gla .auth-links a.nav-link,
+    .gla .auth-links a {
+        display: inline-flex !important; 
+        align-items: center !important;
+        padding: 8px 10px !important;
+        border-radius: 12px !important;
+        color: rgba(255,255,255,.92) !important;
+        text-decoration: none !important;
+        font-weight: 700 !important;
+    }
+
+        .gla .auth-links .nav-link:hover,
+        .gla .auth-links a:hover {
+            background: rgba(255,255,255,.10) !important;
+        }
+
+    
+    .gla .auth-links form {
+        display: flex !important;
+        align-items: center !important;
+        margin: 0 !important;
+    }
+
+    .gla .auth-links button {
+        display: inline-flex !important;
+        align-items: center !important;
+        padding: 8px 10px !important;
+        border-radius: 12px !important;
+        background: transparent !important;
+        border: 0 !important;
+        color: rgba(255,255,255,.92) !important;
+        font-weight: 700 !important;
+    }
+
+        .gla .auth-links button:hover {
+            background: rgba(255,255,255,.10) !important;
+        }
+

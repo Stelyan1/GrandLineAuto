@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace GrandLineAuto.Data.Configuration.OrderConfiguration
 {
+    using static GrandLineAuto.Common.EntityValidation.OrderItem;
     public class OrderItemConfiguration : IEntityTypeConfiguration<OrderItem>
     {
         public void Configure(EntityTypeBuilder<OrderItem> builder)
@@ -19,7 +20,7 @@ namespace GrandLineAuto.Data.Configuration.OrderConfiguration
                    .HasPrecision(18, 2);
 
             builder.Property(i => i.ProductName)
-                   .HasMaxLength(200)
+                   .HasMaxLength(ProductNameMaxLength)
                    .IsRequired();
 
             builder.HasOne(i => i.Product)

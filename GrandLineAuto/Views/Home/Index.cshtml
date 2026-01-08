@@ -6,7 +6,7 @@
     var q = (string?)ViewBag.Query;
 }
 
-<div class="container py-4">
+<div class="container page-wrap">
 
     
     <div class="hero-card p-4 p-md-5 mb-4">
@@ -21,7 +21,7 @@
             </div>
 
             <div class="col-lg-5">
-                <form method="get" asp-action="Index" class="d-flex">
+                <form method="get" asp-action="Index" class="d-flex hero-search">
                     <div class="input-group input-group-lg shadow-sm">
                         <input name="q"
                                value="@q"
@@ -54,10 +54,7 @@
     }
     else
     {
-        <div class="d-flex align-items-center justify-content-between mb-3">
-            <h2 class="h5 mb-0">Brands</h2>
-            <span class="badge text-bg-light border">@Model.Count</span>
-        </div>
+       
 
         <div class="row g-3 g-md-4">
             @foreach (var b in Model)
@@ -87,7 +84,7 @@
 
                             <div class="card-body py-3">
                                 <div class="fw-semibold brand-title">@b.Name</div>
-                                <div class="text-muted small">View model series →</div>
+                                <div class="text-muted small bran">View model series →</div>
                             </div>
                         </div>
 
@@ -101,33 +98,85 @@
 
 @section Styles {
     <style>
-        
+       
+        body {
+            background: #0b0a14;
+        }
+
+        .page-wrap {
+            padding-top: 22px;
+            padding-bottom: 22px;
+        }
 
         .hero-card {
-            border: 1px solid rgba(0,0,0,.08);
-            border-radius: 18px;
-            background: linear-gradient(135deg, rgba(10,138,10,.10), rgba(255,255,255,1));
+            border-radius: 22px;
+            border: 1px solid rgba(255,255,255,.10);
+            background: linear-gradient(135deg, rgba(255,255,255,.10), rgba(255,255,255,.04));
+            box-shadow: 0 18px 45px rgba(0,0,0,.35);
+            backdrop-filter: blur(10px);
         }
 
             .hero-card h1 {
-                color: #0a8a0a;
-                line-height: 1.1;
+                color: rgba(255,255,255,.95);
+                line-height: 1.12;
             }
 
         .hero-subtext {
-            color: rgba(0,0,0,.65);
+            color: rgba(255,255,255,.70);
         }
 
+        
+        .hero-search .form-control {
+            border: 1px solid rgba(255,255,255,.16);
+            background: rgba(255,255,255,.10);
+            color: rgba(255,255,255,.92);
+        }
+
+            .hero-search .form-control::placeholder {
+                color: rgba(255,255,255,.55);
+            }
+
+            .hero-search .form-control:focus {
+                box-shadow: 0 0 0 .2rem rgba(255,159,28,.18);
+                border-color: rgba(255,159,28,.55);
+            }
+
+        .hero-search .btn {
+            border: 1px solid rgba(255,255,255,.14);
+            background: rgba(255,255,255,.12);
+            color: rgba(255,255,255,.92);
+            font-weight: 800;
+        }
+
+            .hero-search .btn:hover {
+                background: rgba(255,255,255,.18);
+            }
+
+        
+        .section-head {
+            color: rgba(255,255,255,.92);
+        }
+
+        .count-badge {
+            border: 1px solid rgba(255,255,255,.14) !important;
+            background: rgba(255,255,255,.08) !important;
+            color: rgba(255,255,255,.85) !important;
+        }
+
+        
         .brand-card {
             border-radius: 16px;
-            border: 1px solid rgba(0,0,0,.10);
-            transition: transform .15s ease, box-shadow .15s ease;
+            border: 1px solid rgba(255,255,255,.10);
+            background: rgba(255,255,255,.04);
+            transition: transform .15s ease, box-shadow .15s ease, background .15s ease;
             overflow: hidden;
+            box-shadow: 0 10px 24px rgba(0,0,0,.28);
         }
 
             .brand-card:hover {
                 transform: translateY(-3px);
-                box-shadow: 0 12px 26px rgba(0,0,0,.12);
+                box-shadow: 0 18px 40px rgba(0,0,0,.40);
+                background: rgba(255,255,255,.06);
             }
 
         .brand-image-wrap {
@@ -135,8 +184,8 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            background: #fff;
-            border-bottom: 1px solid rgba(0,0,0,.08);
+            background: rgba(255,255,255,.06);
+            border-bottom: 1px solid rgba(255,255,255,.10);
         }
 
         .brand-image {
@@ -144,6 +193,7 @@
             height: 100%;
             object-fit: contain;
             padding: 14px;
+            filter: drop-shadow(0 10px 18px rgba(0,0,0,.25));
         }
 
         .brand-fallback {
@@ -152,16 +202,26 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            color: rgba(0,0,0,.55);
+            color: rgba(255,255,255,.60);
             font-size: 14px;
         }
 
         .brand-title {
-            color: #0a8a0a;
+            color: rgba(255,255,255,.92);
+        }
+
+        .brand-sub {
+            color: rgba(255,255,255,.62) !important;
+        }
+
+       
+        .alert-light {
+            background: rgba(255,255,255,.06);
+            border: 1px solid rgba(255,255,255,.10) !important;
+            color: rgba(255,255,255,.85);
         }
     </style>
 }
-
 
 
 
