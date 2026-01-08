@@ -16,9 +16,9 @@ namespace GrandLineAuto.Controllers
             _productService = productService;
         }
 
-        public async Task<IActionResult> Index(Guid subCategoryId)
+        public async Task<IActionResult> Index(Guid subCategoryId, Guid brandModelId)
         {
-            var products = await _productService.GetProductForModelBySubCategoryId(subCategoryId);
+            var products = await _productService.GetProductForModelBySubCategoryId(subCategoryId, brandModelId);
 
             return View(products);
         }

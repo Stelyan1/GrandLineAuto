@@ -5,6 +5,8 @@
     var q = Context.Request.Query["q"].ToString();
     var Products = ViewBag.SeriesName as string;
     var guidId = Context.Request.Query["guidId"].ToString();
+    var brandModelId = Context.Request.Query["brandModelId"].ToString();
+    var subCategoryId = Context.Request.Query["subCategoryId"].ToString();
 }
 
 <div class="brands-hero">
@@ -12,6 +14,8 @@
 
     <form method="get" asp-action="Index" class="brands-search">
         <input type="hidden" name="guidId" value="@guidId" />
+        <input type="hidden" name="brandModelId" value="@brandModelId" />
+        <input type="hidden" name="subCategoryId" value="@subCategoryId" />
         <input name="q" value="@q" placeholder="Search.." />
         <button type="submit" aria-label="Search">🔎</button>
     </form>

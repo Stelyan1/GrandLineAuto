@@ -5,7 +5,8 @@
     var q = Context.Request.Query["q"].ToString();
     var subcategoryName = ViewBag.SeriesName as string;
     var guidId = Context.Request.Query["guidId"].ToString();
-    var modelId = ViewBag.ModelId;
+    
+    var modelId = Context.Request.Query["modelId"].ToString();
 }
 
 <div class="brands-hero">
@@ -33,7 +34,7 @@ else
                asp-controller="Product"
                asp-action="Index"
                asp-route-subCategoryId="@m.Id"
-               asp-route-modelId="@modelId">
+               asp-route-brandModelId="@modelId">
 
                 <div class="brand-image">
                     @if (!string.IsNullOrWhiteSpace(m.ImageUrl))

@@ -9,7 +9,7 @@ namespace GrandLineAuto.Infrastructure.Services.Interfaces
 {
     public interface IProductService
     {
-        Task<IEnumerable<ProductDTO>> GetProductForModelBySubCategoryId(Guid subcategoryId);
+        Task<IEnumerable<ProductDTO>> GetProductForModelBySubCategoryId(Guid subcategoryId, Guid brandModelId);
 
         Task<IEnumerable<ProductDTO>> GetById(Guid productId);
 

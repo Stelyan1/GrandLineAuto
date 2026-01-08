@@ -62,9 +62,12 @@ namespace GrandLineAuto.Infrastructure.Services
 
        
 
-        public async Task<IEnumerable<ProductDTO>> GetProductForModelBySubCategoryId(Guid subcategoryId)
+        public async Task<IEnumerable<ProductDTO>> GetProductForModelBySubCategoryId(Guid subcategoryId, Guid brandModelId)
         {
-            return await _baserepository.All().Where(p => p.SubCategoryId == subcategoryId).Select(p => new ProductDTO
+            return await _baserepository.All()
+                .Where(p => p.SubCategoryId == subcategoryId)
+                .Where(p => p.BrandModelsProducts.Any(p => p.BrandModelId == brandModelId))
+                .Select(p => new ProductDTO
             {
                 Id = p.Id,
                 Name = p.Name,
