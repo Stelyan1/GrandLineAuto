@@ -19,6 +19,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GrandLineAuto.Infrastructur
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GrandLineAuto.Api", "GrandLineAuto.Api\GrandLineAuto.Api.csproj", "{D5562FBD-E685-4449-B0BC-CFBCDD5DE271}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GrandLineAuto.Services.Tests", "GrandLineAuto.Services.Tests\GrandLineAuto.Services.Tests.csproj", "{D62C8255-C3CC-4BED-93A9-3B4CA114ABA1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GrandLineAuto.Tests", "GrandLineAuto.Tests", "{25D2112D-40B1-41FE-A2F4-F6389924A19B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -49,6 +53,10 @@ Global
 		{D5562FBD-E685-4449-B0BC-CFBCDD5DE271}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D5562FBD-E685-4449-B0BC-CFBCDD5DE271}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D5562FBD-E685-4449-B0BC-CFBCDD5DE271}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D62C8255-C3CC-4BED-93A9-3B4CA114ABA1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D62C8255-C3CC-4BED-93A9-3B4CA114ABA1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D62C8255-C3CC-4BED-93A9-3B4CA114ABA1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D62C8255-C3CC-4BED-93A9-3B4CA114ABA1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -58,6 +66,7 @@ Global
 		{9E7896A3-9C63-4C90-BA85-9429B2C73E5D} = {6C83249B-5F49-42EB-8A4F-391638911D00}
 		{769F3A31-8D80-4028-9FD0-A17154E7F885} = {6C83249B-5F49-42EB-8A4F-391638911D00}
 		{625E2D9F-F1E4-47BC-8C0C-06B413B98492} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{D62C8255-C3CC-4BED-93A9-3B4CA114ABA1} = {25D2112D-40B1-41FE-A2F4-F6389924A19B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7D5DA319-78F9-4086-85CF-45EE0D7596BF}
