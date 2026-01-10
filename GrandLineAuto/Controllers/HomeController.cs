@@ -2,6 +2,7 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using GrandLineAuto.Data;
 using GrandLineAuto.Data.Models;
+using GrandLineAuto.Infrastructure.Repositories.Interfaces;
 using GrandLineAuto.Infrastructure.Services;
 using GrandLineAuto.Infrastructure.Services.Interfaces;
 using GrandLineAuto.Models;
@@ -12,17 +13,22 @@ namespace GrandLineAuto.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly IBaseService<Brand> _baseService;
-        public HomeController(IBaseService<Brand> baseService)
+        private readonly IBrandService _brandService;
+        private readonly GrandLineAutoDbContext _dbContext;
+
+        public HomeController(IBrandService brandService, GrandLineAutoDbContext dbContext)
         {
-            _baseService = baseService;
+            _brandService = brandService;
+            _dbContext = dbContext;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string? q)
         {
-            var brand = await _baseService.GetAllEntitiesAsync();
+            ViewBag.Query = q;
+           
+            var brands = await _brandService.GetBrands(q);
 
-            return View(brand);
+            return View(brands);
         }
 
         public IActionResult Privacy()

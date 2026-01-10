@@ -61,6 +61,8 @@ namespace GrandLineAuto
 
             builder.Services.AddScoped(typeof(IBaseService<>), typeof(BaseService<>));
 
+            builder.Services.AddScoped(typeof(IBrandService), typeof(BrandService));
+
             builder.Services.AddScoped(typeof(IBrandModelsSeriesService), typeof(BrandModelsSeriesService));
 
             builder.Services.AddScoped(typeof(IBrandModelsService), typeof(BrandModelsService));

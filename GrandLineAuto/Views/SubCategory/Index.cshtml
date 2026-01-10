@@ -1,169 +1,63 @@
 ﻿@model IReadOnlyCollection<GrandLineAuto.Infrastructure.DTO_s.SubCategoryDTO>
 
 @{
-    ViewData["Title"] = "SubCategories";
+    ViewData["Title"] = "Sub Categories";
     var q = Context.Request.Query["q"].ToString();
     var subcategoryName = ViewBag.SeriesName as string;
     var guidId = Context.Request.Query["guidId"].ToString();
-    
     var modelId = Context.Request.Query["modelId"].ToString();
 }
 
-<div class="brands-hero">
-    <h1>@(string.IsNullOrWhiteSpace(subcategoryName) ? "Browse sub categories" : $"Browse {subcategoryName}")</h1>
+<div class="container py-4">
 
-    <form method="get" asp-action="Index" class="brands-search">
-        <input type="hidden" name="guidId" value="@guidId" />
-        <input name="q" value="@q" placeholder="Search.." />
-        <button type="submit" aria-label="Search">🔎</button>
-    </form>
+    <div class="gl-hero">
+        <div class="gl-hero__text">
+            <h1>
+                @(string.IsNullOrWhiteSpace(subcategoryName)
+                                ? "Browse subcategories"
+                                : $"Browse {subcategoryName}")
+            </h1>
+            <p>Select a subcategory to view available products.</p>
+        </div>
+    </div>
+
+    @if (Model == null || !Model.Any())
+    {
+        <div class="gl-empty">
+            <h3>No subcategories found</h3>
+            <p>There are no subcategories for this selection.</p>
+        </div>
+    }
+    else
+    {
+        <div class="gl-grid">
+            @foreach (var sc in Model)
+            {
+                <a class="gl-card"
+                   asp-controller="Product"
+                   asp-action="Index"
+                   asp-route-subCategoryId="@sc.Id"
+                   asp-route-brandModelId="@modelId">
+
+                    <div class="gl-card__img">
+                        @if (!string.IsNullOrWhiteSpace(sc.ImageUrl))
+                        {
+                            <img src="@sc.ImageUrl" alt="@sc.Name" loading="lazy" />
+                        }
+                        else
+                        {
+                            <div class="gl-fallback">No image</div>
+                        }
+                    </div>
+
+                    <div class="gl-card__title">@sc.Name</div>
+                    <div class="gl-card__sub">View products →</div>
+                </a>
+            }
+        </div>
+    }
+
 </div>
-
-@if (Model == null || !Model.Any())
-{
-    <div class="empty-state">
-        <p>No sub categories found.</p>
-    </div>
-}
-else
-{
-    <div class="brands-grid">
-        @foreach (var m in Model)
-        {
-            <a class="brand-card"
-               asp-controller="Product"
-               asp-action="Index"
-               asp-route-subCategoryId="@m.Id"
-               asp-route-brandModelId="@modelId">
-
-                <div class="brand-image">
-                    @if (!string.IsNullOrWhiteSpace(m.ImageUrl))
-                    {
-                        <img src="@m.ImageUrl" alt="@m.Name" loading="lazy" />
-                    }
-                    else
-                    {
-                        <div class="brand-fallback">No image</div>
-                    }
-                </div>
-
-                <div class="brand-name">@m.Name</div>
-            </a>
-        }
-    </div>
-}
-
-<style>
-    .brands-hero {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 16px;
-        margin: 18px 0 22px 0;
-        flex-wrap: wrap;
-    }
-
-        .brands-hero h1 {
-            margin: 0;
-            font-size: 34px;
-            line-height: 1.1;
-            color: #0a8a0a;
-            flex: 1 1 520px;
-        }
-
-    .brands-search {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        flex: 0 1 360px;
-        border: 2px solid #111;
-        border-radius: 12px;
-        padding: 6px 10px;
-        background: #fff;
-    }
-
-        .brands-search input {
-            border: none;
-            outline: none;
-            width: 100%;
-            font-size: 18px;
-            color: #111;
-        }
-
-        .brands-search button {
-            border: none;
-            background: transparent;
-            cursor: pointer;
-            font-size: 18px;
-            padding: 4px 6px;
-        }
-
-    .empty-state {
-        margin-top: 20px;
-        opacity: .8;
-    }
-
-    .brands-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-        gap: 18px;
-        margin-top: 10px;
-    }
-
-    .brand-card {
-        text-decoration: none;
-        color: inherit;
-        border: 2px solid #111;
-        border-radius: 16px;
-        padding: 12px;
-        transition: transform .12s ease, box-shadow .12s ease;
-        background: #fff;
-    }
-
-        .brand-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 18px rgba(0,0,0,.10);
-        }
-
-    .brand-image {
-        height: 120px;
-        border-radius: 12px;
-        border: 2px solid #111;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        overflow: hidden;
-        background: #fff;
-    }
-
-        .brand-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-        }
-
-    .brand-fallback {
-        font-size: 14px;
-        opacity: .7;
-    }
-
-    .brand-name {
-        margin-top: 10px;
-        font-size: 20px;
-        color: #0a8a0a;
-        text-align: left;
-        font-weight: 600;
-    }
-
-    
-
-    .brands-search {
-        flex: 1 1 100%;
-    }
-
-    }
-</style>
-
 
 
 

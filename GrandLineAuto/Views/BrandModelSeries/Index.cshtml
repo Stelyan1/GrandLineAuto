@@ -9,136 +9,48 @@
 
 <div class="container py-4">
 
-    <div class="d-flex flex-column flex-lg-row align-items-lg-center justify-content-between gap-3 mb-4">
-        <div>
-            <h1 class="mb-1 page-title">
-                @(string.IsNullOrWhiteSpace(brandName) ? "Browse model series" : $"Browse {brandName} series")
-            </h1>
-            <div class="text-muted">Pick a series to continue browsing models</div>
+    <div class="gl-hero">
+        <div class="gl-hero__text">
+            <h1>@(string.IsNullOrWhiteSpace(brandName) ? "Browse model series" : $"Browse {brandName} series")</h1>
+            <p>Pick a series to continue browsing models.</p>
         </div>
-
-        <form method="get" asp-action="Index" class="w-100" style="max-width: 420px;">
-            <input type="hidden" name="brandId" value="@brandId" />
-
-            <div class="input-group input-group-lg search-pill">
-                <input name="q"
-                       value="@q"
-                       class="form-control border-0 shadow-none"
-                       placeholder="Search series..."
-                       aria-label="Search series" />
-
-                <button class="btn btn-dark px-3" type="submit" aria-label="Search">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16">
-                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
-                    </svg>
-                </button>
-            </div>
-        </form>
     </div>
 
     @if (Model == null || !Model.Any())
     {
-        <div class="alert alert-light border d-flex align-items-center gap-2">
-            <span class="badge bg-secondary">Info</span>
-            <div>No series found.</div>
+        <div class="gl-empty">
+            <h3>No series found</h3>
+            <p>Try searching with a different keyword.</p>
         </div>
     }
     else
     {
-        <div class="row g-4">
+        <div class="gl-grid">
             @foreach (var s in Model)
             {
-                <div class="col-12 col-sm-6 col-lg-4 col-xl-3">
-                    <a class="text-decoration-none"
-                       asp-controller="BrandModels"
-                       asp-action="Index"
-                       asp-route-brandModelSeriesId="@s.Id">
+                <a class="gl-card"
+                   asp-controller="BrandModels"
+                   asp-action="Index"
+                   asp-route-brandModelSeriesId="@s.Id">
 
-                        <div class="card brand-card h-100 shadow-sm">
-                            <div class="ratio ratio-16x9 brand-media">
-                                @if (!string.IsNullOrWhiteSpace(s.ImageUrl))
-                                {
-                                    <img src="@s.ImageUrl" alt="@s.Name" class="w-100 h-100 object-fit-contain p-3" loading="lazy" />
-                                }
-                                else
-                                {
-                                    <div class="d-flex align-items-center justify-content-center text-muted">
-                                        <div class="text-center">
-                                            <div class="fw-semibold">No image</div>
-                                            <div class="small">Series</div>
-                                        </div>
-                                    </div>
-                                }
-                            </div>
+                    <div class="gl-card__img">
+                        @if (!string.IsNullOrWhiteSpace(s.ImageUrl))
+                        {
+                            <img src="@s.ImageUrl" alt="@s.Name" loading="lazy" />
+                        }
+                        else
+                        {
+                            <div class="gl-fallback">No image</div>
+                        }
+                    </div>
 
-                            <div class="card-body">
-                                <div class="d-flex align-items-start justify-content-between gap-2">
-                                    <h5 class="card-title mb-0 series-title">@s.Name</h5>
-                                    <span class="badge rounded-pill text-bg-success">Open</span>
-                                </div>
-
-                                <div class="text-muted small mt-2">
-                                    Click to browse models
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                </div>
+                    <div class="gl-card__title">@s.Name</div>
+                    <div class="gl-card__sub">Click to browse models →</div>
+                </a>
             }
         </div>
     }
 </div>
-
-<style>
-    .page-title {
-        font-size: 2rem;
-        line-height: 1.1;
-        font-weight: 800;
-        color: #0a8a0a;
-        letter-spacing: -0.5px;
-    }
-
-    
-    .search-pill {
-        border: 1px solid rgba(0,0,0,.15);
-        border-radius: 999px;
-        overflow: hidden;
-        background: #fff;
-    }
-
-    
-    .brand-card {
-        border-radius: 18px;
-        border: 1px solid rgba(0,0,0,.08);
-        transition: transform .14s ease, box-shadow .14s ease;
-        color: inherit;
-    }
-
-        .brand-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 12px 30px rgba(0,0,0,.12) !important;
-        }
-
-    .brand-media {
-        border-bottom: 1px solid rgba(0,0,0,.08);
-        background: linear-gradient(180deg, rgba(10,138,10,.06), rgba(0,0,0,0));
-        border-top-left-radius: 18px;
-        border-top-right-radius: 18px;
-        overflow: hidden;
-    }
-
-    .series-title {
-        color: #0a8a0a;
-        font-weight: 800;
-        letter-spacing: -0.2px;
-    }
-
-    
-    .object-fit-contain {
-        object-fit: contain;
-    }
-</style>
-
 
 
 

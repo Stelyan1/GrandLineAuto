@@ -1,229 +1,74 @@
-﻿@using GrandLineAuto.Data.Models
-@model IReadOnlyCollection<Brand>
+﻿@using GrandLineAuto.Infrastructure.DTO_s
+@model IReadOnlyCollection<BrandDTO>
 
 @{
     ViewData["Title"] = "Home";
     var q = (string?)ViewBag.Query;
 }
 
-<div class="container page-wrap">
+<div class="container py-4">
 
-    
-    <div class="hero-card p-4 p-md-5 mb-4">
-        <div class="row g-3 align-items-center">
-            <div class="col-lg-7">
-                <h1 class="display-6 fw-bold mb-2">
-                    Browse car brands and find parts faster
-                </h1>
-                <p class="mb-0 hero-subtext">
-                    Pick a brand to continue to model series. Use search to filter quickly.
-                </p>
-            </div>
-
-            <div class="col-lg-5">
-                <form method="get" asp-action="Index" class="d-flex hero-search">
-                    <div class="input-group input-group-lg shadow-sm">
-                        <input name="q"
-                               value="@q"
-                               class="form-control"
-                               placeholder="Search brand..."
-                               autocomplete="off" />
-                        <button class="btn btn-dark" type="submit" aria-label="Search">
-                            <span class="me-1">🔎</span> Search
-                        </button>
-                    </div>
-                </form>
-
-                @if (!string.IsNullOrWhiteSpace(q))
-                {
-                    <div class="mt-2 small text-muted">
-                        Showing results for: <span class="fw-semibold">@q</span>
-                        <a asp-action="Index" class="ms-2 text-decoration-none">Clear</a>
-                    </div>
-                }
-            </div>
+    <div class="gl-hero">
+        <div class="gl-hero__text">
+            <h1>Browse car brands</h1>
+            <p>
+                Choose a brand to explore model series and find compatible parts.
+            </p>
         </div>
+
+        <form method="get" asp-action="Index" class="gl-search" role="search">
+            <input name="q"
+                   value="@q"
+                   placeholder="Search brand..."
+                   autocomplete="off" />
+            <button type="submit" aria-label="Search">🔎</button>
+        </form>
     </div>
+
+    @if (!string.IsNullOrWhiteSpace(q))
+    {
+        <div class="gl-meta">
+            Showing results for <strong>@q</strong>
+            <a asp-action="Index">Clear</a>
+        </div>
+    }
 
     @if (Model == null || !Model.Any())
     {
-        <div class="alert alert-light border text-center py-4">
-            <div class="fs-5 fw-semibold mb-1">No brands found</div>
-            <div class="text-muted">Try searching with a different keyword.</div>
+        <div class="gl-empty">
+            <h3>No brands found</h3>
+            <p>Try searching with a different keyword.</p>
         </div>
     }
     else
     {
-       
-
-        <div class="row g-3 g-md-4">
+        <div class="gl-grid">
             @foreach (var b in Model)
             {
-                <div class="col-6 col-md-4 col-lg-3">
-                    <a asp-controller="BrandModelSeries"
-                       asp-action="Index"
-                       asp-route-brandId="@b.Id"
-                       class="text-decoration-none">
+                <a class="gl-card"
+                   asp-controller="BrandModelSeries"
+                   asp-action="Index"
+                   asp-route-brandId="@b.Id">
 
-                        <div class="card brand-card h-100">
-                            <div class="brand-image-wrap">
-                                @if (!string.IsNullOrWhiteSpace(b.ImageUrl))
-                                {
-                                    <img src="@b.ImageUrl"
-                                         alt="@b.Name logo"
-                                         class="brand-image"
-                                         loading="lazy" />
-                                }
-                                else
-                                {
-                                    <div class="brand-fallback">
-                                        <span>No image</span>
-                                    </div>
-                                }
-                            </div>
+                    <div class="gl-card__img">
+                        @if (!string.IsNullOrWhiteSpace(b.ImageUrl))
+                        {
+                            <img src="@b.ImageUrl" alt="@b.Name logo" loading="lazy" />
+                        }
+                        else
+                        {
+                            <div class="gl-fallback">No image</div>
+                        }
+                    </div>
 
-                            <div class="card-body py-3">
-                                <div class="fw-semibold brand-title">@b.Name</div>
-                                <div class="text-muted small bran">View model series →</div>
-                            </div>
-                        </div>
-
-                    </a>
-                </div>
+                    <div class="gl-card__title">@b.Name</div>
+                    <div class="gl-card__sub">View model series →</div>
+                </a>
             }
         </div>
     }
 
 </div>
-
-@section Styles {
-    <style>
-       
-        body {
-            background: #0b0a14;
-        }
-
-        .page-wrap {
-            padding-top: 22px;
-            padding-bottom: 22px;
-        }
-
-        .hero-card {
-            border-radius: 22px;
-            border: 1px solid rgba(255,255,255,.10);
-            background: linear-gradient(135deg, rgba(255,255,255,.10), rgba(255,255,255,.04));
-            box-shadow: 0 18px 45px rgba(0,0,0,.35);
-            backdrop-filter: blur(10px);
-        }
-
-            .hero-card h1 {
-                color: rgba(255,255,255,.95);
-                line-height: 1.12;
-            }
-
-        .hero-subtext {
-            color: rgba(255,255,255,.70);
-        }
-
-        
-        .hero-search .form-control {
-            border: 1px solid rgba(255,255,255,.16);
-            background: rgba(255,255,255,.10);
-            color: rgba(255,255,255,.92);
-        }
-
-            .hero-search .form-control::placeholder {
-                color: rgba(255,255,255,.55);
-            }
-
-            .hero-search .form-control:focus {
-                box-shadow: 0 0 0 .2rem rgba(255,159,28,.18);
-                border-color: rgba(255,159,28,.55);
-            }
-
-        .hero-search .btn {
-            border: 1px solid rgba(255,255,255,.14);
-            background: rgba(255,255,255,.12);
-            color: rgba(255,255,255,.92);
-            font-weight: 800;
-        }
-
-            .hero-search .btn:hover {
-                background: rgba(255,255,255,.18);
-            }
-
-        
-        .section-head {
-            color: rgba(255,255,255,.92);
-        }
-
-        .count-badge {
-            border: 1px solid rgba(255,255,255,.14) !important;
-            background: rgba(255,255,255,.08) !important;
-            color: rgba(255,255,255,.85) !important;
-        }
-
-        
-        .brand-card {
-            border-radius: 16px;
-            border: 1px solid rgba(255,255,255,.10);
-            background: rgba(255,255,255,.04);
-            transition: transform .15s ease, box-shadow .15s ease, background .15s ease;
-            overflow: hidden;
-            box-shadow: 0 10px 24px rgba(0,0,0,.28);
-        }
-
-            .brand-card:hover {
-                transform: translateY(-3px);
-                box-shadow: 0 18px 40px rgba(0,0,0,.40);
-                background: rgba(255,255,255,.06);
-            }
-
-        .brand-image-wrap {
-            height: 130px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: rgba(255,255,255,.06);
-            border-bottom: 1px solid rgba(255,255,255,.10);
-        }
-
-        .brand-image {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-            padding: 14px;
-            filter: drop-shadow(0 10px 18px rgba(0,0,0,.25));
-        }
-
-        .brand-fallback {
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: rgba(255,255,255,.60);
-            font-size: 14px;
-        }
-
-        .brand-title {
-            color: rgba(255,255,255,.92);
-        }
-
-        .brand-sub {
-            color: rgba(255,255,255,.62) !important;
-        }
-
-       
-        .alert-light {
-            background: rgba(255,255,255,.06);
-            border: 1px solid rgba(255,255,255,.10) !important;
-            color: rgba(255,255,255,.85);
-        }
-    </style>
-}
-
-
 
 
 

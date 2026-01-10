@@ -5,193 +5,58 @@
     var q = Context.Request.Query["q"].ToString();
     var categoryName = ViewBag.SeriesName as string;
     var guidId = Context.Request.Query["guidId"].ToString();
+    var modelId = ViewBag.ModelId;
 }
 
-<div class="brands-hero">
-    <h1>@(string.IsNullOrWhiteSpace(categoryName) ? "Browse categories" : $"Browse categories {categoryName}")</h1>
+<div class="container py-4">
 
-    <form method="get" asp-action="Index" class="brands-search">
-        <input type="hidden" name="guidId" value="@guidId" />
-        <input name="q" value="@q" placeholder="Search.." />
-        <button type="submit" aria-label="Search">🔎</button>
-    </form>
+    <div class="gl-hero">
+        <div class="gl-hero__text">
+            <h1>
+                @(string.IsNullOrWhiteSpace(categoryName)
+                                ? "Browse categories"
+                                : $"Browse categories {categoryName}")
+            </h1>
+            <p>Select a category to continue to subcategories.</p>
+        </div>
+
+        
+    </div>
+
+    @if (Model == null || !Model.Any())
+    {
+        <div class="gl-empty">
+            <h3>No categories available</h3>
+            <p>Currently we don’t have parts for this selection.</p>
+        </div>
+    }
+    else
+    {
+        <div class="gl-grid">
+            @foreach (var c in Model)
+            {
+                <a class="gl-card"
+                   asp-controller="SubCategory"
+                   asp-action="Index"
+                   asp-route-categoryId="@c.Id"
+                   asp-route-modelId="@modelId">
+
+                    <div class="gl-card__img">
+                        @if (!string.IsNullOrWhiteSpace(c.ImageUrl))
+                        {
+                            <img src="@c.ImageUrl" alt="@c.Name" loading="lazy" />
+                        }
+                        else
+                        {
+                            <div class="gl-fallback">No image</div>
+                        }
+                    </div>
+
+                    <div class="gl-card__title">@c.Name</div>
+                    <div class="gl-card__sub">View subcategories →</div>
+                </a>
+            }
+        </div>
+    }
+
 </div>
-
-@if (Model == null || !Model.Any())
-{
-    <div class="no-parts">
-        <p>Currently we don't have any parts for it :(</p>
-    </div>
-}
-else
-{
-    <div class="brands-grid">
-        @foreach (var m in Model)
-        {
-            <a class="brand-card"
-               asp-controller="SubCategory"
-               asp-action="Index"
-               asp-route-categoryId="@m.Id"
-               asp-route-modelId="@ViewBag.ModelId">
-
-                <div class="brand-image">
-                    @if (!string.IsNullOrWhiteSpace(m.ImageUrl))
-                    {
-                        <img src="@m.ImageUrl" alt="@m.Name"  loading="lazy" />
-                        
-                    }
-                    else
-                    {
-                        <div class="brand-fallback">No image</div>
-                    }
-                </div>
-
-                <div class="brand-name">@m.Name</div>
-            </a>
-        }
-    </div>
-}
-
-<style>
-    :root {
-        --bg: #0e1024;
-        --panel: #171747;
-        --border: #636361;
-        --text: #f2f3ff;
-        --text-muted: #b7b8c8;
-        --accent: #8aff6a;
-    }
-
-    
-    body {
-        background: radial-gradient(circle at top, #1b1d55 0%, #0e1024 55%);
-        color: var(--text);
-    }
-
-  
-    .brands-hero {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 18px;
-        margin: 24px 0 28px;
-        padding: 20px 24px;
-        border-radius: 18px;
-        background: linear-gradient(135deg, rgba(23,23,71,.95), rgba(23,23,71,.65));
-        border: 1px solid rgba(255,255,255,.12);
-    }
-
-        .brands-hero h1 {
-            margin: 0;
-            font-size: 34px;
-            font-weight: 700;
-            letter-spacing: .4px;
-        }
-
-            .brands-hero h1::after {
-                content: '';
-                display: block;
-                width: 64px;
-                height: 4px;
-                margin-top: 10px;
-                background: linear-gradient(90deg, var(--accent), transparent);
-                border-radius: 4px;
-            }
-
-    
-    .brands-search {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        min-width: 300px;
-        background: rgba(0,0,0,.35);
-        border: 1px solid rgba(255,255,255,.18);
-        border-radius: 14px;
-        padding: 10px 12px;
-        backdrop-filter: blur(6px);
-    }
-
-        .brands-search input {
-            background: transparent;
-            border: none;
-            outline: none;
-            width: 100%;
-            color: var(--text);
-            font-size: 17px;
-        }
-
-            .brands-search input::placeholder {
-                color: var(--text-muted);
-            }
-
-        .brands-search button {
-            background: none;
-            border: none;
-            color: var(--accent);
-            font-size: 18px;
-            cursor: pointer;
-        }
-
-    
-    .brands-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-        gap: 22px;
-    }
-
-    
-    .brand-card {
-        background: linear-gradient(180deg, rgba(23,23,71,.85), rgba(23,23,71,.55));
-        border-radius: 20px;
-        padding: 14px;
-        text-decoration: none;
-        color: inherit;
-        border: 1px solid rgba(255,255,255,.14);
-        transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
-    }
-
-        .brand-card:hover {
-            transform: translateY(-6px) scale(1.01);
-            border-color: rgba(138,255,106,.45);
-            box-shadow: 0 20px 40px rgba(0,0,0,.55), 0 0 0 1px rgba(138,255,106,.15);
-        }
-
-    
-    .brand-image {
-        height: 140px;
-        border-radius: 14px;
-        background: rgba(255,255,255,.04);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border: 1px solid rgba(255,255,255,.12);
-        overflow: hidden;
-    }
-
-        .brand-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-        }
-
-   
-    .brand-name {
-        margin-top: 14px;
-        font-size: 18px;
-        font-weight: 600;
-        text-align: left;
-    }
-
-   
-    .no-parts {
-        margin-top: 40px;
-        padding: 22px;
-        font-size: 26px;
-        background: rgba(255,77,79,.12);
-        border-left: 6px solid #ff4d4f;
-        border-radius: 14px;
-    }
-</style>
-
-
-

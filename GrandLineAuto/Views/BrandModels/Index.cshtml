@@ -1,5 +1,4 @@
-﻿
-@model IReadOnlyCollection<GrandLineAuto.Infrastructure.DTO_s.BrandModelsDTO>
+﻿@model IReadOnlyCollection<GrandLineAuto.Infrastructure.DTO_s.BrandModelsDTO>
 
 @{
     ViewData["Title"] = "Brand Models";
@@ -8,242 +7,49 @@
     var guidId = Context.Request.Query["guidId"].ToString();
 }
 
-<div class="brands-hero">
-    <h1>@(string.IsNullOrWhiteSpace(seriesName) ? "Browse models" : $"Browse {seriesName} models")</h1>
+<div class="container py-4">
 
-    <form method="get" asp-action="Index" class="brands-search">
-        <input type="hidden" name="guidId" value="@guidId" />
-        <input name="q" value="@q" placeholder="Search.." />
-        <button type="submit" aria-label="Search">🔎</button>
-    </form>
+    <div class="gl-hero">
+        <div class="gl-hero__text">
+            <h1>@(string.IsNullOrWhiteSpace(seriesName) ? "Browse models" : $"Browse {seriesName} models")</h1>
+            <p>Choose a model to continue to categories.</p>
+        </div>
+    </div>
+
+    @if (Model == null || !Model.Any())
+    {
+        <div class="gl-empty">
+            <h3>No models found</h3>
+            <p>Try a different search.</p>
+        </div>
+    }
+    else
+    {
+        <div class="gl-grid">
+            @foreach (var m in Model)
+            {
+                <a class="gl-card"
+                   asp-controller="Category"
+                   asp-action="Index"
+                   asp-route-modelId="@m.Id">
+
+                    <div class="gl-card__img">
+                        @if (!string.IsNullOrWhiteSpace(m.ImageUrl))
+                        {
+                            <img src="@m.ImageUrl" alt="@m.Name" loading="lazy" />
+                            <span class="gl-badge">@m.yearProduced</span>
+                        }
+                        else
+                        {
+                            <div class="gl-fallback">No image</div>
+                        }
+                    </div>
+
+                    <div class="gl-card__title">@m.Name</div>
+                    <div class="gl-card__sub">View categories →</div>
+                </a>
+            }
+        </div>
+    }
+
 </div>
-
-@if (Model == null || !Model.Any())
-{
-    <div class="empty-state">
-        <p>No models found.</p>
-    </div>
-}
-else
-{
-    <div class="brands-grid">
-        @foreach (var m in Model)
-        {
-            <a class="brand-card"
-               asp-controller="Category"
-               asp-action="Index"
-               asp-route-modelId="@m.Id">
-
-                <div class="brand-image">
-                    @if (!string.IsNullOrWhiteSpace(m.ImageUrl))
-                    {
-                        <img src="@m.ImageUrl" alt="@m.Name" loading="lazy" />
-                        <span class="year-badge">@m.yearProduced</span>
-                    }
-                    else
-                    {
-                        <div class="brand-fallback">No image</div>
-                    }
-                </div>
-
-               
-
-                 <div class="brand-name">@m.Name</div>
-            </a>
-        }
-    </div>
-}
-
-
-
-
- <style>
-    :root {
-        --bg1: #f6f8ff;
-        --bg2: #eef7ff;
-        --text: #0f172a;
-        --muted: #64748b;
-        --primary: #4f46e5; 
-        --accent: #06b6d4; 
-        --accent2: #22c55e; 
-
-        --card: #ffffff;
-        --border: rgba(15, 23, 42, .12);
-        --shadow: 0 12px 30px rgba(2, 6, 23, .10);
-    }
-
-    body {
-        background: radial-gradient(1200px 600px at 15% -10%, rgba(6,182,212,.18), transparent 60%), radial-gradient(900px 500px at 85% 0%, rgba(79,70,229,.14), transparent 55%), linear-gradient(180deg, var(--bg1), var(--bg2));
-    }
-
-    .brands-hero {
-        display: flex;
-        align-items: stretch;
-        justify-content: space-between;
-        gap: 16px;
-        margin: 18px 0 22px 0;
-        flex-wrap: wrap;
-        padding: 18px 18px;
-        border: 1px solid var(--border);
-        border-radius: 18px;
-        background: linear-gradient(135deg, rgba(79,70,229,.10), rgba(6,182,212,.10));
-        backdrop-filter: blur(8px);
-    }
-
-        .brands-hero h1 {
-            margin: 0;
-            flex: 1 1 520px;
-            font-size: 34px;
-            line-height: 1.05;
-            letter-spacing: -0.5px;
-            color: var(--text);
-        }
-
-    
-    .brands-search {
-        flex: 0 1 380px;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        padding: 10px 12px;
-        border-radius: 14px;
-        border: 1px solid var(--border);
-        background: rgba(255,255,255,.65);
-        backdrop-filter: blur(10px);
-        box-shadow: 0 10px 24px rgba(2,6,23,.06);
-    }
-
-        .brands-search input {
-            border: none;
-            outline: none;
-            width: 100%;
-            font-size: 16px;
-            color: var(--text);
-            background: transparent;
-        }
-
-            .brands-search input::placeholder {
-                color: rgba(100,116,139,.9);
-            }
-
-        .brands-search button {
-            border: none;
-            background: transparent;
-            cursor: pointer;
-            font-size: 18px;
-            padding: 6px 8px;
-            border-radius: 10px;
-            transition: transform .12s ease, background .12s ease;
-        }
-
-            .brands-search button:hover {
-                background: rgba(79,70,229,.10);
-                transform: translateY(-1px);
-            }
-
-   
-    .brands-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
-        gap: 18px;
-        margin-top: 10px;
-    }
-
-   
-    .brand-card {
-        position: relative;
-        text-decoration: none;
-        color: inherit;
-        border-radius: 18px;
-        padding: 12px;
-        background: var(--card);
-        border: 1px solid var(--border);
-        box-shadow: 0 10px 18px rgba(2,6,23,.06);
-        transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease;
-        overflow: hidden;
-    }
-
-       
-        .brand-card::before {
-            content: "";
-            position: absolute;
-            inset: 0 0 auto 0;
-            height: 6px;
-            background: linear-gradient(90deg, var(--primary), var(--accent));
-            opacity: .85;
-        }
-
-        .brand-card:hover {
-            transform: translateY(-3px);
-            box-shadow: var(--shadow);
-            border-color: rgba(79,70,229,.25);
-        }
-
-   
-    .brand-image {
-        position: relative;
-        height: 132px;
-        border-radius: 14px;
-        border: 1px solid var(--border);
-        background: linear-gradient(135deg, rgba(79,70,229,.06), rgba(6,182,212,.06));
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        overflow: hidden;
-        margin-top: 6px;
-    }
-
-        .brand-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-            padding: 10px;
-            filter: saturate(1.05) contrast(1.02);
-        }
-
-    .year-badge {
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        font-size: 12px;
-        font-weight: 700;
-        letter-spacing: .2px;
-        padding: 6px 10px;
-        border-radius: 999px;
-        color: #06121f;
-        background: rgba(255,255,255,.75);
-        border: 1px solid rgba(15,23,42,.12);
-        backdrop-filter: blur(8px);
-        box-shadow: 0 8px 18px rgba(2,6,23,.10);
-    }
-
-    .brand-fallback {
-        font-size: 14px;
-        color: var(--muted);
-    }
-
-    .brand-name {
-        margin-top: 10px;
-        font-size: 18px;
-        font-weight: 800;
-        letter-spacing: -0.3px;
-        color: var(--text);
-    }
-
-    
-    .brand-sub {
-        margin-top: 4px;
-        font-size: 13px;
-        color: var(--muted);
-    }
-
-    .empty-state {
-        margin-top: 20px;
-        color: var(--muted);
-    }
-
-   
-    
-</style>
-
-
