@@ -83,6 +83,23 @@ namespace GrandLineAuto
 
             builder.Services.AddScoped(typeof(IOrderService), typeof(OrderService));
 
+            builder.Services.ConfigureApplicationCookie(options =>
+            {
+                options.LoginPath = "/Error/StatusCode";
+                options.AccessDeniedPath = "/Error/StatusCode";
+
+                options.Events.OnRedirectToLogin = ctx =>
+                {
+                    ctx.Response.Redirect("/Error/StatusCode?code=401");
+                    return Task.CompletedTask;
+                };
+
+                options.Events.OnRedirectToAccessDenied = ctx =>
+                {
+                    ctx.Response.Redirect("/Error/StatusCode?code=403");
+                    return Task.CompletedTask;
+                };
+            });
            
 
             builder.Services.AddRazorPages();
@@ -98,14 +115,18 @@ namespace GrandLineAuto
             }
 
                 // Configure the HTTP request pipeline.
-                if (!app.Environment.IsDevelopment())
+                if (app.Environment.IsDevelopment())
                 {
-                    app.UseExceptionHandler("/Home/Error");
-                    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                    app.UseHsts();
+                  app.UseDeveloperExceptionPage(); 
+                }
+                else
+                {
+                  app.UseHsts();
+                  app.UseMiddleware<GrandLineAuto.Middleware.ExceptionHandling>();
                 }
 
-            app.UseHttpsRedirection();
+                app.UseHttpsRedirection();
+
             app.UseStaticFiles();
 
             app.UseRouting();
@@ -114,6 +135,8 @@ namespace GrandLineAuto
             app.UseAuthentication();
             app.UseAuthorization();
 
+            //Status codes can go to the page
+            app.UseStatusCodePagesWithReExecute("/Error/StatusCode", "?code={0}");
             //Adding Admin Panel
             app.MapControllerRoute(
                 name: "areas",
