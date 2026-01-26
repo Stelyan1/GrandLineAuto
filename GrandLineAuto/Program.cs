@@ -11,6 +11,7 @@ using GrandLineAuto.Infrastructure.Services.Purchasing;
 using GrandLineAuto.Infrastructure.Services.Purchasing.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using NPOI.SS.Formula.Functions;
@@ -25,7 +26,10 @@ namespace GrandLineAuto
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-            builder.Services.AddControllersWithViews();
+            builder.Services.AddControllersWithViews(o =>
+            {
+                o.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
+            });
 
             builder.Services.AddDbContext<GrandLineAutoDbContext>(options =>
              options.UseSqlServer(builder.Configuration.GetConnectionString("SQLServer")));
