@@ -124,7 +124,11 @@ namespace GrandLineAuto
                 var seedRoot = Path.Combine(app.Environment.ContentRootPath, "..", "GrandLineAuto.Infrastructure", "Seeding", "SeedData");
 
                 var brandSeeder = new BrandSeeder(db);
+
+                var brandModelSeriesSeeder = new BrandModelSeriesSeeder(db);
+
                 await brandSeeder.SeedAsync(seedRoot);
+                await brandModelSeriesSeeder.SeedAsync(seedRoot);
             }
 
                 // Configure the HTTP request pipeline.

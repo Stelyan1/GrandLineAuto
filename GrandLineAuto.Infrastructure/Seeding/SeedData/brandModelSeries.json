@@ -1,0 +1,33 @@
+[
+  {
+    "id": "1a9f2c84-6d3e-4b5f-9c1e-7e8d0a4f2b91",
+    "name": "Peugeot 301",
+    "imageUrl": "https://s1.cdn.autoevolution.com/images/models/PEUGEOT_301-2016_main.jpg",
+    "productionYears": "2012-2026",
+    "brandId": "c4b1e9a7-2d3f-4a88-9c6f-0f2e5d7b8a31"
+  },
+
+  {
+    "id": "5e7b8a03-9c24-4f1d-b6a2-3d0e91c845fa",
+    "name": "Peugeot 308",
+    "imageUrl": "https://img.autoabc.lv/Peugeot-308/Peugeot-308_2007_Hecbeks_233720926_2.jpg",
+    "productionYears": "2007-2026",
+    "brandId": "c4b1e9a7-2d3f-4a88-9c6f-0f2e5d7b8a31"
+  },
+
+  {
+    "id": "9d0f6b72-3a1e-4c85-8f29-b4e1a7c0635d",
+    "name": "Volkswagen Arteon",
+    "imageUrl": "https://hips.hearstapps.com/hmg-prod/amv-prod-cad-assets/images/17q2/678295/2019-volkswagen-arteon-first-drive-review-car-and-driver-photo-682884-s-original.jpg",
+    "productionYears": "2017-2026",
+    "brandId": "8f3a6c2d-4e91-4b7a-b8b0-6d9e7c4a1f52"
+  },
+
+  {
+    "id": "e3c4a9f1-2b6d-47e8-91a0-5f7d8c24b63a",
+    "name": "Volkswagen Golf",
+    "imageUrl": "https://www.topgear.com/sites/default/files/2024/10/1-Volkswagen-Golf-R-review-2024.jpg",
+    "productionYears": "1974-2026",
+    "brandId": "8f3a6c2d-4e91-4b7a-b8b0-6d9e7c4a1f52"
+  }
+]
