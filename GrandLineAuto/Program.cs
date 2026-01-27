@@ -5,6 +5,7 @@ using GrandLineAuto.Infrastructure.Repositories;
 using GrandLineAuto.Infrastructure.Repositories.Interfaces;
 using GrandLineAuto.Infrastructure.Repositories.Purchasing;
 using GrandLineAuto.Infrastructure.Repositories.Purchasing.Interfaces;
+using GrandLineAuto.Infrastructure.Seeding.Seeders;
 using GrandLineAuto.Infrastructure.Services;
 using GrandLineAuto.Infrastructure.Services.Interfaces;
 using GrandLineAuto.Infrastructure.Services.Purchasing;
@@ -113,9 +114,17 @@ namespace GrandLineAuto
             using (var scope = app.Services.CreateScope())
             {
                 var services = scope.ServiceProvider;
+
                 var config = services.GetRequiredService<IConfiguration>();
 
+                var db = services.GetRequiredService<GrandLineAutoDbContext>();
+
                 await AdminInitializer.EnsureAdminAsync(services, config);
+
+                var seedRoot = Path.Combine(app.Environment.ContentRootPath, "..", "GrandLineAuto.Infrastructure", "Seeding", "SeedData");
+
+                var brandSeeder = new BrandSeeder(db);
+                await brandSeeder.SeedAsync(seedRoot);
             }
 
                 // Configure the HTTP request pipeline.
