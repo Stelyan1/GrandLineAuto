@@ -52,9 +52,9 @@
             <div class="col-md-6">
                 <label asp-for="PaymentMethod" class="form-label"></label>
                 <select asp-for="PaymentMethod" class="form-select">
-                    <option value="Card">Card</option>
-                    <option value="PayPal">PayPal</option>
-                    <option value="Cash">Cash on delivery</option>
+                    <option value="1">Card</option>
+                    <option value="2">PayPal</option>
+                    <option value="0">Cash on delivery</option>
                 </select>
                 <span asp-validation-for="PaymentMethod" class="text-danger"></span>
             </div>

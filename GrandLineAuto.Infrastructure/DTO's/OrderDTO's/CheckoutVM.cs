@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GrandLineAuto.Data.Models.OrderEntities.Enums;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -33,6 +34,6 @@ namespace GrandLineAuto.Infrastructure.DTO_s.OrderDTO_s
 
         
         [Required]
-        public string PaymentMethod { get; set; } = "Card";
+        public PaymentMethod PaymentMethod { get; set; }
     }
 }

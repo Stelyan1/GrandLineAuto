@@ -1,6 +1,7 @@
 using GrandLineAuto.Data;
 using GrandLineAuto.Data.Models.UserEntities;
 using GrandLineAuto.Infrastructure.Identity;
+using GrandLineAuto.Infrastructure.Options;
 using GrandLineAuto.Infrastructure.Repositories;
 using GrandLineAuto.Infrastructure.Repositories.Interfaces;
 using GrandLineAuto.Infrastructure.Repositories.Purchasing;
@@ -8,6 +9,7 @@ using GrandLineAuto.Infrastructure.Repositories.Purchasing.Interfaces;
 using GrandLineAuto.Infrastructure.Seeding.Seeders;
 using GrandLineAuto.Infrastructure.Services;
 using GrandLineAuto.Infrastructure.Services.Interfaces;
+using GrandLineAuto.Infrastructure.Services.Payments;
 using GrandLineAuto.Infrastructure.Services.Purchasing;
 using GrandLineAuto.Infrastructure.Services.Purchasing.Interfaces;
 using Microsoft.AspNetCore.Identity;
@@ -16,7 +18,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using NPOI.SS.Formula.Functions;
+using Stripe;
 using System.Threading.Tasks;
+using ProductService = GrandLineAuto.Infrastructure.Services.ProductService;
 
 namespace GrandLineAuto
 {
@@ -105,7 +109,18 @@ namespace GrandLineAuto
                     return Task.CompletedTask;
                 };
             });
-           
+
+            //Adding Stripe
+            builder.Services.Configure<StripeSettings>(builder.Configuration.GetSection("Stripe"));
+            builder.Services.AddScoped<IStripePaymentService, StripePaymentService>();
+
+            //StripeConfiguration.ApiKey = builder.Configuration["Stripe:SecretKey"];
+
+            var stripeSecret = builder.Configuration["Stripe:SecretKey"]?.Trim();
+            Console.WriteLine("Stripe SecretKey (first 12): " + (stripeSecret?.Substring(0, Math.Min(12, stripeSecret.Length)) ?? "NULL"));
+            Console.WriteLine("Stripe SecretKey length: " + (stripeSecret?.Length ?? 0));
+
+            StripeConfiguration.ApiKey = stripeSecret;
 
             builder.Services.AddRazorPages();
             

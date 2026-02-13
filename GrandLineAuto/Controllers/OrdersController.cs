@@ -1,4 +1,5 @@
 ﻿using GrandLineAuto.Data;
+using GrandLineAuto.Data.Models.OrderEntities.Enums;
 using GrandLineAuto.Data.Models.UserEntities;
 using GrandLineAuto.Infrastructure.DTO_s.OrderDTO_s;
 using GrandLineAuto.Infrastructure.Services.Purchasing.Interfaces;
@@ -39,6 +40,19 @@ namespace GrandLineAuto.Controllers
             try
             {
                 var orderId = await _orderService.CheckoutAsync(userId, model);
+
+                if (model.PaymentMethod == PaymentMethod.Card)
+                {
+                    return RedirectToAction(nameof(Pay), new { id = orderId });
+                }
+
+                //Paypal coming soon
+
+                //if (model.PaymentMethod == PaymentMethod.Paypal)
+                //{
+                //    return RedirectToAction(nameof(Pay), new { id =  orderId });
+                //}
+
                 return RedirectToAction(nameof(Success), new { id = orderId });
             }
             catch (InvalidOperationException ex) // Cart empty
@@ -46,6 +60,22 @@ namespace GrandLineAuto.Controllers
                 ModelState.AddModelError(string.Empty, ex.Message);
                 return View(model);
             }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Pay(Guid id)
+        {
+            var userId = Guid.Parse(_userManager.GetUserId(User)!);
+
+            var order = await _dbContext.Orders
+                .FirstOrDefaultAsync(o => o.Id == id && o.UserId == userId);
+
+            if (order == null) return NotFound();
+
+            if (order.PaymentMethod != PaymentMethod.Card || order.PaymentStatus != PaymentStatus.Pending)
+                return RedirectToAction(nameof(Details), new { id });
+
+            return View(id);
         }
 
         [HttpGet]

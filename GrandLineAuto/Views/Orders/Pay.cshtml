@@ -1,0 +1,39 @@
+﻿@model Guid
+@{
+    ViewData["Title"] = "Pay";
+}
+
+<div class="container" style="max-width: 900px; margin: 30px auto;">
+    <h2>Complete payment</h2>
+    <p>Your order is created. Please complete the payment to confirm it.</p>
+
+    <button id="payBtn" type="button" class="btn btn-primary" onclick="payWithCard('@Model')">
+        Pay with Card (Stripe)
+    </button>
+
+    <a class="btn btn-outline-secondary ms-2" asp-controller="Orders" asp-action="Details" asp-route-id="@Model">
+        View Order Details
+    </a>
+</div>
+
+<script src="https://js.stripe.com/v3/"></script>
+<script>
+    async function payWithCard(orderId) {
+        const res = await fetch(`/payments/stripe/create-session?orderId=${orderId}`, { method: 'POST' });
+
+        const text = await res.text(); // <- прочитаме body
+        console.log("STATUS:", res.status);
+        console.log("BODY:", text);
+
+        if (!res.ok) {
+            alert(`Unable to start payment. Status: ${res.status}\n${text}`);
+            return;
+        }
+
+        const data = JSON.parse(text);
+        const stripe = Stripe(data.publishableKey);
+
+        const { error } = await stripe.redirectToCheckout({ sessionId: data.sessionId });
+        if (error) alert(error.message);
+    }
+</script>

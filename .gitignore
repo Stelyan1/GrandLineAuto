@@ -2,3 +2,6 @@
 .vs/
 bin/
 obj/
+
+appsettings.Development.json
+/GrandLineAuto/appsettings.Development.json

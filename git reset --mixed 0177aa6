@@ -1,0 +1,10 @@
+[33mf9f4c84[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmaster[m[33m)[m Stop tracking build artifacts (obj/bin) and clean repo
+[33m55db730[m Stripe Payment added
+[33m2f6231c[m -Added Stripe payment with card
+[33m0177aa6[m[33m ([m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m)[m -Added JSON Seeder for BrandModeSeries in Infrastructure
+[33m375d4d5[m -Added JSON-based brand seeding infrastructure
+[33m4c3c43e[m Ensured there is Security from SQL Injection, CSRF and XSS
+[33m5f6af8a[m - Created exception handling middleware and error views
+[33m04ce830[m -Finished Unit testing the services for the catalog
+[33m3cbc023[m -Added xUnit Tests for the Catalog as beggining of the testing
+[33m2e15dbb[m General UI improvement

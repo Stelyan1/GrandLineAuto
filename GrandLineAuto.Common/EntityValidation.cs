@@ -29,7 +29,7 @@
             public const byte fuelUsageMaxLength = 6;
 
             public const byte engineMinLength = 3;
-            public const byte engineMaxLength = 40;
+            public const byte engineMaxLength = 100;
         }
 
         public static class Category
