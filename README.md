@@ -116,8 +116,8 @@ Frontend:
 git clone https://github.com/your-username/GrandLineAuto.git
 cd GrandLineAuto
 
-!Configure connection string in appsettings.json
-!Run migrations:
-!dotnet ef database update
-!Start the project:
-!dotnet run
+> Configure connection string in appsettings.json
+> Run migrations:
+> dotnet ef database update
+> Start the project:
+> dotnet run
